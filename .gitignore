@@ -1,5 +1,11 @@
+<<<<<<< 8b65b1e2fd8d16ff58eabee31bea6c97343c15f6
 <<<<<<< 4a1b2c0a996821cbeb556dab62fdbc987e333de0
 nbproject/private/private.xml
 =======
 /build/
 >>>>>>> EditPersistence2
+=======
+/build/
+.DS_Store
+src/.DS_Store
+>>>>>>> added file to .gitignore
