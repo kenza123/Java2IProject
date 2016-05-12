@@ -1,3 +1,10 @@
+/*
+DB Parameters : 
+    DB_Name : Java_2I_Project
+    Username : Java_2I_Project
+    Password : Java_2I_Project
+*/
+
 ALTER TABLE type_produit DROP CONSTRAINT P_Prod_Sup0;
 ALTER TABLE type_produit DROP CONSTRAINT P_Haut_Sup0;
 ALTER TABLE type_produit DROP CONSTRAINT P_Long_Sup0;
@@ -92,6 +99,7 @@ CREATE TABLE pile (
 );
 
 CREATE TABLE ligne_production (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nbLignes INTEGER,
     date_dispo Date,
     id_produit INTEGER
