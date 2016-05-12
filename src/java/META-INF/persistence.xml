@@ -3,6 +3,14 @@
   <persistence-unit name="Java_2I_ProjectPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <non-jta-data-source>java:app/Java_2I_Project</non-jta-data-source>
+    <class>model.BoxAchete</class>
+    <class>model.Commande</class>
+    <class>model.LigneProduction</class>
+    <class>model.Pile</class>
+    <class>model.Produit</class>
+    <class>model.ProduitCommande</class>
+    <class>model.TypeBox</class>
+    <class>model.TypeProduit</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Ordonnancement"/>
