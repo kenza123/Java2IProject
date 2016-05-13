@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TYPE_BOX")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "TypeBox.deleteAll", query = "DELETE FROM TypeBox"),
     @NamedQuery(name = "TypeBox.findAll", query = "SELECT t FROM TypeBox t"),
     @NamedQuery(name = "TypeBox.findById", query = "SELECT t FROM TypeBox t WHERE t.id = :id"),
     @NamedQuery(name = "TypeBox.findByLbox", query = "SELECT t FROM TypeBox t WHERE t.lbox = :lbox"),

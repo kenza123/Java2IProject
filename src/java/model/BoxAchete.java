@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
+    @NamedQuery(name = "BoxAchete.deleteAll", query = "DELETE FROM BoxAchete"),
     @NamedQuery(name = "BoxAchete.findById", query = "SELECT b FROM BoxAchete b WHERE b.id = :id")})
 public class BoxAchete implements Serializable {
 

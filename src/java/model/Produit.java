@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p"),
+    @NamedQuery(name = "Produit.deleteAll", query = "DELETE FROM Produit"),
     @NamedQuery(name = "Produit.findById", query = "SELECT p FROM Produit p WHERE p.id = :id"),
     @NamedQuery(name = "Produit.findByDateArriveeBox", query = "SELECT p FROM Produit p WHERE p.dateArriveeBox = :dateArriveeBox")})
 public class Produit implements Serializable {
