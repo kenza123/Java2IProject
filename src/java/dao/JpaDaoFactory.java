@@ -29,6 +29,32 @@ public class JpaDaoFactory extends DaoFactory {
     public JpaDaoLigneProduction getLigneProductionDao() {
         return JpaDaoLigneProduction.getInstance();
     }
+
+    @Override
+    public PileDao getPileDao() {
+        return JpaDaoPile.getInstance();
+    }
+
+    @Override
+    public ProduitDao getProduitDao() {
+        return JpaDaoProduit.getInstance();
+    }
+
+    @Override
+    public ProduitCommandeDao getProduitCommandeDao() {
+        return JpaDaoProduitCommande.getInstance();
+    }
+
+    @Override
+    public TypeBoxDao getTypeBoxDao() {
+        return JpaDaoTypeBox.getInstance();
+    }
+
+    @Override
+    public TypeProduitDao getTypeProduitDao() {
+        return JpaDaoTypeProduit.getInstance();
+    }
+    
     
     
     

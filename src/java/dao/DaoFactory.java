@@ -32,5 +32,10 @@ public abstract class DaoFactory {
     public abstract BoxAcheteDao getBoxAcheteDao();
     public abstract CommandeDao getCommandeDao();
     public abstract LigneProductionDao getLigneProductionDao();
+    public abstract PileDao getPileDao();
+    public abstract ProduitDao getProduitDao();
+    public abstract ProduitCommandeDao getProduitCommandeDao();
+    public abstract TypeBoxDao getTypeBoxDao();
+    public abstract TypeProduitDao getTypeProduitDao();
     
 }
