@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "LigneProduction.findAll", query = "SELECT l FROM LigneProduction l"),
+    @NamedQuery(name = "LigneProduction.deleteAll", query = "DELETE FROM LigneProduction"),
     @NamedQuery(name = "LigneProduction.findById", query = "SELECT l FROM LigneProduction l WHERE l.id = :id"),
     @NamedQuery(name = "LigneProduction.findByNblignes", query = "SELECT l FROM LigneProduction l WHERE l.nblignes = :nblignes"),
     @NamedQuery(name = "LigneProduction.findByDateDispo", query = "SELECT l FROM LigneProduction l WHERE l.dateDispo = :dateDispo")})
