@@ -7,13 +7,13 @@ package dao;
 
 import java.util.Collection;
 import javax.persistence.EntityTransaction;
-import model.TypeBox;
+import model.TypeProduit;
 
 /**
  *
  * @author aBennouna
  */
-public class JpaDaoTypeProduit extends JpaDao<TypeBox> implements TypeBoxDao {
+public class JpaDaoTypeProduit extends JpaDao<TypeProduit> implements TypeProduitDao {
 
     private static JpaDaoTypeProduit instance;
     
@@ -28,13 +28,13 @@ public class JpaDaoTypeProduit extends JpaDao<TypeBox> implements TypeBoxDao {
     }
 
     @Override
-    public TypeBox find(long id) {
-        return em.find(TypeBox.class, Integer.valueOf((int) id));
+    public TypeProduit find(long id) {
+        return em.find(TypeProduit.class, Integer.valueOf((int) id));
     }
 
     @Override
-    public Collection<TypeBox> findAll() {        
-        return em.createNamedQuery("TypeBox.findAll").getResultList();
+    public Collection<TypeProduit> findAll() {        
+        return em.createNamedQuery("TypeProduit.findAll").getResultList();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class JpaDaoTypeProduit extends JpaDao<TypeBox> implements TypeBoxDao {
         EntityTransaction et = em.getTransaction();
         
         et.begin();
-        em.createNamedQuery("TypeBox.deleteAll").executeUpdate();
+        em.createNamedQuery("TypeProduit.deleteAll").executeUpdate();
         et.commit();
     }
 
