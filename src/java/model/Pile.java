@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "PILE")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Pile.deleteAll", query = "DELETE FROM Pile p"),
     @NamedQuery(name = "Pile.findAll", query = "SELECT p FROM Pile p"),
-    @NamedQuery(name = "Pile.deleteAll", query = "DELETE FROM Pile"),
     @NamedQuery(name = "Pile.findById", query = "SELECT p FROM Pile p WHERE p.id = :id"),
     @NamedQuery(name = "Pile.findByLongueurPile", query = "SELECT p FROM Pile p WHERE p.longueurPile = :longueurPile"),
     @NamedQuery(name = "Pile.findByLargeurPile", query = "SELECT p FROM Pile p WHERE p.largeurPile = :largeurPile")})

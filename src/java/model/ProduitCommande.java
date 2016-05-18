@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PRODUIT_COMMANDE")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "ProduitCommande.deleteAll", query = "DELETE FROM ProduitCommande p"),
     @NamedQuery(name = "ProduitCommande.findAll", query = "SELECT p FROM ProduitCommande p"),
-    @NamedQuery(name = "ProduitCommande.deleteAll", query = "DELETE FROM ProduitCommande"),
     @NamedQuery(name = "ProduitCommande.findById", query = "SELECT p FROM ProduitCommande p WHERE p.id = :id"),
     @NamedQuery(name = "ProduitCommande.findByNbUnites", query = "SELECT p FROM ProduitCommande p WHERE p.nbUnites = :nbUnites")})
 public class ProduitCommande implements Serializable {
