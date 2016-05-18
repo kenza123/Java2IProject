@@ -5,11 +5,11 @@
  */
 package tests;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import model.TypeBox;
+import dao.DaoFactory;
+import dao.JpaDaoFactory;
+import dao.TypeProduitDao;
+import model.TypeProduit;
+
 
 /**
  *
@@ -17,34 +17,15 @@ import model.TypeBox;
  */
 public class Test1 {
        public static void main(String[] args) { 
-        final EntityManagerFactory emf = 
-                Persistence.createEntityManagerFactory("Java_2I_ProjectPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                TypeBox serv1 = new TypeBox("Cardiologie", 2, 3, 3);
-                em.persist(serv1);
-                et.commit();
-            }   
-            catch (Exception ex) 
-            { 
-                et.rollback();
-            }
-        } 
-        finally 
-        {
-            if(em != null && em.isOpen())
-            {
-                em.close();
-            } 
-            if(emf != null && emf.isOpen())
-            {  
-                emf.close();
-            }
-        }
+            JpaDaoFactory jdf = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+            TypeProduitDao jpt = jdf.getTypeProduitDao();
+           
+            TypeProduit p = new TypeProduit();
+            p.setId("BOX01");
+            p.setHauteur(2);
+            p.setLongueur(3);
+            p.setNbempilemax(2);
+            jpt.create(p);
+           
+       }
    }
-}

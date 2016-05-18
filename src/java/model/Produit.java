@@ -33,11 +33,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PRODUIT")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Produit.deleteAll", query = "DELETE FROM Produit p"),
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p"),
-    @NamedQuery(name = "Produit.deleteAll", query = "DELETE FROM Produit"),
     @NamedQuery(name = "Produit.findById", query = "SELECT p FROM Produit p WHERE p.id = :id"),
     @NamedQuery(name = "Produit.findByDateArriveeBox", query = "SELECT p FROM Produit p WHERE p.dateArriveeBox = :dateArriveeBox")})
 public class Produit implements Serializable {
+
+    @JoinColumn(name = "NUM_LIGNE_PROD", referencedColumnName = "ID")
+    @ManyToOne
+    private LigneProduction numLigneProd;
+    @OneToMany(mappedBy = "idProduit")
+    private Collection<LigneProduction> ligneProductionCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,8 +60,6 @@ public class Produit implements Serializable {
     @JoinColumn(name = "ID_PRODUIT_COMMANDE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProduitCommande idProduitCommande;
-    @OneToMany(mappedBy = "idProduit")
-    private Collection<LigneProduction> ligneProductionCollection;
     @OneToMany(mappedBy = "idProduit")
     private Collection<Pile> pileCollection;
 
@@ -99,15 +103,6 @@ public class Produit implements Serializable {
     }
 
     @XmlTransient
-    public Collection<LigneProduction> getLigneProductionCollection() {
-        return ligneProductionCollection;
-    }
-
-    public void setLigneProductionCollection(Collection<LigneProduction> ligneProductionCollection) {
-        this.ligneProductionCollection = ligneProductionCollection;
-    }
-
-    @XmlTransient
     public Collection<Pile> getPileCollection() {
         return pileCollection;
     }
@@ -139,6 +134,23 @@ public class Produit implements Serializable {
     @Override
     public String toString() {
         return "model.Produit[ id=" + id + " ]";
+    }
+
+    public LigneProduction getNumLigneProd() {
+        return numLigneProd;
+    }
+
+    public void setNumLigneProd(LigneProduction numLigneProd) {
+        this.numLigneProd = numLigneProd;
+    }
+
+    @XmlTransient
+    public Collection<LigneProduction> getLigneProductionCollection() {
+        return ligneProductionCollection;
+    }
+
+    public void setLigneProductionCollection(Collection<LigneProduction> ligneProductionCollection) {
+        this.ligneProductionCollection = ligneProductionCollection;
     }
     
 }

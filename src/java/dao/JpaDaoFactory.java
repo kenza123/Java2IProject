@@ -11,7 +11,7 @@ package dao;
  */
 public class JpaDaoFactory extends DaoFactory {
     
-    protected JpaDaoFactory() {
+    public JpaDaoFactory() {
         
     }
     
