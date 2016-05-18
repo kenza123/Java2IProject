@@ -13,5 +13,6 @@ import model.TypeProduit;
  */
 public interface TypeProduitDao extends Dao<TypeProduit> {
     
+    public TypeProduit findById(String id);
     
 }
