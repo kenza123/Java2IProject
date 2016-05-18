@@ -50,5 +50,12 @@ public class JpaDaoTypeProduit extends JpaDao<TypeProduit> implements TypeProdui
     public void close() {
         em.close();
     }
+
+    @Override
+    public TypeProduit findById(String id) {
+        return (TypeProduit)
+                em.createNamedQuery("TypeProduit.findById")
+                        .setParameter("id", id).getResultList().get(0);
+    }
     
 }
