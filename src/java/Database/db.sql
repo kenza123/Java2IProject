@@ -5,6 +5,7 @@ DB Parameters :
     Password : Java_2I_Project
 */
 
+
 ALTER TABLE type_produit DROP CONSTRAINT P_Prod_Sup0;
 ALTER TABLE type_produit DROP CONSTRAINT P_Haut_Sup0;
 ALTER TABLE type_produit DROP CONSTRAINT P_Long_Sup0;
@@ -35,6 +36,7 @@ ALTER TABLE ligne_production DROP CONSTRAINT LP_FK_Produit;
 
 ALTER TABLE produit DROP CONSTRAINT P_FK_P_C;
 ALTER TABLE produit DROP CONSTRAINT P_FK_box;
+ALTER TABLE produit DROP CONSTRAINT P_FK_LP;
 
 DROP TABLE type_produit;
 DROP TABLE commande;
@@ -80,14 +82,16 @@ CREATE TABLE type_box (
 CREATE TABLE box_achete (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_type_box VARCHAR(55) NOT NULL,
-    id_commande VARCHAR(55) NOT NULL
+    id_commande VARCHAR(55) NOT NULL,
+    num_box INTEGER NOT NULL
 );
 
 CREATE TABLE produit (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_produit_commande INTEGER NOT NULL,
     id_box INTEGER NOT NULL,
-    date_arrivee_box Date
+    date_arrivee_box Date,
+    num_ligne_prod INTEGER
 );
 
 CREATE TABLE pile (
@@ -100,7 +104,7 @@ CREATE TABLE pile (
 
 CREATE TABLE ligne_production (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nbLignes INTEGER,
+    nbLignes INTEGER NOT NULL,
     date_dispo Date,
     id_produit INTEGER
 );
@@ -130,6 +134,7 @@ ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Type_box FOREIGN KEY(id_type_box) RE
 
 ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_box FOREIGN KEY(id_box) REFERENCES box_achete(id);
+ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(num_ligne_prod) REFERENCES ligne_production(id);
 
 ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
 ALTER TABLE pile ADD CONSTRAINT P_LargPile CHECK (largeur_pile >= 0);
