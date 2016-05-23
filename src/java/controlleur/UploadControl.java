@@ -225,5 +225,9 @@ public class UploadControl implements Serializable {
         }
         return line;
     }
+    
+    public void Test() {
+        
+    }
      
 }
