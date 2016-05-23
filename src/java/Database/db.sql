@@ -128,7 +128,7 @@ ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REF
 ALTER TABLE produit ADD CONSTRAINT P_FK_box FOREIGN KEY(id_box) REFERENCES box_achete(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(nbLignes) REFERENCES ligne_production(id);
 
-ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
 ALTER TABLE pile ADD CONSTRAINT P_LargPile CHECK (largeur_pile >= 0);
+ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
 ALTER TABLE pile ADD CONSTRAINT P_FK_BoxA FOREIGN KEY(id_box_achete) REFERENCES box_achete(id);
 ALTER TABLE pile ADD CONSTRAINT P_FK_Prod FOREIGN KEY(id_produit) REFERENCES produit(id);
