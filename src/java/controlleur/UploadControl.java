@@ -166,7 +166,6 @@ public class UploadControl implements Serializable {
      
         for(int i = 1 ; i <= nbLignesProd ; i++) {
             LigneProduction ligneProduction = new LigneProduction();
-            ligneProduction.setNblignes(i);
             ligneProductionDao.create(ligneProduction);
         }
         

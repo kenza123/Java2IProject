@@ -33,17 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PRODUIT")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Produit.deleteAll", query = "DELETE FROM Produit p"),
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p"),
     @NamedQuery(name = "Produit.findById", query = "SELECT p FROM Produit p WHERE p.id = :id"),
-    @NamedQuery(name = "Produit.findByDateArriveeBox", query = "SELECT p FROM Produit p WHERE p.dateArriveeBox = :dateArriveeBox")})
+    @NamedQuery(name = "Produit.findByDateDebutProd", query = "SELECT p FROM Produit p WHERE p.dateDebutProd = :dateDebutProd")})
 public class Produit implements Serializable {
-
-    @JoinColumn(name = "NUM_LIGNE_PROD", referencedColumnName = "ID")
-    @ManyToOne
-    private LigneProduction numLigneProd;
-    @OneToMany(mappedBy = "idProduit")
-    private Collection<LigneProduction> ligneProductionCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,12 +44,15 @@ public class Produit implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "DATE_ARRIVEE_BOX")
+    @Column(name = "DATE_DEBUT_PROD")
     @Temporal(TemporalType.DATE)
-    private Date dateArriveeBox;
+    private Date dateDebutProd;
     @JoinColumn(name = "ID_BOX", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private BoxAchete idBox;
+    @JoinColumn(name = "ID_LIGNE_PROD", referencedColumnName = "ID")
+    @ManyToOne
+    private LigneProduction idLigneProd;
     @JoinColumn(name = "ID_PRODUIT_COMMANDE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProduitCommande idProduitCommande;
@@ -78,12 +74,12 @@ public class Produit implements Serializable {
         this.id = id;
     }
 
-    public Date getDateArriveeBox() {
-        return dateArriveeBox;
+    public Date getDateDebutProd() {
+        return dateDebutProd;
     }
 
-    public void setDateArriveeBox(Date dateArriveeBox) {
-        this.dateArriveeBox = dateArriveeBox;
+    public void setDateDebutProd(Date dateDebutProd) {
+        this.dateDebutProd = dateDebutProd;
     }
 
     public BoxAchete getIdBox() {
@@ -92,6 +88,14 @@ public class Produit implements Serializable {
 
     public void setIdBox(BoxAchete idBox) {
         this.idBox = idBox;
+    }
+
+    public LigneProduction getIdLigneProd() {
+        return idLigneProd;
+    }
+
+    public void setIdLigneProd(LigneProduction idLigneProd) {
+        this.idLigneProd = idLigneProd;
     }
 
     public ProduitCommande getIdProduitCommande() {
@@ -134,23 +138,6 @@ public class Produit implements Serializable {
     @Override
     public String toString() {
         return "model.Produit[ id=" + id + " ]";
-    }
-
-    public LigneProduction getNumLigneProd() {
-        return numLigneProd;
-    }
-
-    public void setNumLigneProd(LigneProduction numLigneProd) {
-        this.numLigneProd = numLigneProd;
-    }
-
-    @XmlTransient
-    public Collection<LigneProduction> getLigneProductionCollection() {
-        return ligneProductionCollection;
-    }
-
-    public void setLigneProductionCollection(Collection<LigneProduction> ligneProductionCollection) {
-        this.ligneProductionCollection = ligneProductionCollection;
     }
     
 }
