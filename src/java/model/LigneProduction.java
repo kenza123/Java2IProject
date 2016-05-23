@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "LIGNE_PRODUCTION")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "LigneProduction.deleteAll", query = "DELETE FROM LigneProduction l"),
     @NamedQuery(name = "LigneProduction.findAll", query = "SELECT l FROM LigneProduction l"),
     @NamedQuery(name = "LigneProduction.findById", query = "SELECT l FROM LigneProduction l WHERE l.id = :id")})
 public class LigneProduction implements Serializable {
