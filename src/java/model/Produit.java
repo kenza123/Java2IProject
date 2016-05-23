@@ -51,9 +51,9 @@ public class Produit implements Serializable {
     @JoinColumn(name = "ID_BOX", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private BoxAchete idBox;
-    @JoinColumn(name = "ID_LIGNE_PROD", referencedColumnName = "ID")
+    @JoinColumn(name = "NBLIGNES", referencedColumnName = "ID")
     @ManyToOne
-    private LigneProduction idLigneProd;
+    private LigneProduction nblignes;
     @JoinColumn(name = "ID_PRODUIT_COMMANDE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProduitCommande idProduitCommande;
@@ -91,12 +91,12 @@ public class Produit implements Serializable {
         this.idBox = idBox;
     }
 
-    public LigneProduction getIdLigneProd() {
-        return idLigneProd;
+    public LigneProduction getNblignes() {
+        return nblignes;
     }
 
-    public void setIdLigneProd(LigneProduction idLigneProd) {
-        this.idLigneProd = idLigneProd;
+    public void setNblignes(LigneProduction nblignes) {
+        this.nblignes = nblignes;
     }
 
     public ProduitCommande getIdProduitCommande() {

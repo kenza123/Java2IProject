@@ -86,7 +86,7 @@ CREATE TABLE produit (
     id_produit_commande INTEGER NOT NULL,
     id_box INTEGER NOT NULL,
     date_debut_prod Date,
-    id_ligne_prod INTEGER
+    nbLignes INTEGER
 );
 
 CREATE TABLE pile (
@@ -98,7 +98,8 @@ CREATE TABLE pile (
 );
 
 CREATE TABLE ligne_production (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nbLignes INTEGER NOT NULL
 );
 
 
@@ -125,7 +126,7 @@ ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Type_box FOREIGN KEY(id_type_box) RE
 
 ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_box FOREIGN KEY(id_box) REFERENCES box_achete(id);
-ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(id_ligne_prod) REFERENCES ligne_production(id);
+ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(nbLignes) REFERENCES ligne_production(id);
 
 ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
 ALTER TABLE pile ADD CONSTRAINT P_LargPile CHECK (largeur_pile >= 0);
