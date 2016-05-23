@@ -29,11 +29,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "COMMANDE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
     @NamedQuery(name = "Commande.deleteAll", query = "DELETE FROM Commande c"),
+    @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
     @NamedQuery(name = "Commande.findById", query = "SELECT c FROM Commande c WHERE c.id = :id"),
     @NamedQuery(name = "Commande.findByStockmin", query = "SELECT c FROM Commande c WHERE c.stockmin = :stockmin"),
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),
+    @NamedQuery(name = "Commande.findByDenvoireel", query = "SELECT c FROM Commande c WHERE c.denvoireel = :denvoireel"),
     @NamedQuery(name = "Commande.findByPenalite", query = "SELECT c FROM Commande c WHERE c.penalite = :penalite")})
 public class Commande implements Serializable {
 
@@ -48,11 +49,11 @@ public class Commande implements Serializable {
     private Integer stockmin;
     @Column(name = "DENVOIPREVUE")
     private Integer denvoiprevue;
+    @Column(name = "DENVOIREEL")
+    private Integer denvoireel;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "PENALITE")
     private Double penalite;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCommande")
-    private Collection<BoxAchete> boxAcheteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCommande")
     private Collection<ProduitCommande> produitCommandeCollection;
 
@@ -87,21 +88,20 @@ public class Commande implements Serializable {
         this.denvoiprevue = denvoiprevue;
     }
 
+    public Integer getDenvoireel() {
+        return denvoireel;
+    }
+
+    public void setDenvoireel(Integer denvoireel) {
+        this.denvoireel = denvoireel;
+    }
+
     public Double getPenalite() {
         return penalite;
     }
 
     public void setPenalite(Double penalite) {
         this.penalite = penalite;
-    }
-
-    @XmlTransient
-    public Collection<BoxAchete> getBoxAcheteCollection() {
-        return boxAcheteCollection;
-    }
-
-    public void setBoxAcheteCollection(Collection<BoxAchete> boxAcheteCollection) {
-        this.boxAcheteCollection = boxAcheteCollection;
     }
 
     @XmlTransient

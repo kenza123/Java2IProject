@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "BOX_ACHETE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
     @NamedQuery(name = "BoxAchete.deleteAll", query = "DELETE FROM BoxAchete b"),
+    @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
     @NamedQuery(name = "BoxAchete.findById", query = "SELECT b FROM BoxAchete b WHERE b.id = :id"),
     @NamedQuery(name = "BoxAchete.findByNumBox", query = "SELECT b FROM BoxAchete b WHERE b.numBox = :numBox")})
 public class BoxAchete implements Serializable {
@@ -50,9 +50,6 @@ public class BoxAchete implements Serializable {
     private int numBox;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBox")
     private Collection<Produit> produitCollection;
-    @JoinColumn(name = "ID_COMMANDE", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Commande idCommande;
     @JoinColumn(name = "ID_TYPE_BOX", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private TypeBox idTypeBox;
@@ -94,14 +91,6 @@ public class BoxAchete implements Serializable {
 
     public void setProduitCollection(Collection<Produit> produitCollection) {
         this.produitCollection = produitCollection;
-    }
-
-    public Commande getIdCommande() {
-        return idCommande;
-    }
-
-    public void setIdCommande(Commande idCommande) {
-        this.idCommande = idCommande;
     }
 
     public TypeBox getIdTypeBox() {
