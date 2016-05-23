@@ -4,12 +4,12 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>model.BoxAchete</class>
     <class>model.Commande</class>
-    <class>model.LigneProduction</class>
     <class>model.Pile</class>
     <class>model.Produit</class>
     <class>model.ProduitCommande</class>
     <class>model.TypeBox</class>
     <class>model.TypeProduit</class>
+    <class>model.LigneProduction</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Java_2I_Project"/>

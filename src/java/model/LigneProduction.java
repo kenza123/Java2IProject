@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -30,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "LigneProduction.deleteAll", query = "DELETE FROM LigneProduction l"),
     @NamedQuery(name = "LigneProduction.findAll", query = "SELECT l FROM LigneProduction l"),
-    @NamedQuery(name = "LigneProduction.findById", query = "SELECT l FROM LigneProduction l WHERE l.id = :id")})
+    @NamedQuery(name = "LigneProduction.findById", query = "SELECT l FROM LigneProduction l WHERE l.id = :id"),
+    @NamedQuery(name = "LigneProduction.findByNblignes", query = "SELECT l FROM LigneProduction l WHERE l.nblignes = :nblignes")})
 public class LigneProduction implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +41,11 @@ public class LigneProduction implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @OneToMany(mappedBy = "idLigneProd")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "NBLIGNES")
+    private int nblignes;
+    @OneToMany(mappedBy = "nblignes")
     private Collection<Produit> produitCollection;
 
     public LigneProduction() {
@@ -49,12 +55,25 @@ public class LigneProduction implements Serializable {
         this.id = id;
     }
 
+    public LigneProduction(Integer id, int nblignes) {
+        this.id = id;
+        this.nblignes = nblignes;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getNblignes() {
+        return nblignes;
+    }
+
+    public void setNblignes(int nblignes) {
+        this.nblignes = nblignes;
     }
 
     @XmlTransient
