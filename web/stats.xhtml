@@ -8,30 +8,13 @@
         <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
-        <div class="content">
-            <div class="side">
-                <ul>
-                    <li class="menu_item"><a href="stats.xhtml" class="light">Stats</a></li>
-                    <li class="menu_item"><a href="gantt.xhtml" class="light">Gantt</a></li>
-                    <li class="menu_item"><a href="test.xhtml" class="light">Tests</a></li>
-                    <li> 
-                        <h3 class="command_title">Commandes</h3>
-                        <ul class="commande_list">
-                            <ui:repeat value="#{commandeControl.commandeList}" var="item">
-                                <li class="command_item">
-                                    <h:form>
-                                        <h:commandLink class="light" action="#{commandeControl.goToCommande(item)}" value="#{item.id}"/>
-                                    </h:form>
-                                </li>
-                            </ui:repeat>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- content -->
-
-        </div>
+        <ui:composition template="./template.xhtml">
+ 
+            <ui:define name="center">
+                Hello from stats
+            </ui:define>
+ 
+        </ui:composition>
     </h:body>
 </html>
 
