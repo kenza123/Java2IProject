@@ -85,7 +85,7 @@ CREATE TABLE produit (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_produit_commande INTEGER NOT NULL,
     id_box INTEGER NOT NULL,
-    date_debut_prod Date,
+    date_debut_prod INTEGER,
     nbLignes INTEGER
 );
 
