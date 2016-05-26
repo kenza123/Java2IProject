@@ -6,8 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,16 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author aBennouna
+ * @author ghitakhamaily
  */
 @Entity
 @Table(name = "PRODUIT")
@@ -46,8 +40,7 @@ public class Produit implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @Column(name = "DATE_DEBUT_PROD")
-    @Temporal(TemporalType.DATE)
-    private Date dateDebutProd;
+    private Integer dateDebutProd;
     @JoinColumn(name = "ID_BOX", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private BoxAchete idBox;
@@ -57,8 +50,6 @@ public class Produit implements Serializable {
     @JoinColumn(name = "ID_PRODUIT_COMMANDE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProduitCommande idProduitCommande;
-    @OneToMany(mappedBy = "idProduit")
-    private Collection<Pile> pileCollection;
 
     public Produit() {
     }
@@ -75,11 +66,11 @@ public class Produit implements Serializable {
         this.id = id;
     }
 
-    public Date getDateDebutProd() {
+    public Integer getDateDebutProd() {
         return dateDebutProd;
     }
 
-    public void setDateDebutProd(Date dateDebutProd) {
+    public void setDateDebutProd(Integer dateDebutProd) {
         this.dateDebutProd = dateDebutProd;
     }
 
@@ -105,15 +96,6 @@ public class Produit implements Serializable {
 
     public void setIdProduitCommande(ProduitCommande idProduitCommande) {
         this.idProduitCommande = idProduitCommande;
-    }
-
-    @XmlTransient
-    public Collection<Pile> getPileCollection() {
-        return pileCollection;
-    }
-
-    public void setPileCollection(Collection<Pile> pileCollection) {
-        this.pileCollection = pileCollection;
     }
 
     @Override
