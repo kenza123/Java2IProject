@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "BoxAchete.deleteAll", query = "DELETE FROM BoxAchete b"),
     @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
+    @NamedQuery(name = "BoxAchete.countBoxes", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox=:typeBox"),
     @NamedQuery(name = "BoxAchete.findById", query = "SELECT b FROM BoxAchete b WHERE b.id = :id"),
     @NamedQuery(name = "BoxAchete.findByNumBox", query = "SELECT b FROM BoxAchete b WHERE b.numBox = :numBox")})
 public class BoxAchete implements Serializable {
@@ -55,8 +57,13 @@ public class BoxAchete implements Serializable {
     private TypeBox idTypeBox;
     @OneToMany(mappedBy = "idBoxAchete")
     private Collection<Pile> pileCollection;
+    @JoinColumn(name = "ID_COMMANDE", referencedColumnName = "ID")
+    @ManyToOne
+    private Commande idCommande;
 
     public BoxAchete() {
+        pileCollection = new ArrayList();
+        produitCollection = new ArrayList();
     }
 
     public BoxAchete(Integer id) {
@@ -132,7 +139,15 @@ public class BoxAchete implements Serializable {
 
     @Override
     public String toString() {
-        return "model.BoxAchete[ id=" + id + " ]";
+        return "BoxAchete{" + "id=" + id + ", numBox=" + numBox + '}';
+    }
+
+    public Commande getIdCommande() {
+        return idCommande;
+    }
+
+    public void setIdCommande(Commande idCommande) {
+        this.idCommande = idCommande;
     }
     
 }

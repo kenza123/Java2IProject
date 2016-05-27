@@ -31,27 +31,27 @@ public class JpaDaoFactory extends DaoFactory {
     }
 
     @Override
-    public PileDao getPileDao() {
+    public JpaDaoPile getPileDao() {
         return JpaDaoPile.getInstance();
     }
 
     @Override
-    public ProduitDao getProduitDao() {
+    public JpaDaoProduit getProduitDao() {
         return JpaDaoProduit.getInstance();
     }
 
     @Override
-    public ProduitCommandeDao getProduitCommandeDao() {
+    public JpaDaoProduitCommande getProduitCommandeDao() {
         return JpaDaoProduitCommande.getInstance();
     }
 
     @Override
-    public TypeBoxDao getTypeBoxDao() {
+    public JpaDaoTypeBox getTypeBoxDao() {
         return JpaDaoTypeBox.getInstance();
     }
 
     @Override
-    public TypeProduitDao getTypeProduitDao() {
+    public JpaDaoTypeProduit getTypeProduitDao() {
         return JpaDaoTypeProduit.getInstance();
     }
     

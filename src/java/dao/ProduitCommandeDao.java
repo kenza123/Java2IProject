@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.Collection;
+import model.Commande;
 import model.ProduitCommande;
 
 /**
@@ -13,5 +15,6 @@ import model.ProduitCommande;
  */
 public interface ProduitCommandeDao extends Dao<ProduitCommande> {
     
+    public Collection<ProduitCommande> findProductsOfCommande(Commande c);
     
 }

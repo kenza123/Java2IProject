@@ -120,7 +120,8 @@ public class Produit implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Produit[ id=" + id + " ]";
+        return "Produit{" + "id=" + id + ", dateDebutProd=" + dateDebutProd + '}';
     }
+
     
 }

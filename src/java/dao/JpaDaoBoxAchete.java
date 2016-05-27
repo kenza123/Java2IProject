@@ -5,9 +5,11 @@
  */
 package dao;
 
+import static java.lang.Math.toIntExact;
 import java.util.Collection;
 import javax.persistence.EntityTransaction;
 import model.BoxAchete;
+import model.TypeBox;
 
 /**
  *
@@ -49,6 +51,12 @@ public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
     @Override
     public void close() {
         em.close();
+    }
+    
+    @Override
+    public int countBoxesByTypeBox(TypeBox typeBox) {
+        return toIntExact((long)em.createNamedQuery("BoxAchete.countBoxes")
+                .setParameter("typeBox", typeBox).getSingleResult());
     }
     
 }

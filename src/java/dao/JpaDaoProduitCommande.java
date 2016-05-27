@@ -7,6 +7,7 @@ package dao;
 
 import java.util.Collection;
 import javax.persistence.EntityTransaction;
+import model.Commande;
 import model.ProduitCommande;
 
 /**
@@ -49,6 +50,12 @@ public class JpaDaoProduitCommande extends JpaDao<ProduitCommande> implements Pr
     @Override
     public void close() {
         em.close();
+    }
+    
+    @Override
+    public Collection<ProduitCommande> findProductsOfCommande(Commande c){
+        return em.createNamedQuery("ProduitCommande.findAllOfCommande")
+                .setParameter("commande", c).getResultList();
     }
     
 }

@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,6 +50,7 @@ public class LigneProduction implements Serializable {
     private Collection<Produit> produitCollection;
 
     public LigneProduction() {
+        produitCollection = new ArrayList();
     }
 
     public LigneProduction(Integer id) {
@@ -107,7 +109,7 @@ public class LigneProduction implements Serializable {
 
     @Override
     public String toString() {
-        return "model.LigneProduction[ id=" + id + " ]";
+        return "LigneProduction{" + "id=" + id + ", nblignes=" + nblignes + '}';
     }
-    
+
 }

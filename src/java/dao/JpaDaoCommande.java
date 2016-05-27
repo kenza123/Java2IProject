@@ -50,5 +50,15 @@ public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
     public void close() {
         em.close();
     }
+
+    @Override
+    public Collection<Commande> findAllOrderByDenvoiprevue() {
+        return em.createNamedQuery("Commande.findAllOrderBYDenvoiprevue").getResultList();
+    }
+    
+    @Override
+    public Commande findCommandeByName(String name) {
+        return (Commande)em.createNamedQuery("Commande.findById").setParameter("id", name).getResultList().iterator().next();
+    }
     
 }
