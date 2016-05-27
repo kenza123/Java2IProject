@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.LigneProduction;
 import model.Produit;
 
 /**
@@ -12,6 +13,6 @@ import model.Produit;
  * @author aBennouna
  */
 public interface ProduitDao extends Dao<Produit> {
-    
+    public Produit findLastProductInLine(LigneProduction line);
     
 }

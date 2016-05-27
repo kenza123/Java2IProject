@@ -13,9 +13,15 @@ import dao.LigneProductionDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
+import static java.lang.Integer.max;
 import static java.lang.Math.abs;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.BoxAchete;
 import model.Commande;
 import model.LigneProduction;
@@ -28,7 +34,7 @@ import model.TypeProduit;
  *
  * @author ghitakhamaily
  */
-public class TrivialSolution {
+public class OptimisedSolution {
 
     private Integer dateActuelleProduction;
     private Integer dateActuelleBox;
@@ -39,9 +45,10 @@ public class TrivialSolution {
     private final ProduitCommandeDao produitCommandeDao;
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
+    private LinkedHashMap<Integer, Integer> ligneProductions;
     private double eval;
-
-    public TrivialSolution() {
+    
+    public OptimisedSolution() {
         dateActuelleProduction = 0;
         dateActuelleBox = 0;
         jpaDaoFactory
@@ -55,40 +62,103 @@ public class TrivialSolution {
     }
 
     public void execute() {
-        Collection<Commande> commandes = commandeDao.findAllOrderByDenvoiprevue();
-        commandes.stream().forEach((commande) -> {
-            commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
-                produireProduitCommande(produitCommande);
-            });
-            dateActuelleBox += commande.getStockmin();
-            if (dateActuelleBox < commande.getDenvoiprevue()) {
-                dateActuelleBox = commande.getDenvoiprevue();
-            }
-            //libererBoxes(commande);
-            commande.setDenvoireel(dateActuelleBox);
-            commandeDao.update(commande);
-        });
+        Collection<Commande> commandes = commandeDao.findAll();
+        while (!commandes.isEmpty()) {
+            Commande commande = findUrgentCommande(commandes);
+            produireCommande(commande);
+            commandes.remove(commande);
+        }
         eval();
+        produitDao.findAll().stream().forEach((produit) -> {
+            System.out.println("produit " + produit .toString());
+            System.out.println("ligne de prod" + produit.getNblignes().toString());
+        });
     }
-   
-    public void produireProduitCommande(ProduitCommande produitCommande){
+
+    public Commande findUrgentCommande(Collection<Commande> commandes) {
+        Double evalProductionMax = 0.0;
+        Commande commandeMax = new Commande();
+        for (Commande commande : commandes) {
+            Double evalProduction = commande.getPenalite()
+                    * abs(commande.getDenvoiprevue() - dEnvoieEstimee(commande));
+            if (evalProduction >= evalProductionMax) {
+                try {
+                    commandeMax = (Commande) commande.clone();
+                    evalProductionMax = evalProduction;
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(OptimisedSolution.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return commandeMax;
+    }
+
+    private Integer dEnvoieEstimee(Commande commande) {
+        Integer minDEnvoiEstimee = commande.getStockmin() + dateFinProductionEstimee(commande);
+        return max(minDEnvoiEstimee, commande.getDenvoiprevue());
+    }
+
+    private Integer dateFinProductionEstimee(Commande commande) {
+        initialiserLigneProduction();
+
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
+            Integer ligneProductionId
+                    = Collections.min(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
+            TypeProduit typeProduit = produitCommande.getIdTypeProduit();
+            Integer time = typeProduit.getTSetup()
+                    + produitCommande.getNbUnites() * typeProduit.getTProduction();
+            ligneProductions.put(ligneProductionId, ligneProductions.get(ligneProductionId) + time);
+        });
+        return Collections.max(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
+
+    private void initialiserLigneProduction() {
+        ligneProductions = new LinkedHashMap<>();
+        ligneProductionDao.findAll().stream().forEach((ligneProduction) -> {
+            Produit produit = produitDao.findLastProductInLine(ligneProduction);
+            Integer time = 0;
+            if(produit != null){
+                time = produit.getDateDebutProd() 
+                        + produit.getIdProduitCommande().getIdTypeProduit().getTProduction();
+            } 
+            ligneProductions.put(ligneProduction.getId(), time);
+        });
+    }
+
+    private void produireCommande(Commande commande) {
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
+            produireEtStockerProduitCommande(produitCommande);
+        });
+        //findLastProduct
+        dateActuelleBox += commande.getStockmin();
+        if (dateActuelleBox < commande.getDenvoiprevue()) {
+            dateActuelleBox = commande.getDenvoiprevue();
+        }
+        commande.setDenvoireel(dateActuelleBox);
+        commandeDao.update(commande);
+    }
+
+    private void produireEtStockerProduitCommande(ProduitCommande produitCommande) {
+        initialiserLigneProduction();
         LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
+        
         if (typeProduit != null) {
-            dateActuelleProduction += typeProduit.getTSetup();
+            dateActuelleProduction = ligneProductions.get(ligneProduction.getId()) 
+                    + typeProduit.getTSetup();
             for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);
-
+                
                 ligneProduction.getProduitCollection().add(produit);
                 ligneProductionDao.update(ligneProduction);
 
                 produitCommande.getProduitCollection().add(produit);
                 produitCommandeDao.update(produitCommande);
-
+                
                 dateActuelleProduction += typeProduit.getTProduction();
 
                 dateActuelleBox = dateActuelleProduction;
-                StockerProduit(produit);
+                stockerProduit(produit);
             }
         }
     }
@@ -103,10 +173,12 @@ public class TrivialSolution {
     }
 
     private LigneProduction choisirLigneProduction() {
-        return ligneProductionDao.findAll().iterator().next();
+        return ligneProductionDao
+                .find(Collections.min(ligneProductions.entrySet(),
+                        Map.Entry.comparingByValue()).getKey());
     }
 
-    private void StockerProduit(Produit produit) {
+    private void stockerProduit(Produit produit) {
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
 
@@ -121,57 +193,23 @@ public class TrivialSolution {
         produit.getIdProduitCommande().getIdCommande().getBoxAcheteCollection().add(boxAchete);
         produitDao.update(produit);
     }
-
-    private void stockerProduitCommande(ProduitCommande produitCommande) {
-        produitCommande.getProduitCollection().stream().forEach((produit) -> {
-            TypeBox typeBox = trouverTypeBox(produit);
-            BoxAchete boxAchete = acheterBox(typeBox);
-
-            boxAchete.getProduitCollection().add(produit);
-            boxAchete.setIdCommande(produitCommande.getIdCommande());
-            boxAcheteDao.update(boxAchete);
-
-            typeBox.getBoxAcheteCollection().add(boxAchete);
-            typeBoxDao.update(typeBox);
-
-            produit.setIdBox(boxAchete);
-            produitDao.update(produit);
-
-            produitCommande.getIdCommande().getBoxAcheteCollection().add(boxAchete);
-            produitCommandeDao.update(produitCommande);
-        });
-    }
-
+    
     private TypeBox trouverTypeBox(Produit produit) {
-        if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null) {
+        if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null){
             TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
             return typeBoxDao.findFirstByDimensions(typeProduit.getLongueur(), typeProduit.getHauteur());
-        }
+        } 
         return null;
     }
 
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setIdTypeBox(typeBox);
-        boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox) + 1);
+        boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox)+1);
         boxAcheteDao.create(boxAchete);
         return boxAchete;
     }
 
-    private void libererBoxes(Commande commande) {
-        commande.getBoxAcheteCollection().stream().forEach((boxAchete) -> {
-            boxAchete.setIdCommande(null);
-            boxAchete.getProduitCollection().stream().forEach((produit) -> {
-                produit.setIdBox(null);
-                produitDao.update(produit);
-            });
-            boxAchete.setProduitCollection(new ArrayList());
-            boxAcheteDao.update(boxAchete);
-        });
-        commande.setBoxAcheteCollection(new ArrayList());
-        commandeDao.update(commande);
-    }
-    
     public void eval(){
         eval = 0;
         typeBoxDao.findAll().stream().forEach((typeBox) -> {

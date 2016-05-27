@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),
     @NamedQuery(name = "Commande.findByDenvoireel", query = "SELECT c FROM Commande c WHERE c.denvoireel = :denvoireel"),
     @NamedQuery(name = "Commande.findByPenalite", query = "SELECT c FROM Commande c WHERE c.penalite = :penalite")})
-public class Commande implements Serializable {
+public class Commande implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -169,5 +169,12 @@ public class Commande implements Serializable {
     public void setBoxAcheteCollection(Collection<BoxAchete> boxAcheteCollection) {
         this.boxAcheteCollection = boxAcheteCollection;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
+    
     
 }

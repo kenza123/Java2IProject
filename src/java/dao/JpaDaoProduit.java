@@ -5,8 +5,11 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Vector;
 import javax.persistence.EntityTransaction;
+import model.LigneProduction;
 import model.Produit;
 
 /**
@@ -50,5 +53,14 @@ public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
     public void close() {
         em.close();
     }
+    
+    @Override
+    public Produit findLastProductInLine(LigneProduction line){
+        Vector<Produit> produits = (Vector<Produit>)
+                em.createNamedQuery("Produit.findLastProductInLine")
+                .setParameter("line", line).getResultList();
+        
+        return (produits.isEmpty()) ? null : produits.get(0);
+   }
     
 }
