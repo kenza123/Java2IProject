@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "BoxAchete.deleteAll", query = "DELETE FROM BoxAchete b"),
-    @NamedQuery(name = "BoxAchete.countBoxesById", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox= :idTypeBox"),
+    @NamedQuery(name = "BoxAchete.countBoxesById", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox= :typeBox"),
     @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
     @NamedQuery(name = "BoxAchete.countBoxes", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox=:typeBox"),
     @NamedQuery(name = "BoxAchete.findById", query = "SELECT b FROM BoxAchete b WHERE b.id = :id"),
