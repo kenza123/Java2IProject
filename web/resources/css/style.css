@@ -10,6 +10,7 @@
     background: #9BDDFF;
     width: 180px;
     padding: 10px;
+    overflow: scroll;
 }
 
 li.menu_item{
@@ -42,10 +43,16 @@ ul li {
     color: #fff;
 }
 
-.red {
-    background-color: red;
+.tables-content{
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
-#red {
-    background-color: red;
+.form-horizontal{
+    margin: auto;
+    margin-top: 30vh;
+}
+
+h2.page-title{
+    margin-bottom: 100px;
 }
