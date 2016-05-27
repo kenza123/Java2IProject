@@ -17,6 +17,7 @@ import javax.enterprise.context.Dependent;
 import model.Commande;
 import model.TypeBox;
 import dto.Box;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +27,7 @@ import dto.Box;
 @Dependent
 public class StatsControl {
     private Collection<Commande> commandes;
-    private Collection<Box> boxes;
+    private Collection<Box> boxes = new ArrayList<Box>();
 
     /**
      * Creates a new instance of statsControl
@@ -50,8 +51,8 @@ public class StatsControl {
         for (TypeBox box : typeBoxs) {
             Box b = new Box();
             b.setTypeBox(box);
-            b.setAchat(jdba.countBoxesById(box.getId()));
-            b.setUtilise(jdba.countBoxesById(box.getId()));
+            b.setAchat(jdba.countBoxesById(box));
+            b.setUtilise(jdba.countBoxesById(box));
             b.calculerCout();
             boxes.add(b);
         }

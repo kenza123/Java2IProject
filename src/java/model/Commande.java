@@ -111,11 +111,11 @@ public class Commande implements Serializable {
     }
 
     public int getEcart() {
-        /*int ecart = (this.denvoireel - this.denvoiprevue);
+        int ecart = (this.denvoireel - this.denvoiprevue);
         if (ecart < 0){
             ecart = ecart * (-1);
-        }*/
-        return 0;
+        }
+        return ecart;
     }
 
     public double getCout() {

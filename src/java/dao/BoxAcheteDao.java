@@ -14,6 +14,6 @@ import model.TypeBox;
  */
 public interface BoxAcheteDao extends Dao<BoxAchete> {
     public int countBoxesByTypeBox(TypeBox typeBox);
-    public int countBoxesById(String idTypeBox);
+    public int countBoxesById(TypeBox typeBox);
     
 }
