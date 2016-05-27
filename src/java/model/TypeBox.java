@@ -96,6 +96,7 @@ public class TypeBox implements Serializable {
     public int getHbox() {
         return hbox;
     }
+    
 
     public void setHbox(int hbox) {
         this.hbox = hbox;

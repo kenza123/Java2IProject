@@ -110,6 +110,20 @@ public class Commande implements Serializable {
         this.penalite = penalite;
     }
 
+    public int getEcart() {
+        /*int ecart = (this.denvoireel - this.denvoiprevue);
+        if (ecart < 0){
+            ecart = ecart * (-1);
+        }*/
+        return 0;
+    }
+
+    public double getCout() {
+        return (this.getEcart() * this.penalite);
+    }
+    
+    
+
     @XmlTransient
     public Collection<ProduitCommande> getProduitCommandeCollection() {
         return produitCommandeCollection;
