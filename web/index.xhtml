@@ -3,26 +3,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Upload Test</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+        <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" />
     </h:head>
     <h:body>
-        <h:form  enctype="multipart/form-data">
-            <h:outputLabel value="Nom : " />
-            <h:inputText value="#{uploadControl.nom}" /><br/>
-            
-            <h:outputLabel value="File : " />
-            <h:inputFile id="file" value="#{uploadControl.file}"/>
-            
-            <h:commandButton value="Upload"
-                             action="#{uploadControl.uploadFile}">
-                <f:ajax execute="file" render="@all"/>
-            </h:commandButton>
-            
+            <h:form class="form-horizontal" enctype="multipart/form-data">
 
-        </h:form>
-        
+                <!-- Text input-->
+                <div class="form-group">
+                    <h:outputLabel class="col-md-4 control-label" for="file-name" value="Nom : " />
+                    <div class="col-md-4">
+                        <h:inputText id="file-name" a:name="file-name" a:placeholder="nom du fichier" class="form-control input-md" value="#{uploadControl.nom}" /><br/>   
+                    </div>
+                </div>
+
+                <!-- File Button -->
+                <div class="form-group">
+                    <h:outputLabel class="col-md-4 control-label" for="filebutton" value="File : " />
+                    <div class="col-md-4">
+                        <h:inputFile id="file" a:name="filebutton" class="input-file"  value="#{uploadControl.file}"/>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <h:outputLabel class="col-md-4 control-label" value="" />
+                    <div class="col-md-4">
+                        <h:commandButton id="singlebutton" class="btn btn-primary" value="Upload" action="#{uploadControl.uploadFile}">
+                            <f:ajax execute="file" render="@all"/>
+                        </h:commandButton>
+                    </div>
+                </div>
+
+            </h:form>
  
     </h:body>
 </html>

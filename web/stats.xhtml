@@ -2,16 +2,81 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet library="css" name="style.css"/>
+        <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" />
     </h:head>
     <h:body>
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
-                Hello from stats
+                <center><h2 class="page-title">Statistiques sur la solution de l'instance A</h2></center>
+                <div class="tables-content">
+                    <h:dataTable value="#{statsControl.boxes}" var="b"
+    			styleClass="table"
+    			headerClass=""
+    			rowClasses="order-table-odd-row,order-table-even-row">
+                            <h:column>
+                                    <!-- column header -->
+                                    <f:facet name="header">Type de Box</f:facet>
+                                    <!-- row record -->
+                                    #{b.typeBox.id}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Prix</f:facet>
+                                    #{b.typeBox.prixbox}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Achat</f:facet>
+                                    #{b.achat}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Utilisé</f:facet>
+                                    #{b.utilise}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Coût</f:facet>
+                                    #{b.cout}
+                            </h:column>
+                    </h:dataTable>
+
+                    <h:dataTable value="#{statsControl.commandes}" var="c"
+                            styleClass="table"
+                            headerClass=""
+                            rowClasses="order-table-odd-row,order-table-even-row">
+                            <h:column>
+                                    <!-- column header -->
+                                    <f:facet name="header">Commande</f:facet>
+                                    <!-- row record -->
+                                    <h:form>
+                                        <h:commandLink action="#{commandeControl.goToCommande(c)}" value="#{c.id}"/>
+                                    </h:form>
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Envoi Prévu</f:facet>
+                                    #{c.denvoiprevue}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Envoi</f:facet>
+                                    #{c.denvoireel}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Pénalité</f:facet>
+                                    #{c.penalite}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Ecart</f:facet>
+                                    #{c.ecart}
+                            </h:column>
+                            <h:column>
+                                    <f:facet name="header">Coût</f:facet>
+                                    #{c.cout}
+                            </h:column>
+                    </h:dataTable>
+                </div>
             </ui:define>
  
         </ui:composition>

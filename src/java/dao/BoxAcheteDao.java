@@ -12,6 +12,6 @@ import model.BoxAchete;
  * @author aBennouna
  */
 public interface BoxAcheteDao extends Dao<BoxAchete> {
-    
+    public int countBoxesById(String idTypeBox);
     
 }

@@ -45,6 +45,12 @@ public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
         em.createNamedQuery("BoxAchete.deleteAll").executeUpdate();
         et.commit();
     }
+    
+    public int countBoxesById(String idTypeBox){
+        return (int) em.createNamedQuery("BoxAchete.countBoxesById")
+                .setParameter("idTypeBox", idTypeBox)
+                .getResultList().get(0);
+    }
 
     @Override
     public void close() {
