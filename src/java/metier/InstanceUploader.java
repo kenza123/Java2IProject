@@ -34,6 +34,7 @@ import model.TypeProduit;
 public class InstanceUploader {
     private List<String> typesProduitValues;
     private int nbLignesProd;
+    private String fileName;
 
     private final JpaDaoFactory jpaDaoFactory;
     private final TypeProduitDao typeProduitDao;
@@ -44,6 +45,14 @@ public class InstanceUploader {
     private final ProduitDao produitDao;
     private final BoxAcheteDao boxAcheteDao;
     private final PileDao pileDao;
+    
+      public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public InstanceUploader() {
         jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);

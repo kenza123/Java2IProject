@@ -10,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.servlet.http.Part;
 import metier.InstanceUploader;
+import metier.SolutionGenerator;
 import metier.TrivialSolution;
 
 /**
@@ -52,6 +53,9 @@ public class UploadControl implements Serializable {
         instanceUploader.upload(file);
         TrivialSolution trivialSolution = new TrivialSolution();
         trivialSolution.execute();
+        SolutionGenerator solutionGenerator = new SolutionGenerator();
+        solutionGenerator.setFileName(file.getSubmittedFileName());
+        solutionGenerator.generateSolutionFile();
         return "stats";
     }  
      
