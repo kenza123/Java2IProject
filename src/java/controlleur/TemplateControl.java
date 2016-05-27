@@ -21,9 +21,8 @@ import model.Commande;
  */
 @Named(value = "commandeControl")
 @SessionScoped
-public class CommandeControl implements Serializable {
+public class TemplateControl implements Serializable {
     private Commande commande;
-    private String nextPage;
 
     public Commande getCommande() {
         return commande;
@@ -37,7 +36,7 @@ public class CommandeControl implements Serializable {
     /**
      * Creates a new instance of CommandeControl
      */
-    public CommandeControl() {
+    public TemplateControl() {
     }
     
     public Collection<Commande> getCommandeList(){
@@ -46,9 +45,21 @@ public class CommandeControl implements Serializable {
         return jdc.findAll();
     }
     
-    public String goToCommande (Commande commande) {
+    public String goToCommande(Commande commande) {
         this.commande = commande;
         return "commande";
+    }
+    
+    public String goToStats(){
+        return "stats";
+    }
+    
+    public String goToTests(){
+        return "test";
+    }
+    
+    public String goToGantt(){
+        return "gantt";
     }
     
     
