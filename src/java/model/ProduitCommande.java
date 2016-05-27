@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ProduitCommande.deleteAll", query = "DELETE FROM ProduitCommande p"),
     @NamedQuery(name = "ProduitCommande.findAll", query = "SELECT p FROM ProduitCommande p"),
+    @NamedQuery(name = "ProduitCommande.findAllOfCommande", query = "SELECT p FROM ProduitCommande p WHERE p.idCommande = :commande"),
     @NamedQuery(name = "ProduitCommande.findById", query = "SELECT p FROM ProduitCommande p WHERE p.id = :id"),
     @NamedQuery(name = "ProduitCommande.findByNbUnites", query = "SELECT p FROM ProduitCommande p WHERE p.nbUnites = :nbUnites")})
 public class ProduitCommande implements Serializable {
@@ -55,6 +57,7 @@ public class ProduitCommande implements Serializable {
     private TypeProduit idTypeProduit;
 
     public ProduitCommande() {
+        produitCollection = new ArrayList();
     }
 
     public ProduitCommande(Integer id) {
@@ -124,7 +127,9 @@ public class ProduitCommande implements Serializable {
 
     @Override
     public String toString() {
-        return "model.ProduitCommande[ id=" + id + " ]";
+        return "ProduitCommande{" + "id=" + id + ", nbUnites=" + nbUnites + '}';
     }
+
+    
     
 }

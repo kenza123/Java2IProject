@@ -51,4 +51,11 @@ public class JpaDaoTypeBox extends JpaDao<TypeBox> implements TypeBoxDao {
         em.close();
     }
     
+    @Override
+    public TypeBox findFirstByDimensions(int lbox, int hbox) {
+        return (TypeBox) em.createNamedQuery("TypeBox.findFirstByDimensions")
+                .setParameter("lbox", lbox)
+                .setParameter("hbox", hbox)
+                .getResultList().get(0);
+    }
 }

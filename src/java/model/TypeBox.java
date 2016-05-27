@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -30,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TypeBox.deleteAll", query = "DELETE FROM TypeBox t"),
+    @NamedQuery(name = "TypeBox.findFirstByDimensions", 
+            query = "SELECT t FROM TypeBox t WHERE t.hbox >= :hbox AND t.lbox >= :lbox ORDER BY t.hbox"),
     @NamedQuery(name = "TypeBox.findAll", query = "SELECT t FROM TypeBox t"),
     @NamedQuery(name = "TypeBox.findById", query = "SELECT t FROM TypeBox t WHERE t.id = :id"),
     @NamedQuery(name = "TypeBox.findByLbox", query = "SELECT t FROM TypeBox t WHERE t.lbox = :lbox"),
@@ -60,6 +63,7 @@ public class TypeBox implements Serializable {
     private Collection<BoxAchete> boxAcheteCollection;
 
     public TypeBox() {
+        boxAcheteCollection = new ArrayList();
     }
 
     public TypeBox(String id) {
@@ -136,7 +140,6 @@ public class TypeBox implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TypeBox[ id=" + id + " ]";
+        return "TypeBox{" + "id=" + id + ", lbox=" + lbox + ", hbox=" + hbox + ", prixbox=" + prixbox + '}';
     }
-    
 }

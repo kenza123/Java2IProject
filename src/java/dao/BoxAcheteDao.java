@@ -6,12 +6,13 @@
 package dao;
 
 import model.BoxAchete;
+import model.TypeBox;
 
 /**
  *
  * @author aBennouna
  */
 public interface BoxAcheteDao extends Dao<BoxAchete> {
-    
+    public int countBoxesByTypeBox(TypeBox typeBox);
     
 }

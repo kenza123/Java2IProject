@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -60,6 +61,7 @@ public class TypeProduit implements Serializable {
     private Collection<ProduitCommande> produitCommandeCollection;
 
     public TypeProduit() {
+        produitCommandeCollection = new ArrayList();
     }
 
     public TypeProduit(String id) {
@@ -145,7 +147,10 @@ public class TypeProduit implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TypeProduit[ id=" + id + " ]";
+        return "TypeProduit{" + "id=" + id + ", tSetup=" + tSetup + 
+                ", tProduction=" + tProduction + ", hauteur=" + hauteur + 
+                ", longueur=" + longueur + ", nbempilemax=" + nbempilemax + '}';
     }
+
     
 }
