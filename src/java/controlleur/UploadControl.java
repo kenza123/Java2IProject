@@ -47,11 +47,12 @@ public class UploadControl implements Serializable {
         
     }
     
-    public void uploadFile() {
+    public String uploadFile() {
         InstanceUploader instanceUploader = new InstanceUploader();
         instanceUploader.upload(file);
         TrivialSolution trivialSolution = new TrivialSolution();
         trivialSolution.execute();
+        return "stats";
     }  
      
 }
