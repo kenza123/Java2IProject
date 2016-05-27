@@ -12,6 +12,6 @@ import model.TypeBox;
  * @author aBennouna
  */
 public interface TypeBoxDao extends Dao<TypeBox> {
-    
+    public TypeBox findFirstByDimensions(int lbox, int hbox);
     
 }

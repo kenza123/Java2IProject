@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.Collection;
 import model.Commande;
 
 /**
@@ -13,5 +14,7 @@ import model.Commande;
  */
 public interface CommandeDao extends Dao<Commande> {
     
+    public Collection<Commande> findAllOrderByDenvoiprevue();
+    public Commande findCommandeByName(String name);
     
 }

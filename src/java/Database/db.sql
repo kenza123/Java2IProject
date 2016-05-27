@@ -22,6 +22,8 @@ ALTER TABLE produit_commande DROP CONSTRAINT PC_FK_Produit;
 ALTER TABLE type_box DROP CONSTRAINT B_Lbox_Sup0;
 ALTER TABLE type_box DROP CONSTRAINT B_Hbox_Sup0;
 ALTER TABLE type_box DROP CONSTRAINT B_Prix_Sup0;
+
+ALTER TABLE box_achete DROP CONSTRAINT BA_FK_Commande;
 ALTER TABLE box_achete DROP CONSTRAINT BA_FK_Type_box;
 
 ALTER TABLE pile DROP CONSTRAINT P_LongPile;
@@ -78,13 +80,14 @@ CREATE TABLE type_box (
 CREATE TABLE box_achete (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_type_box VARCHAR(55) NOT NULL,
-    num_box INTEGER NOT NULL
+    num_box INTEGER NOT NULL,
+    id_commande VARCHAR(55)
 );
 
 CREATE TABLE produit (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_produit_commande INTEGER NOT NULL,
-    id_box INTEGER NOT NULL,
+    id_box INTEGER,
     date_debut_prod INTEGER,
     nbLignes INTEGER
 );
@@ -123,6 +126,7 @@ ALTER TABLE produit_commande ADD CONSTRAINT PC_FK_Commande FOREIGN KEY(id_comman
 ALTER TABLE produit_commande ADD CONSTRAINT PC_FK_Produit FOREIGN KEY(id_type_produit) REFERENCES type_produit(id);
 
 ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Type_box FOREIGN KEY(id_type_box) REFERENCES type_box(id);
+ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Commande FOREIGN KEY(id_commande) REFERENCES commande(id);
 
 ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_box FOREIGN KEY(id_box) REFERENCES box_achete(id);

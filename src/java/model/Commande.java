@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Commande.deleteAll", query = "DELETE FROM Commande c"),
     @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
+    @NamedQuery(name = "Commande.findAllOrderBYDenvoiprevue", query = "SELECT c FROM Commande c ORDER BY c.denvoiprevue"),
     @NamedQuery(name = "Commande.findById", query = "SELECT c FROM Commande c WHERE c.id = :id"),
     @NamedQuery(name = "Commande.findByStockmin", query = "SELECT c FROM Commande c WHERE c.stockmin = :stockmin"),
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),
@@ -56,8 +58,12 @@ public class Commande implements Serializable {
     private Double penalite;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCommande")
     private Collection<ProduitCommande> produitCommandeCollection;
+    @OneToMany(mappedBy = "idCommande")
+    private Collection<BoxAchete> boxAcheteCollection;
 
     public Commande() {
+        produitCommandeCollection = new ArrayList();
+        boxAcheteCollection = new ArrayList();
     }
 
     public Commande(String id) {
@@ -135,7 +141,18 @@ public class Commande implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Commande[ id=" + id + " ]";
+        return "Commande{" + "id=" + id + ", stockmin=" + stockmin + 
+                ", denvoiprevue=" + denvoiprevue + ", denvoireel=" + denvoireel + 
+                ", penalite=" + penalite + '}';
+    }
+
+    @XmlTransient
+    public Collection<BoxAchete> getBoxAcheteCollection() {
+        return boxAcheteCollection;
+    }
+
+    public void setBoxAcheteCollection(Collection<BoxAchete> boxAcheteCollection) {
+        this.boxAcheteCollection = boxAcheteCollection;
     }
     
 }
