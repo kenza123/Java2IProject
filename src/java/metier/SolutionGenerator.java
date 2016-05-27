@@ -1,0 +1,145 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package metier;
+
+import dao.BoxAcheteDao;
+import dao.CommandeDao;
+import dao.DaoFactory;
+import dao.JpaDaoFactory;
+import dao.LigneProductionDao;
+import dao.PileDao;
+import dao.ProduitCommandeDao;
+import dao.ProduitDao;
+import dao.TypeBoxDao;
+import dao.TypeProduitDao;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.ProduitCommande;
+
+/**
+ *
+ * @author aBennouna
+ */
+public class SolutionGenerator {
+    
+    private final JpaDaoFactory jpaDaoFactory;
+    private final TypeProduitDao typeProduitDao;
+    private final TypeBoxDao typeBoxDao;
+    private final LigneProductionDao ligneProductionDao;
+    private final CommandeDao commandeDao;
+    private final ProduitCommandeDao produitCommandeDao;
+    private final ProduitDao produitDao;
+    private final BoxAcheteDao boxAcheteDao;
+    private final PileDao pileDao;
+    private double eval;
+    private String fileName;
+
+    public SolutionGenerator() {
+        jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+        typeProduitDao = jpaDaoFactory.getTypeProduitDao();
+        typeBoxDao = jpaDaoFactory.getTypeBoxDao();
+        ligneProductionDao = jpaDaoFactory.getLigneProductionDao();
+        commandeDao = jpaDaoFactory.getCommandeDao();
+        produitCommandeDao = jpaDaoFactory.getProduitCommandeDao();
+        produitDao = jpaDaoFactory.getProduitDao();
+        boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
+        pileDao = jpaDaoFactory.getPileDao();
+        eval = 0;
+        calculEval();
+    }
+
+    public double getEval() {
+        return eval;
+    }
+
+    public void setEval(double eval) {
+        this.eval = eval;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName.replace("txt", "sol");
+    }
+    
+    
+    
+    public void calculEval() {
+        eval = 0;
+        typeBoxDao.findAll().stream().forEach((typeBox) -> {
+            eval = eval 
+                    + typeBox.getPrixbox() 
+                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+            });
+        commandeDao.findAll().stream().forEach((commande) -> {
+          eval = eval +
+                  commande.getPenalite() *
+                  Math.abs(commande.getDenvoireel()-commande.getDenvoiprevue());
+          });
+    }
+    
+    public void generateSolutionFile() {
+        
+        List<String> lines = new ArrayList();
+        
+        lines.add(Double.toString(eval));
+        
+        lines.add("");
+        
+        typeBoxDao.findAll().stream().forEach((typeBox) -> {
+            String line = typeBox.getId()
+                    + "\t"
+                    + boxAcheteDao.countBoxesByTypeBox(typeBox);
+            lines.add(line);
+            });
+        
+        lines.add("");
+        
+        commandeDao.findAllOrderByDenvoireelle().stream().forEach((commande) -> {
+            String line = commande.getId()
+                    + "\t"
+                    + commande.getDenvoireel();
+            lines.add(line);
+            });
+        
+        lines.add("");
+        
+        produitDao.findAll().stream().forEach((produit) -> {
+            String line = produit.getIdProduitCommande().getIdCommande().getId()
+                    + "\t"
+                    + produit.getIdProduitCommande().getIdTypeProduit().getId()
+                    + "\t"
+                    + produit.getNblignes().getNblignes()
+                    + "\t"
+                    + produit.getDateDebutProd()
+                    + "\t"
+                    + produit.getIdBox().getIdTypeBox().getId()
+                    + "\t"
+                    + produit.getIdBox().getNumBox();
+            
+            lines.add(line);
+            });
+        
+        
+        Path file = Paths.get(fileName);
+        try {
+            Files.write(file, lines, Charset.forName("UTF-8"));
+        } catch (IOException ex) {
+            Logger.getLogger(SolutionGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+}
