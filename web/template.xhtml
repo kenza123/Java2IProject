@@ -12,9 +12,21 @@
         <div class="content">
             <div class="side">
                 <ul>
-                    <li class="menu_item"><a href="stats.xhtml" class="light">Stats</a></li>
-                    <li class="menu_item"><a href="gantt.xhtml" class="light">Gantt</a></li>
-                    <li class="menu_item"><a href="test.xhtml" class="light">Tests</a></li>
+                    <li class="menu_item">
+                        <h:form>
+                            <h:commandLink class="light" action="#{commandeControl.goToStats()}" value="Stats"/>
+                        </h:form>
+                    </li>
+                    <li class="menu_item">
+                        <h:form>
+                            <h:commandLink class="light" action="#{commandeControl.goToGantt()}" value="Gantt"/>
+                        </h:form>
+                    </li>
+                    <li class="menu_item">
+                        <h:form>
+                            <h:commandLink class="light" action="#{commandeControl.goToTests()}" value="Tests"/>
+                        </h:form>
+                    </li>
                     <li> 
                         <h3 class="command_title">Commandes</h3>
                         <ul class="commande_list">

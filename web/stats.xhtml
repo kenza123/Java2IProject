@@ -13,7 +13,7 @@
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
-                <center><h2 class="page-title">Statistiques sur la solution de l'instance A</h2></center>
+                <center><h2 class="page-title">Statistiques sur la solution de <h:outputLabel value="#{uploadControl.nom}" /></h2></center>
                 <div class="tables-content">
                     <h:dataTable value="#{statsControl.boxes}" var="b"
     			styleClass="table"
