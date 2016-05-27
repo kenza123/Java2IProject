@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Commande.deleteAll", query = "DELETE FROM Commande c"),
     @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
     @NamedQuery(name = "Commande.findAllOrderBYDenvoiprevue", query = "SELECT c FROM Commande c ORDER BY c.denvoiprevue"),
+    @NamedQuery(name = "Commande.findAllOrderBYDenvoireelle", query = "SELECT c FROM Commande c ORDER BY c.denvoireel"),
     @NamedQuery(name = "Commande.findById", query = "SELECT c FROM Commande c WHERE c.id = :id"),
     @NamedQuery(name = "Commande.findByStockmin", query = "SELECT c FROM Commande c WHERE c.stockmin = :stockmin"),
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),

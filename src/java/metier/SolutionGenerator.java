@@ -15,10 +15,7 @@ import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
 import dao.TypeProduitDao;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ProduitCommande;
 
 /**
  *
@@ -98,6 +96,7 @@ public class SolutionGenerator {
         List<String> lines = new ArrayList();
         
         lines.add(Double.toString(eval));
+        
         lines.add("");
         
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
@@ -108,7 +107,33 @@ public class SolutionGenerator {
             });
         
         lines.add("");
-        System.out.println("file2" + fileName);
+        
+        commandeDao.findAllOrderByDenvoireelle().stream().forEach((commande) -> {
+            String line = commande.getId()
+                    + "\t"
+                    + commande.getDenvoireel();
+            lines.add(line);
+            });
+        
+        lines.add("");
+        
+        produitDao.findAll().stream().forEach((produit) -> {
+            String line = produit.getIdProduitCommande().getIdCommande().getId()
+                    + "\t"
+                    + produit.getIdProduitCommande().getIdTypeProduit().getId()
+                    + "\t"
+                    + produit.getNblignes().getNblignes()
+                    + "\t"
+                    + produit.getDateDebutProd()
+                    + "\t"
+                    + produit.getIdBox().getIdTypeBox().getId()
+                    + "\t"
+                    + produit.getIdBox().getNumBox();
+            
+            lines.add(line);
+            });
+        
+        
         Path file = Paths.get(fileName);
         try {
             Files.write(file, lines, Charset.forName("UTF-8"));

@@ -51,8 +51,6 @@ public class UploadControl implements Serializable {
     public void uploadFile() {
         InstanceUploader instanceUploader = new InstanceUploader();
         instanceUploader.upload(file);
-        
-        System.out.println("file1" + file.getSubmittedFileName());
         TrivialSolution trivialSolution = new TrivialSolution();
         trivialSolution.execute();
         SolutionGenerator solutionGenerator = new SolutionGenerator();
