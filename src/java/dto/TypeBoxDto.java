@@ -12,13 +12,13 @@ import model.TypeBox;
  *
  * @author kenzakhamaily
  */
-public class Box implements Serializable {
+public class TypeBoxDto implements Serializable {
     private int achat;
     private int utilise;
     private double cout;
     private TypeBox typeBox;
 
-    public Box() {
+    public TypeBoxDto() {
     }
 
     public int getAchat() {
