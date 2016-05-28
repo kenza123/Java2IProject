@@ -15,6 +15,7 @@ import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
 import dao.TypeProduitDao;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -44,6 +45,7 @@ public class SolutionGenerator {
     private final PileDao pileDao;
     private double eval;
     private String fileName;
+    private File file;
 
     public SolutionGenerator() {
         jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
@@ -73,6 +75,14 @@ public class SolutionGenerator {
 
     public void setFileName(String fileName) {
         this.fileName = fileName.replace("txt", "sol");
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
     
     
@@ -137,6 +147,7 @@ public class SolutionGenerator {
         Path file = Paths.get(fileName);
         try {
             Files.write(file, lines, Charset.forName("UTF-8"));
+            this.setFile(file.toFile());
         } catch (IOException ex) {
             Logger.getLogger(SolutionGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }

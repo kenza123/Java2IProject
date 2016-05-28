@@ -16,7 +16,7 @@ import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import model.Commande;
 import model.TypeBox;
-import dto.Box;
+import dto.TypeBoxDto;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 @Dependent
 public class StatsControl {
     private Collection<Commande> commandes;
-    private Collection<Box> boxes = new ArrayList<Box>();
+    private Collection<TypeBoxDto> boxes = new ArrayList<TypeBoxDto>();
 
     /**
      * Creates a new instance of statsControl
@@ -43,13 +43,13 @@ public class StatsControl {
         return commandes;
     }
 
-    public Collection<Box> getBoxes() {
+    public Collection<TypeBoxDto> getBoxes() {
         JpaDaoFactory jdf = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         JpaDaoTypeBox jdtb = jdf.getTypeBoxDao();
         JpaDaoBoxAchete jdba = jdf.getBoxAcheteDao();
         Collection<TypeBox> typeBoxs = jdtb.findAll();
         for (TypeBox box : typeBoxs) {
-            Box b = new Box();
+            TypeBoxDto b = new TypeBoxDto();
             b.setTypeBox(box);
             b.setAchat(jdba.countBoxesById(box));
             b.setUtilise(jdba.countBoxesById(box));
