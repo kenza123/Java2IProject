@@ -13,6 +13,7 @@ import dao.LigneProductionDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Collection;
 import model.BoxAchete;
@@ -38,6 +39,7 @@ public class TrivialSolution {
     private final ProduitCommandeDao produitCommandeDao;
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
+    private double eval;
 
     public TrivialSolution() {
         dateActuelleProduction = 0;
@@ -66,10 +68,11 @@ public class TrivialSolution {
             commande.setDenvoireel(dateActuelleBox);
             commandeDao.update(commande);
         });
+        eval();
     }
-
-    public void produireProduitCommande(ProduitCommande produitCommande) {
-        LigneProduction ligneProduction = ChoisirLigneProduction();
+   
+    public void produireProduitCommande(ProduitCommande produitCommande){
+        LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
         if (typeProduit != null) {
             dateActuelleProduction += typeProduit.getTSetup();
@@ -99,7 +102,7 @@ public class TrivialSolution {
         return produit;
     }
 
-    private LigneProduction ChoisirLigneProduction() {
+    private LigneProduction choisirLigneProduction() {
         return ligneProductionDao.findAll().iterator().next();
     }
 
@@ -119,7 +122,7 @@ public class TrivialSolution {
         produitDao.update(produit);
     }
 
-    private void StockerProduitCommande(ProduitCommande produitCommande) {
+    private void stockerProduitCommande(ProduitCommande produitCommande) {
         produitCommande.getProduitCollection().stream().forEach((produit) -> {
             TypeBox typeBox = trouverTypeBox(produit);
             BoxAchete boxAchete = acheterBox(typeBox);
@@ -167,5 +170,20 @@ public class TrivialSolution {
         });
         commande.setBoxAcheteCollection(new ArrayList());
         commandeDao.update(commande);
+    }
+    
+    public void eval(){
+        eval = 0;
+        typeBoxDao.findAll().stream().forEach((typeBox) -> {
+            eval = eval
+                    + typeBox.getPrixbox()
+                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+        });
+        commandeDao.findAll().stream().forEach((commande) -> {
+            eval = eval +
+                    commande.getPenalite()
+                    * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
+        });
+        System.out.println("magic eval " + eval);
     }
 }

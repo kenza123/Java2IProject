@@ -11,7 +11,7 @@ import java.io.Serializable;
 import javax.servlet.http.Part;
 import metier.InstanceUploader;
 import metier.SolutionGenerator;
-import metier.TrivialSolution;
+import metier.OptimisedSolution;
 
 /**
  *
@@ -51,8 +51,10 @@ public class UploadControl implements Serializable {
     public String uploadFile() {
         InstanceUploader instanceUploader = new InstanceUploader();
         instanceUploader.upload(file);
-        TrivialSolution trivialSolution = new TrivialSolution();
-        trivialSolution.execute();
+        //TrivialSolution trivialSolution = new TrivialSolution();
+        //trivialSolution.execute();
+        OptimisedSolution optimisedSolution = new OptimisedSolution();
+        optimisedSolution.execute();
         SolutionGenerator solutionGenerator = new SolutionGenerator();
         solutionGenerator.setFileName(file.getSubmittedFileName());
         solutionGenerator.generateSolutionFile();
