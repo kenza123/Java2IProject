@@ -13,11 +13,9 @@ import dao.LigneProductionDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
-import static java.lang.Integer.max;
 import static java.lang.Math.abs;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -47,6 +45,7 @@ public class OptimisedSolution {
     private final BoxAcheteDao boxAcheteDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
     private double eval;
+    int ite = 0;
     
     public OptimisedSolution() {
         dateActuelleProduction = 0;
@@ -63,24 +62,26 @@ public class OptimisedSolution {
 
     public void execute() {
         Collection<Commande> commandes = commandeDao.findAll();
+        
         while (!commandes.isEmpty()) {
+            ite++;
             Commande commande = findUrgentCommande(commandes);
             produireCommande(commande);
             commandes.remove(commande);
         }
-        eval();
         produitDao.findAll().stream().forEach((produit) -> {
             System.out.println("produit " + produit .toString());
             System.out.println("ligne de prod" + produit.getNblignes().toString());
         });
+        eval();
     }
 
     public Commande findUrgentCommande(Collection<Commande> commandes) {
-        Double evalProductionMax = 0.0;
+        Double evalProductionMax = -Double.MAX_VALUE;
         Commande commandeMax = new Commande();
         for (Commande commande : commandes) {
             Double evalProduction = commande.getPenalite()
-                    * abs(commande.getDenvoiprevue() - dEnvoieEstimee(commande));
+                    * (dEnvoieEstimee(commande) - commande.getDenvoiprevue());
             if (evalProduction >= evalProductionMax) {
                 try {
                     commandeMax = (Commande) commande.clone();
@@ -94,8 +95,7 @@ public class OptimisedSolution {
     }
 
     private Integer dEnvoieEstimee(Commande commande) {
-        Integer minDEnvoiEstimee = commande.getStockmin() + dateFinProductionEstimee(commande);
-        return max(minDEnvoiEstimee, commande.getDenvoiprevue());
+        return commande.getStockmin() + dateFinProductionEstimee(commande);
     }
 
     private Integer dateFinProductionEstimee(Commande commande) {
@@ -129,8 +129,9 @@ public class OptimisedSolution {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
             produireEtStockerProduitCommande(produitCommande);
         });
-        //findLastProduct
-        dateActuelleBox += commande.getStockmin();
+        Integer dateFinProduction = Collections.max(ligneProductions.entrySet(), 
+                Map.Entry.comparingByValue()).getValue();
+        dateActuelleBox = dateFinProduction + commande.getStockmin();
         if (dateActuelleBox < commande.getDenvoiprevue()) {
             dateActuelleBox = commande.getDenvoiprevue();
         }
@@ -156,10 +157,10 @@ public class OptimisedSolution {
                 produitCommandeDao.update(produitCommande);
                 
                 dateActuelleProduction += typeProduit.getTProduction();
-
-                dateActuelleBox = dateActuelleProduction;
+                
                 stockerProduit(produit);
             }
+            ligneProductions.put(ligneProduction.getId(), dateActuelleProduction);
         }
     }
 
