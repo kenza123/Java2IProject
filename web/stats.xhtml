@@ -49,30 +49,54 @@
                             rowClasses="order-table-odd-row,order-table-even-row">
                             <h:column>
                                     <!-- column header -->
-                                    <f:facet name="header">Commande</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('id')}" value="Commande"/>
+                                        </h:form>
+                                    </f:facet>
                                     <!-- row record -->
                                     <h:form>
-                                        <h:commandLink action="#{commandeControl.goToCommande(c)}" value="#{c.id}"/>
+                                        <h:commandLink action="#{commandeControl.showPage(c)}" value="#{c.id}"/>
                                     </h:form>
                             </h:column>
                             <h:column>
-                                    <f:facet name="header">Envoi Prévu</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('envoiprevue')}" value="Envoi Prévu"/>
+                                        </h:form>
+                                    </f:facet>
                                     #{c.denvoiprevue}
                             </h:column>
                             <h:column>
-                                    <f:facet name="header">Envoi</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('envoireelle')}" value="Envoi"/>
+                                        </h:form>
+                                    </f:facet>
                                     #{c.denvoireel}
                             </h:column>
                             <h:column>
-                                    <f:facet name="header">Pénalité</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('penalite')}" value="Pénalité"/>
+                                        </h:form>
+                                    </f:facet>
                                     #{c.penalite}
                             </h:column>
                             <h:column>
-                                    <f:facet name="header">Ecart</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('ecart')}" value="Ecart"/>
+                                        </h:form>
+                                    </f:facet>
                                     #{c.ecart}
                             </h:column>
                             <h:column>
-                                    <f:facet name="header">Coût</f:facet>
+                                    <f:facet name="header">
+                                        <h:form>
+                                            <h:commandLink action="#{statsControl.setTri('cout')}" value="Coût"/>
+                                        </h:form>
+                                    </f:facet>
                                     #{c.cout}
                             </h:column>
                     </h:dataTable>

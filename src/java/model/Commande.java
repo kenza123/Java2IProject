@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
     @NamedQuery(name = "Commande.findAllOrderBYDenvoiprevue", query = "SELECT c FROM Commande c ORDER BY c.denvoiprevue"),
     @NamedQuery(name = "Commande.findAllOrderBYDenvoireelle", query = "SELECT c FROM Commande c ORDER BY c.denvoireel"),
+    @NamedQuery(name = "Commande.findAllOrderBYId", query = "SELECT c FROM Commande c ORDER BY c.id"),
+    @NamedQuery(name = "Commande.findAllOrderBYPenalite", query = "SELECT c FROM Commande c ORDER BY c.penalite"),
+    @NamedQuery(name = "Commande.findAllOrderBYStock", query = "SELECT c FROM Commande c ORDER BY c.stockmin"),
     @NamedQuery(name = "Commande.findById", query = "SELECT c FROM Commande c WHERE c.id = :id"),
     @NamedQuery(name = "Commande.findByStockmin", query = "SELECT c FROM Commande c WHERE c.stockmin = :stockmin"),
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),
@@ -174,7 +177,6 @@ public class Commande implements Serializable, Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-    
     
     
 }
