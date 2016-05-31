@@ -33,12 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Commande.deleteAll", query = "DELETE FROM Commande c"),
     @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c"),
     @NamedQuery(name = "Commande.findAllOrderBYDenvoiprevue", query = "SELECT c FROM Commande c ORDER BY c.denvoiprevue"),
+    @NamedQuery(name = "Commande.findAllOrderBYDenvoireelle", query = "SELECT c FROM Commande c ORDER BY c.denvoireel"),
     @NamedQuery(name = "Commande.findById", query = "SELECT c FROM Commande c WHERE c.id = :id"),
     @NamedQuery(name = "Commande.findByStockmin", query = "SELECT c FROM Commande c WHERE c.stockmin = :stockmin"),
     @NamedQuery(name = "Commande.findByDenvoiprevue", query = "SELECT c FROM Commande c WHERE c.denvoiprevue = :denvoiprevue"),
     @NamedQuery(name = "Commande.findByDenvoireel", query = "SELECT c FROM Commande c WHERE c.denvoireel = :denvoireel"),
     @NamedQuery(name = "Commande.findByPenalite", query = "SELECT c FROM Commande c WHERE c.penalite = :penalite")})
-public class Commande implements Serializable {
+public class Commande implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -168,5 +169,12 @@ public class Commande implements Serializable {
     public void setBoxAcheteCollection(Collection<BoxAchete> boxAcheteCollection) {
         this.boxAcheteCollection = boxAcheteCollection;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
+    
     
 }

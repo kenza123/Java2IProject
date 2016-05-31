@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Upload Test</title>
         <h:outputStylesheet library="css" name="style.css"/>
@@ -22,7 +23,7 @@
 
                 <!-- File Button -->
                 <div class="form-group">
-                    <h:outputLabel class="col-md-4 control-label" for="filebutton" value="File : " />
+                    <h:outputLabel class="col-md-4 control-label" value="File : " />
                     <div class="col-md-4">
                         <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
                     </div>
@@ -39,7 +40,7 @@
                 </div>
 
             </h:form>
- 
+           
     </h:body>
 </html>
 

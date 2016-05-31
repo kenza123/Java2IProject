@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Produit.deleteAll", query = "DELETE FROM Produit p"),
+    @NamedQuery(name = "Produit.findLastProductInLine", query = "SELECT p FROM Produit p WHERE p.nblignes = :line ORDER BY p.dateDebutProd DESC"),
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p"),
     @NamedQuery(name = "Produit.findById", query = "SELECT p FROM Produit p WHERE p.id = :id"),
     @NamedQuery(name = "Produit.findByDateDebutProd", query = "SELECT p FROM Produit p WHERE p.dateDebutProd = :dateDebutProd")})

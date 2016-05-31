@@ -13,6 +13,7 @@ import dao.LigneProductionDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Collection;
 import model.BoxAchete;
@@ -28,7 +29,7 @@ import model.TypeProduit;
  * @author ghitakhamaily
  */
 public class TrivialSolution {
-    
+
     private Integer dateActuelleProduction;
     private Integer dateActuelleBox;
     private final JpaDaoFactory jpaDaoFactory;
@@ -38,12 +39,13 @@ public class TrivialSolution {
     private final ProduitCommandeDao produitCommandeDao;
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
+    private double eval;
 
     public TrivialSolution() {
         dateActuelleProduction = 0;
-        dateActuelleBox=0;
-        jpaDaoFactory = 
-            (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+        dateActuelleBox = 0;
+        jpaDaoFactory
+                = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         commandeDao = jpaDaoFactory.getCommandeDao();
         produitCommandeDao = jpaDaoFactory.getProduitCommandeDao();
         ligneProductionDao = jpaDaoFactory.getLigneProductionDao();
@@ -51,45 +53,47 @@ public class TrivialSolution {
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
     }
-    
-    public void execute(){
+
+    public void execute() {
         Collection<Commande> commandes = commandeDao.findAllOrderByDenvoiprevue();
         commandes.stream().forEach((commande) -> {
             commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
                 produireProduitCommande(produitCommande);
-                dateActuelleBox = dateActuelleProduction;
-                StockerProduitCommande(produitCommande);
             });
-            dateActuelleBox =+ commande.getStockmin();
-            if (dateActuelleBox < commande.getDenvoiprevue()){
+            dateActuelleBox += commande.getStockmin();
+            if (dateActuelleBox < commande.getDenvoiprevue()) {
                 dateActuelleBox = commande.getDenvoiprevue();
             }
-            libererBoxes(commande);
+            //libererBoxes(commande);
             commande.setDenvoireel(dateActuelleBox);
             commandeDao.update(commande);
         });
+        eval();
     }
    
     public void produireProduitCommande(ProduitCommande produitCommande){
-        LigneProduction ligneProduction = ChoisirLigneProduction();
+        LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
-        if (typeProduit != null){
+        if (typeProduit != null) {
             dateActuelleProduction += typeProduit.getTSetup();
-            for(int i = 0; i< produitCommande.getNbUnites(); i++){
+            for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);
-                
+
                 ligneProduction.getProduitCollection().add(produit);
                 ligneProductionDao.update(ligneProduction);
-                
+
                 produitCommande.getProduitCollection().add(produit);
                 produitCommandeDao.update(produitCommande);
-                
+
                 dateActuelleProduction += typeProduit.getTProduction();
+
+                dateActuelleBox = dateActuelleProduction;
+                StockerProduit(produit);
             }
         }
     }
 
-    public Produit produireProduit(ProduitCommande produitCommande, LigneProduction ligneProduction){
+    public Produit produireProduit(ProduitCommande produitCommande, LigneProduction ligneProduction) {
         Produit produit = new Produit();
         produit.setIdProduitCommande(produitCommande);
         produit.setDateDebutProd(dateActuelleProduction);
@@ -97,43 +101,59 @@ public class TrivialSolution {
         produitDao.create(produit);
         return produit;
     }
-    
-    private LigneProduction ChoisirLigneProduction() {
+
+    private LigneProduction choisirLigneProduction() {
         return ligneProductionDao.findAll().iterator().next();
     }
 
-    private void StockerProduitCommande(ProduitCommande produitCommande) {
+    private void StockerProduit(Produit produit) {
+        TypeBox typeBox = trouverTypeBox(produit);
+        BoxAchete boxAchete = acheterBox(typeBox);
+
+        boxAchete.getProduitCollection().add(produit);
+        boxAchete.setIdCommande(produit.getIdProduitCommande().getIdCommande());
+        boxAcheteDao.update(boxAchete);
+
+        typeBox.getBoxAcheteCollection().add(boxAchete);
+        typeBoxDao.update(typeBox);
+
+        produit.setIdBox(boxAchete);
+        produit.getIdProduitCommande().getIdCommande().getBoxAcheteCollection().add(boxAchete);
+        produitDao.update(produit);
+    }
+
+    private void stockerProduitCommande(ProduitCommande produitCommande) {
         produitCommande.getProduitCollection().stream().forEach((produit) -> {
             TypeBox typeBox = trouverTypeBox(produit);
             BoxAchete boxAchete = acheterBox(typeBox);
-            
+
             boxAchete.getProduitCollection().add(produit);
             boxAchete.setIdCommande(produitCommande.getIdCommande());
             boxAcheteDao.update(boxAchete);
-            
+
             typeBox.getBoxAcheteCollection().add(boxAchete);
             typeBoxDao.update(typeBox);
-            
+
             produit.setIdBox(boxAchete);
             produitDao.update(produit);
-            
+
             produitCommande.getIdCommande().getBoxAcheteCollection().add(boxAchete);
             produitCommandeDao.update(produitCommande);
         });
     }
 
     private TypeBox trouverTypeBox(Produit produit) {
-        if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null){
+        if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null) {
             TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
             return typeBoxDao.findFirstByDimensions(typeProduit.getLongueur(), typeProduit.getHauteur());
-        } 
+        }
         return null;
     }
 
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setIdTypeBox(typeBox);
-        boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox)+1);
+        boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox) + 1);
         boxAcheteDao.create(boxAchete);
         return boxAchete;
     }
@@ -151,5 +171,19 @@ public class TrivialSolution {
         commande.setBoxAcheteCollection(new ArrayList());
         commandeDao.update(commande);
     }
+    
+    public void eval(){
+        eval = 0;
+        typeBoxDao.findAll().stream().forEach((typeBox) -> {
+            eval = eval
+                    + typeBox.getPrixbox()
+                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+        });
+        commandeDao.findAll().stream().forEach((commande) -> {
+            eval = eval +
+                    commande.getPenalite()
+                    * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
+        });
+        System.out.println("magic eval " + eval);
+    }
 }
-  

@@ -15,6 +15,7 @@ import model.Commande;
 public interface CommandeDao extends Dao<Commande> {
     
     public Collection<Commande> findAllOrderByDenvoiprevue();
+    public Collection<Commande> findAllOrderByDenvoireelle();
     public Commande findCommandeByName(String name);
     
 }
