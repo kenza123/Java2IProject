@@ -70,8 +70,8 @@ public class OptimisedSolution {
             commandes.remove(commande);
         }
         produitDao.findAll().stream().forEach((produit) -> {
-            //System.out.println("produit " + produit .toString());
-            //System.out.println("ligne de prod" + produit.getNblignes().toString());
+            System.out.println("produit " + produit .toString());
+            System.out.println("ligne de prod" + produit.getNblignes().toString());
         });
         eval();
     }
@@ -223,6 +223,6 @@ public class OptimisedSolution {
                     commande.getPenalite()
                     * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
         });
-        //System.out.println("magic eval " + eval);
+        System.out.println("magic eval " + eval);
     }
 }

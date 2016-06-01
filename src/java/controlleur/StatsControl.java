@@ -57,19 +57,23 @@ public class StatsControl implements Serializable {
         allCommandes.addAll(jdc.findAll());
         switch (this.tri) {
             case "id":
-                commandes = jdc.findAllOrderBYId();
+                commandes = jdc.findAll();
                 break;
             case "penalite":
-                commandes = jdc.findAllOrderBYPenalite();
+                Collections.sort(allCommandes, (Commande c1, Commande c2) -> Double.compare(c2.getPenalite(), c1.getPenalite()));
+                commandes = allCommandes;
                 break;
             case "stock":
-                commandes = jdc.findAllOrderBYStock();
+                Collections.sort(allCommandes, (Commande c1, Commande c2) -> Double.compare(c2.getStockmin(), c1.getStockmin()));
+                commandes = allCommandes;
                 break;
             case "envoiprevue":
-                commandes = jdc.findAllOrderByDenvoiprevue();
+                Collections.sort(allCommandes, (Commande c1, Commande c2) -> Double.compare(c2.getDenvoiprevue(), c1.getDenvoiprevue()));
+                commandes = allCommandes;
                 break;
             case "envoireelle":
-                commandes = jdc.findAllOrderByDenvoireelle();
+                Collections.sort(allCommandes, (Commande c1, Commande c2) -> Double.compare(c2.getDenvoireel(), c1.getDenvoireel()));
+                commandes = allCommandes;
                 break;
             case "ecart" :
                 Collections.sort(allCommandes, (Commande c1, Commande c2) -> Double.compare(c2.getEcart(), c1.getEcart()));
