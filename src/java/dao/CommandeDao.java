@@ -16,9 +16,9 @@ public interface CommandeDao extends Dao<Commande> {
     
     public Collection<Commande> findAllOrderByDenvoiprevue();
     public Collection<Commande> findAllOrderByDenvoireelle();
-    public Collection<Commande> findAllOrderBYId();
+    /*public Collection<Commande> findAllOrderBYId();
     public Collection<Commande> findAllOrderBYPenalite();
-    public Collection<Commande> findAllOrderBYStock();
+    public Collection<Commande> findAllOrderBYStock();*/
     public Commande findCommandeByName(String name);
     
 }

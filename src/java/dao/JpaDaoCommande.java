@@ -60,6 +60,7 @@ public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
     public Collection<Commande> findAllOrderByDenvoireelle() {
         return em.createNamedQuery("Commande.findAllOrderBYDenvoireelle").getResultList();
     }
+    /*
     
     @Override
     public Collection<Commande> findAllOrderBYPenalite() {
@@ -75,7 +76,7 @@ public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
     public Collection<Commande> findAllOrderBYId() {
         return em.createNamedQuery("Commande.findAllOrderBYId").getResultList();
     }
-    
+    */
     @Override
     public Commande findCommandeByName(String name) {
         return (Commande)em.createNamedQuery("Commande.findById").setParameter("id", name).getResultList().iterator().next();
