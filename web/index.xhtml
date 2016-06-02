@@ -11,35 +11,33 @@
         <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" />
     </h:head>
     <h:body>
-            <h:form class="form-horizontal" enctype="multipart/form-data">
+        <ui:composition template="./template.xhtml">
+ 
+            <ui:define name="center">
+                <h:form class="form-horizontal" enctype="multipart/form-data">
 
-                <!-- Text input-->
-                <div class="form-group">
-                    <h:outputLabel class="col-md-4 control-label" for="file-name" value="Nom : " />
-                    <div class="col-md-4">
-                        <h:inputText id="file-name" class="form-control input-md" value="#{uploadControl.nom}" /><br/>   
+                    <!-- File Button -->
+                    <div class="form-group">
+                        <h:outputLabel class="col-md-4 control-label" value="File : " />
+                        <div class="col-md-4">
+                            <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
+                        </div>
                     </div>
-                </div>
 
-                <!-- File Button -->
-                <div class="form-group">
-                    <h:outputLabel class="col-md-4 control-label" value="File : " />
-                    <div class="col-md-4">
-                        <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <h:outputLabel class="col-md-4 control-label" value="" />
+                        <div class="col-md-4">
+                            <h:commandButton id="singlebutton" class="btn btn-primary" value="Upload" action="#{uploadControl.uploadFile}">
+                                <f:ajax execute="file" render="@all"/>
+                            </h:commandButton>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Button -->
-                <div class="form-group">
-                    <h:outputLabel class="col-md-4 control-label" value="" />
-                    <div class="col-md-4">
-                        <h:commandButton id="singlebutton" class="btn btn-primary" value="Upload" action="#{uploadControl.uploadFile}">
-                            <f:ajax execute="file" render="@all"/>
-                        </h:commandButton>
-                    </div>
-                </div>
-
-            </h:form>
+                </h:form>
+                
+            </ui:define>
+        </ui:composition>
            
     </h:body>
 </html>
