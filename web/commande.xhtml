@@ -15,7 +15,7 @@
  
             <ui:define name="center">
                 Hello from commande <h:outputText value="#{commandeControl.commande.id}"/>
-            <ui:repeat var="box" value="#{commandeControl.boxAchetes}">
+                <c:forEach var="box" items="#{commandeControl.boxAchetes}">
                 <table>
                     <tr>
                         <td>
@@ -24,12 +24,14 @@
                             d=<h:outputText value="#{box.produitCollection[0].dateDebutProd}"/>
                         </td>
                         <td>
-                            <svg>
+                            <svg width="#{box.idTypeBox.lbox}"
+                                 height="#{box.idTypeBox.hbox}">
                                 <rect style="fill:lightgreen;stroke:black;stroke-width:1;" 
                                       width="#{box.idTypeBox.lbox}" 
                                       height="#{box.idTypeBox.hbox}"/>                  
                                 <ui:repeat var="produit" value="#{commandeControl.getProduitsAchetes(box)}">
-                                    <rect style="fill:blue;stroke:black;stroke-width:1;" 
+                                    <rect style="fill:blue;stroke:black;stroke-width:1;"
+                                          y="#{box.idTypeBox.hbox - produit.idProduitCommande.idTypeProduit.hauteur}"
                                           width="#{produit.idProduitCommande.idTypeProduit.longueur}" 
                                           height="#{produit.idProduitCommande.idTypeProduit.hauteur}"/>
                                 </ui:repeat>
@@ -39,7 +41,7 @@
                 </table>
                 <br/>
                 <br/>
-            </ui:repeat>
+                </c:forEach>
             </ui:define>
         </ui:composition>
     </h:body>
