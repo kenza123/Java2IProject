@@ -54,5 +54,25 @@ ul li {
 }
 
 h2.page-title{
-    margin-bottom: 100px;
+    margin: 50px;
+}
+
+.download-button {
+    margin: 50px;
+}
+
+.table-stats-header{
+    background: white;
+}
+
+.table-stats-odd-row {
+    background: whitesmoke;
+}
+
+.table-stats-even-row {
+    background: white;
+}
+
+.objectif-calcule {
+    text-align: right;
 }

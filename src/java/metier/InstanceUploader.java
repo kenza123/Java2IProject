@@ -113,9 +113,9 @@ public class InstanceUploader {
         typeProduit.setHauteur(Integer.decode(typeProduitTab[3]));
         typeProduit.setLongueur(Integer.decode(typeProduitTab[4]));
         typeProduit.setNbempilemax(Integer.decode(typeProduitTab[5]));
-        
-        typeProduitDao.create(typeProduit);
         typesProduitValues.add(typeProduitTab[0]);
+        typeProduit.setColor(this.getColor(typesProduitValues.size()));
+        typeProduitDao.create(typeProduit);
         
     }
      
@@ -186,5 +186,18 @@ public class InstanceUploader {
             }
         }
         return line;
+    }
+    
+    public String getColor(int position) {
+        String[] colors = 
+        {   
+            "#ED5565"  ,  "#DA4453"  ,  "#FC6E51"  ,  "#E9573F"  ,  
+            "#FFCE54"  ,  "#F6BB42"  ,  "#4FC1E9"  ,  "#3BAFDA"  ,  
+            "#5D9CEC"  ,  "#4A89DC"  ,  "#AC92EC"  ,  "#967ADC"  ,  
+            "#EC87C0"  ,  "#D770AD"  ,  "#F5F7FA"  ,  "#E6E9ED"  ,  
+            "#CCD1D9"  ,  "#AAB2BD"  ,  "#656D78"  ,  "#434A54"  
+        };
+        boolean inBounds = (position >= 0) && (position < colors.length);
+        return (inBounds) ? colors[position] : colors[0];
     }
 }
