@@ -13,13 +13,21 @@
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
-                <center><h2 class="page-title">Statistiques sur la solution de l'instance <h:outputLabel value="#{uploadControl.nom}" /></h2></center>
+                <center>
+                    <h2 class="page-title">Statistiques sur la solution de l'instance <h:outputLabel value="#{uploadControl.nom}" /></h2>
+                    <h:form class="download-button">
+                        <h:commandButton 
+                            class="btn btn-info" 
+                            value="Telecharger le fichier de solution" 
+                            action="#{uploadControl.downloadFile()}" />
+                    </h:form>
+                </center>
                 <div class="tables-content">
-                    <p> Objectif calculé : <h:outputLabel value="#{statsControl.sumCout}" /></p>
+                    <p class="objectif-calcule"> Objectif calculé : <b><h:outputLabel value="#{statsControl.sumCout}" /></b></p>
                     <h:dataTable value="#{statsControl.boxes}" var="b"
-    			styleClass="table"
-    			headerClass=""
-    			rowClasses="order-table-odd-row,order-table-even-row">
+                            styleClass="table"
+                            headerClass="table-stats-header"
+                            rowClasses="table-stats-odd-row,table-stats-even-row">
                             <h:column>
                                     <!-- column header -->
                                     <f:facet name="header">Type de Box</f:facet>
@@ -46,8 +54,8 @@
 
                     <h:dataTable value="#{statsControl.commandes}" var="c"
                             styleClass="table"
-                            headerClass=""
-                            rowClasses="order-table-odd-row,order-table-even-row">
+                            headerClass="table-stats-header"
+                            rowClasses="table-stats-odd-row,table-stats-even-row">
                             <h:column>
                                     <!-- column header -->
                                     <f:facet name="header">
