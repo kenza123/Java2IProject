@@ -37,6 +37,10 @@ public class TemplateControl implements Serializable {
         return jdc.findAll();
     }
     
+    public String goToUpload(){
+        return "index";
+    }
+    
     public String goToStats(){
         return "stats";
     }

@@ -14,7 +14,10 @@
  
             <ui:define name="center">
                 <center>
-                    <h2 class="page-title">Statistiques sur la solution de l'instance <h:outputLabel value="#{uploadControl.nom}" /></h2>
+                    <h2 class="page-title">
+                        Statistiques sur la solution de l'instance 
+                        <h:outputLabel value="#{uploadControl.file.getSubmittedFileName().replaceAll('.txt', '')}" />
+                    </h2>
                     <h:form class="download-button">
                         <h:commandButton 
                             class="btn btn-info" 

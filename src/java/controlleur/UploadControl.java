@@ -34,7 +34,6 @@ public class UploadControl implements Serializable {
      */
     
     private Part file;
-    private String nom;
     private SolutionGenerator solutionGenerator;
 
     public Part getFile() {
@@ -43,14 +42,6 @@ public class UploadControl implements Serializable {
 
     public void setFile(Part file) {
         this.file = file;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
     }
 
     public SolutionGenerator getSolutionGenerator() {
