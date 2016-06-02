@@ -35,6 +35,7 @@ public class UploadControl implements Serializable {
     
     private Part file;
     private String nom;
+    private SolutionGenerator solutionGenerator;
 
     public Part getFile() {
         return file;
@@ -51,6 +52,16 @@ public class UploadControl implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    public SolutionGenerator getSolutionGenerator() {
+        return solutionGenerator;
+    }
+
+    public void setSolutionGenerator(SolutionGenerator solutionGenerator) {
+        this.solutionGenerator = solutionGenerator;
+    }
+    
+    
     
     public UploadControl() {
 
@@ -63,14 +74,14 @@ public class UploadControl implements Serializable {
         //trivialSolution.execute();
         OptimisedSolution optimisedSolution = new OptimisedSolution();
         optimisedSolution.execute();
-        SolutionGenerator solutionGenerator = new SolutionGenerator();
-        solutionGenerator.setFileName(file.getSubmittedFileName());
-        solutionGenerator.generateSolutionFile();
-        //downloadFile(solutionGenerator);
+        this.solutionGenerator = new SolutionGenerator();
+        this.solutionGenerator.setFileName(file.getSubmittedFileName());
+        this.solutionGenerator.generateSolutionFile();
         return "stats";
     }
     
-    public void downloadFile (SolutionGenerator solutionGenerator) {
+    public void downloadFile () {
+        System.out.println("ok");
         File file = solutionGenerator.getFile();
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();  
 
@@ -87,15 +98,19 @@ public class UploadControl implements Serializable {
                 out.flush();  
             }  
             FacesContext.getCurrentInstance().getResponseComplete();  
+            System.out.println("ok2");
         } catch (IOException err) {  
             err.printStackTrace();  
+            System.out.println("nok" + err.toString());
         } finally {  
             try {  
                 if (out != null) {  
                     out.close();  
+                    System.out.println("ok3");
                 }  
             } catch (IOException err) {  
-                err.printStackTrace();  
+                err.printStackTrace();
+                System.out.println("nok2" + err.toString());  
             }  
         }  
     }
