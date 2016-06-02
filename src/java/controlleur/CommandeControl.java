@@ -8,7 +8,11 @@ package controlleur;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import model.BoxAchete;
 import model.Commande;
+import model.Produit;
 
 /**
  *
@@ -22,6 +26,7 @@ public class CommandeControl implements Serializable {
      * Creates a new instance of NewJSFManagedBean
      */
     private Commande commande;
+    private List<BoxAchete> boxAchetes;
 
     public Commande getCommande() {
         return commande;
@@ -33,9 +38,27 @@ public class CommandeControl implements Serializable {
     
     public CommandeControl() {
     }
+
+    public List<BoxAchete> getBoxAchetes() {
+        return boxAchetes;
+    }
+
+    public void setBoxAchetes(List<BoxAchete> boxAchetes) {
+        this.boxAchetes = boxAchetes;
+    }
+    
+    public List<Produit> getProduitsAchetes(BoxAchete boxAchete) {
+        List<Produit> produits = new ArrayList<>();
+        produits.addAll(boxAchete.getProduitCollection());
+        return produits;
+    }
+    
+    
     
     public String showPage(Commande commande) {
         this.commande = commande;
+        this.boxAchetes = new ArrayList<>();
+        this.boxAchetes.addAll(commande.getBoxAcheteCollection());
         return "commande";
     }
     
