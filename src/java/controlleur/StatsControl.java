@@ -32,6 +32,7 @@ public class StatsControl implements Serializable {
     private Collection<Commande> commandes;
     private Collection<TypeBoxDto> boxes;
     private String tri;
+    private double sumCout;
 
     public String getTri() {
         return tri;
@@ -40,8 +41,6 @@ public class StatsControl implements Serializable {
     public void setTri(String tri) {
         this.tri = tri;
     }
-    
-    
 
     /**
      * Creates a new instance of statsControl
@@ -105,6 +104,19 @@ public class StatsControl implements Serializable {
             boxes.add(b);
         }
         return boxes;
+    }
+    
+    public double getSumCout() {
+        sumCout = 0;
+        getBoxes();
+        for(TypeBoxDto box : boxes){
+            sumCout += box.getCout();
+        }
+        getCommandes();
+        for(Commande cm : commandes){
+            sumCout += cm.getCout();
+        }
+        return sumCout;
     }
     
     
