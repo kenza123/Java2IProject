@@ -50,6 +50,7 @@ CREATE TABLE type_produit (
     id   VARCHAR(55) PRIMARY KEY,
     t_setup INTEGER,
     t_production INTEGER,
+    color VARCHAR(45),
     hauteur INTEGER,
     longueur INTEGER,
     nbEmpileMax INTEGER

@@ -25,11 +25,11 @@
                         </td>
                         <td>
                             <svg>
-                                <rect style="fill:lightgreen;stroke:black;stroke-width:1;" 
+                                <rect style="fill:#A0D468;stroke:black;stroke-width:1;" 
                                       width="#{box.idTypeBox.lbox}" 
                                       height="#{box.idTypeBox.hbox}"/>                  
                                 <ui:repeat var="produit" value="#{commandeControl.getProduitsAchetes(box)}">
-                                    <rect style="fill:blue;stroke:black;stroke-width:1;" 
+                                    <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;" 
                                           width="#{produit.idProduitCommande.idTypeProduit.longueur}" 
                                           height="#{produit.idProduitCommande.idTypeProduit.hauteur}"/>
                                 </ui:repeat>
