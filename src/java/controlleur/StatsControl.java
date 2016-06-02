@@ -27,7 +27,8 @@ import java.util.ArrayList;
 @Dependent
 public class StatsControl {
     private Collection<Commande> commandes;
-    private Collection<Box> boxes = new ArrayList<Box>();
+    private Collection<Box> boxes;
+    private double sumCout;
 
     /**
      * Creates a new instance of statsControl
@@ -44,6 +45,7 @@ public class StatsControl {
     }
 
     public Collection<Box> getBoxes() {
+        boxes = new ArrayList<Box>();
         JpaDaoFactory jdf = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         JpaDaoTypeBox jdtb = jdf.getTypeBoxDao();
         JpaDaoBoxAchete jdba = jdf.getBoxAcheteDao();
@@ -57,6 +59,19 @@ public class StatsControl {
             boxes.add(b);
         }
         return boxes;
+    }
+    
+    public double getSumCout() {
+        sumCout = 0;
+        getBoxes();
+        for(Box box : boxes){
+            sumCout += box.getCout();
+        }
+        getCommandes();
+        for(Commande cm : commandes){
+            sumCout += cm.getCout();
+        }
+        return sumCout;
     }
     
     

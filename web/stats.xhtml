@@ -13,8 +13,9 @@
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
-                <center><h2 class="page-title">Statistiques sur la solution de <h:outputLabel value="#{uploadControl.nom}" /></h2></center>
+                <center><h2 class="page-title">Statistiques sur la solution de l'instance <h:outputLabel value="#{uploadControl.nom}" /></h2></center>
                 <div class="tables-content">
+                    <p> Objectif calculé : <h:outputLabel value="#{statsControl.sumCout}" /></p>
                     <h:dataTable value="#{statsControl.boxes}" var="b"
     			styleClass="table"
     			headerClass=""
