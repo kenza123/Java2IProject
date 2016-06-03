@@ -64,6 +64,7 @@ public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
         return (produits.isEmpty()) ? null : produits.get(0);
    }
     
+   @Override
    public List<Produit> findByIdLineProduct(LigneProduction line){
        return em.createNamedQuery("Produit.findByIdLineProduct").setParameter("line", line).getResultList();
    }
