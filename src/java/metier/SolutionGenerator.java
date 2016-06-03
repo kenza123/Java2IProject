@@ -22,11 +22,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.ProduitCommande;
 
 /**
  *
@@ -136,9 +134,9 @@ public class SolutionGenerator {
                     + "\t"
                     + produit.getDateDebutProd()
                     + "\t"
-                    + produit.getIdBox().getIdTypeBox().getId()
+                    + produit.getIdPile().getIdBoxAchete().getIdTypeBox().getId()
                     + "\t"
-                    + produit.getIdBox().getNumBox();
+                    + produit.getIdPile().getIdBoxAchete().getNumBox();
             
             lines.add(line);
             });

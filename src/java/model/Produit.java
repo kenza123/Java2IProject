@@ -43,15 +43,15 @@ public class Produit implements Serializable {
     private Integer id;
     @Column(name = "DATE_DEBUT_PROD")
     private Integer dateDebutProd;
-    @JoinColumn(name = "ID_BOX", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private BoxAchete idBox;
     @JoinColumn(name = "NBLIGNES", referencedColumnName = "ID")
     @ManyToOne
     private LigneProduction nblignes;
     @JoinColumn(name = "ID_PRODUIT_COMMANDE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProduitCommande idProduitCommande;
+    @JoinColumn(name = "ID_PILE", referencedColumnName = "ID")
+    @ManyToOne
+    private Pile idPile;
 
     public Produit() {
     }
@@ -74,14 +74,6 @@ public class Produit implements Serializable {
 
     public void setDateDebutProd(Integer dateDebutProd) {
         this.dateDebutProd = dateDebutProd;
-    }
-
-    public BoxAchete getIdBox() {
-        return idBox;
-    }
-
-    public void setIdBox(BoxAchete idBox) {
-        this.idBox = idBox;
     }
 
     public LigneProduction getNblignes() {
@@ -123,6 +115,14 @@ public class Produit implements Serializable {
     @Override
     public String toString() {
         return "Produit{" + "id=" + id + ", dateDebutProd=" + dateDebutProd + '}';
+    }
+
+    public Pile getIdPile() {
+        return idPile;
+    }
+
+    public void setIdPile(Pile idPile) {
+        this.idPile = idPile;
     }
 
     

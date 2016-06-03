@@ -6,10 +6,12 @@
 package metier;
 
 import dao.BoxAcheteDao;
+import dao.CommandeBoxDao;
 import dao.CommandeDao;
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
 import dao.LigneProductionDao;
+import dao.PileDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
@@ -22,7 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.BoxAchete;
 import model.Commande;
+import model.CommandeBox;
 import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 import model.ProduitCommande;
 import model.TypeBox;
@@ -43,7 +47,9 @@ public class OptimisedSolution {
     private final ProduitCommandeDao produitCommandeDao;
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
+    private final PileDao pileDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
+    private final CommandeBoxDao commandeBoxDao;
     private double eval;
     int ite = 0;
     
@@ -58,6 +64,8 @@ public class OptimisedSolution {
         produitDao = jpaDaoFactory.getProduitDao();
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
+        pileDao = jpaDaoFactory.getPileDao();
+        commandeBoxDao = jpaDaoFactory.getCommandeBoxDao();
     }
 
     public void execute() {
@@ -135,6 +143,7 @@ public class OptimisedSolution {
         if (dateActuelleBox < commande.getDenvoiprevue()) {
             dateActuelleBox = commande.getDenvoiprevue();
         }
+        libererBoxes(commande);
         commande.setDenvoireel(dateActuelleBox);
         commandeDao.update(commande);
     }
@@ -145,11 +154,9 @@ public class OptimisedSolution {
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
         
         if (typeProduit != null) {
-            //System.out.println(typeProduit.toString());
-            //System.out.println("befor set up time " + ligneProductions.get(ligneProduction.getId()));
-            dateActuelleProduction = ligneProductions.get(ligneProduction.getId()) 
-                    + typeProduit.getTSetup();
-            //System.out.println("after set up time " + dateActuelleProduction);
+            dateActuelleProduction = ligneProductions.get(ligneProduction.getId()) ;
+            if(ligneProductionNeedsSetUp(ligneProduction, typeProduit))
+                dateActuelleProduction += typeProduit.getTSetup();
             for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);
                 
@@ -183,23 +190,29 @@ public class OptimisedSolution {
     }
 
     private void stockerProduit(Produit produit) {
+        Commande commande= produit.getIdProduitCommande().getIdCommande();
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
-
-        boxAchete.getProduitCollection().add(produit);
-        boxAchete.setIdCommande(produit.getIdProduitCommande().getIdCommande());
+        Pile pile = empiler(produit, boxAchete);
+        CommandeBox commandeBox = relierBoxCommande(commande, boxAchete);
+        
+        boxAchete.getPileCollection().add(pile);
+        boxAchete.getCommandeBoxCollection().add(commandeBox);
         boxAcheteDao.update(boxAchete);
 
         typeBox.getBoxAcheteCollection().add(boxAchete);
         typeBoxDao.update(typeBox);
 
-        produit.setIdBox(boxAchete);
-        produit.getIdProduitCommande().getIdCommande().getBoxAcheteCollection().add(boxAchete);
+        produit.setIdPile(pile);
         produitDao.update(produit);
+        
+        commande.getCommandeBoxCollection().add(commandeBox);
+        commandeDao.update(commande);
     }
     
     private TypeBox trouverTypeBox(Produit produit) {
-        if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null){
+        if (produit.getIdProduitCommande() != null 
+                && produit.getIdProduitCommande().getIdTypeProduit() != null){
             TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
             return typeBoxDao.findFirstByDimensions(typeProduit.getLongueur(), typeProduit.getHauteur());
         } 
@@ -214,6 +227,32 @@ public class OptimisedSolution {
         return boxAchete;
     }
 
+    private Pile empiler(Produit produit, BoxAchete boxAchete) {
+        TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
+        Pile pile = new Pile();
+        pile.getProduitCollection().add(produit);
+        pile.setLargeurPile(typeProduit.getHauteur());
+        pile.setLongueurPile(typeProduit.getLongueur());
+        pile.setIdBoxAchete(boxAchete);
+        pileDao.create(pile);
+        return pile;
+    }
+
+    private CommandeBox relierBoxCommande(Commande commande, BoxAchete boxAchete){
+        CommandeBox commandeBox = new CommandeBox();
+        commandeBox.setIdBoxAchete(boxAchete);
+        commandeBox.setIdCommande(commande);
+        return commandeBox;
+    }
+            
+    private void libererBoxes(Commande commande) {
+        commande.getCommandeBoxCollection().stream().forEach((commandeBox) -> {
+            BoxAchete boxAchete = commandeBox.getIdBoxAchete();
+            boxAchete.setLibre(0);
+            boxAcheteDao.update(boxAchete);
+        });
+    }
+    
     public void eval(){
         eval = 0;
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
@@ -227,5 +266,15 @@ public class OptimisedSolution {
                     * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
         });
         System.out.println("magic eval " + eval);
+    }
+
+    private boolean ligneProductionNeedsSetUp(LigneProduction ligneProduction, TypeProduit typeProduit) {
+        Produit produit = produitDao.findLastProductInLine(ligneProduction);
+        if(produit != null){
+            TypeProduit oldTypeProduit = produit.getIdProduitCommande().getIdTypeProduit();
+            if(oldTypeProduit.getId().equals(typeProduit.getId()))
+                return false;
+        }
+        return true;
     }
 }

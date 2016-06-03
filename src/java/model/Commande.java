@@ -60,11 +60,11 @@ public class Commande implements Serializable, Cloneable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCommande")
     private Collection<ProduitCommande> produitCommandeCollection;
     @OneToMany(mappedBy = "idCommande")
-    private Collection<BoxAchete> boxAcheteCollection;
+    private Collection<CommandeBox> commandeBoxCollection;
 
     public Commande() {
         produitCommandeCollection = new ArrayList();
-        boxAcheteCollection = new ArrayList();
+        commandeBoxCollection = new ArrayList();
     }
 
     public Commande(String id) {
@@ -161,18 +161,18 @@ public class Commande implements Serializable, Cloneable {
                 ", penalite=" + penalite + '}';
     }
 
-    @XmlTransient
-    public Collection<BoxAchete> getBoxAcheteCollection() {
-        return boxAcheteCollection;
-    }
-
-    public void setBoxAcheteCollection(Collection<BoxAchete> boxAcheteCollection) {
-        this.boxAcheteCollection = boxAcheteCollection;
-    }
-
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @XmlTransient
+    public Collection<CommandeBox> getCommandeBoxCollection() {
+        return commandeBoxCollection;
+    }
+
+    public void setCommandeBoxCollection(Collection<CommandeBox> commandeBoxCollection) {
+        this.commandeBoxCollection = commandeBoxCollection;
     }
     
     

@@ -1,5 +1,5 @@
 /*
-DB Parameters : 
+DB Parameters :
     DB_Name : Java_2I_Project
     Username : Java_2I_Project
     Password : Java_2I_Project
@@ -23,26 +23,29 @@ ALTER TABLE type_box DROP CONSTRAINT B_Lbox_Sup0;
 ALTER TABLE type_box DROP CONSTRAINT B_Hbox_Sup0;
 ALTER TABLE type_box DROP CONSTRAINT B_Prix_Sup0;
 
-ALTER TABLE box_achete DROP CONSTRAINT BA_FK_Commande;
 ALTER TABLE box_achete DROP CONSTRAINT BA_FK_Type_box;
+ALTER TABLE box_achete DROP CONSTRAINT P_libre_boolean;
+
+ALTER TABLE produit DROP CONSTRAINT P_FK_P_C;
+ALTER TABLE produit DROP CONSTRAINT P_FK_pile;
+ALTER TABLE produit DROP CONSTRAINT P_FK_LP;
 
 ALTER TABLE pile DROP CONSTRAINT P_LongPile;
 ALTER TABLE pile DROP CONSTRAINT P_LargPile;
 ALTER TABLE pile DROP CONSTRAINT P_FK_BoxA;
-ALTER TABLE pile DROP CONSTRAINT P_FK_Prod;
 
-ALTER TABLE produit DROP CONSTRAINT P_FK_P_C;
-ALTER TABLE produit DROP CONSTRAINT P_FK_box;
-ALTER TABLE produit DROP CONSTRAINT P_FK_LP;
+ALTER TABLE commande_box DROP CONSTRAINT CB_FK_commande;
+ALTER TABLE commande_box DROP CONSTRAINT CB_FK_box_achete;
 
 DROP TABLE type_produit;
 DROP TABLE commande;
 DROP TABLE produit_commande;
 DROP TABLE type_box;
 DROP TABLE box_achete;
-DROP TABLE pile;
 DROP TABLE ligne_production;
 DROP TABLE produit;
+DROP TABLE pile;
+DROP TABLE commande_box;
 
 
 
@@ -82,23 +85,28 @@ CREATE TABLE box_achete (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_type_box VARCHAR(55) NOT NULL,
     num_box INTEGER NOT NULL,
-    id_commande VARCHAR(55)
+    libre INTEGER
 );
 
-CREATE TABLE produit (
+CREATE TABLE commande_box (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_produit_commande INTEGER NOT NULL,
-    id_box INTEGER,
-    date_debut_prod INTEGER,
-    nbLignes INTEGER
+    id_commande VARCHAR(55),
+    id_box_achete INTEGER
 );
 
 CREATE TABLE pile (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_box_achete INTEGER,
     longueur_pile INTEGER,
-    largeur_pile INTEGER,
-    id_produit INTEGER
+    largeur_pile INTEGER
+);
+
+CREATE TABLE produit (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_produit_commande INTEGER NOT NULL,
+    id_pile INTEGER,
+    date_debut_prod INTEGER,
+    nbLignes INTEGER
 );
 
 CREATE TABLE ligne_production (
@@ -127,13 +135,15 @@ ALTER TABLE produit_commande ADD CONSTRAINT PC_FK_Commande FOREIGN KEY(id_comman
 ALTER TABLE produit_commande ADD CONSTRAINT PC_FK_Produit FOREIGN KEY(id_type_produit) REFERENCES type_produit(id);
 
 ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Type_box FOREIGN KEY(id_type_box) REFERENCES type_box(id);
-ALTER TABLE box_achete ADD CONSTRAINT BA_FK_Commande FOREIGN KEY(id_commande) REFERENCES commande(id);
-
-ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
-ALTER TABLE produit ADD CONSTRAINT P_FK_box FOREIGN KEY(id_box) REFERENCES box_achete(id);
-ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(nbLignes) REFERENCES ligne_production(id);
+ALTER TABLE box_achete ADD CONSTRAINT P_libre_boolean CHECK (libre = 0 OR libre = 1);
 
 ALTER TABLE pile ADD CONSTRAINT P_FK_BoxA FOREIGN KEY(id_box_achete) REFERENCES box_achete(id);
-ALTER TABLE pile ADD CONSTRAINT P_FK_Prod FOREIGN KEY(id_produit) REFERENCES produit(id);
 ALTER TABLE pile ADD CONSTRAINT P_LargPile CHECK (largeur_pile >= 0);
 ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
+
+ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
+ALTER TABLE produit ADD CONSTRAINT P_FK_pile FOREIGN KEY(id_pile) REFERENCES pile(id);
+ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(nbLignes) REFERENCES ligne_production(id);
+
+ALTER TABLE commande_box ADD CONSTRAINT CB_FK_commande FOREIGN KEY(id_commande) REFERENCES commande(id);
+ALTER TABLE commande_box ADD CONSTRAINT CB_FK_box_achete FOREIGN KEY(id_box_achete) REFERENCES box_achete(id);
