@@ -6,8 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,25 +16,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author aBennouna
+ * @author ghitakhamaily
  */
 @Entity
-@Table(name = "PILE")
+@Table(name = "COMMANDE_BOX")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pile.deleteAll", query = "DELETE FROM Pile p"),
-    @NamedQuery(name = "Pile.findAll", query = "SELECT p FROM Pile p"),
-    @NamedQuery(name = "Pile.findById", query = "SELECT p FROM Pile p WHERE p.id = :id"),
-    @NamedQuery(name = "Pile.findByLongueurPile", query = "SELECT p FROM Pile p WHERE p.longueurPile = :longueurPile"),
-    @NamedQuery(name = "Pile.findByLargeurPile", query = "SELECT p FROM Pile p WHERE p.largeurPile = :largeurPile")})
-public class Pile implements Serializable {
+    @NamedQuery(name = "CommandeBox.deleteAll", query = "DELETE FROM CommandeBox c"),
+    @NamedQuery(name = "CommandeBox.findAll", query = "SELECT c FROM CommandeBox c"),
+    @NamedQuery(name = "CommandeBox.findById", query = "SELECT c FROM CommandeBox c WHERE c.id = :id")})
+public class CommandeBox implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,23 +38,18 @@ public class Pile implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "LONGUEUR_PILE")
-    private Integer longueurPile;
-    @Column(name = "LARGEUR_PILE")
-    private Integer largeurPile;
     @JoinColumn(name = "ID_BOX_ACHETE", referencedColumnName = "ID")
     @ManyToOne
     private BoxAchete idBoxAchete;
-    @OneToMany(mappedBy = "idPile")
-    private Collection<Produit> produitCollection;
+    @JoinColumn(name = "ID_COMMANDE", referencedColumnName = "ID")
+    @ManyToOne
+    private Commande idCommande;
 
-    public Pile() {
-        produitCollection = new ArrayList();
+    public CommandeBox() {
     }
 
-    public Pile(Integer id) {
+    public CommandeBox(Integer id) {
         this.id = id;
-        produitCollection = new ArrayList();
     }
 
     public Integer getId() {
@@ -71,28 +60,20 @@ public class Pile implements Serializable {
         this.id = id;
     }
 
-    public Integer getLongueurPile() {
-        return longueurPile;
-    }
-
-    public void setLongueurPile(Integer longueurPile) {
-        this.longueurPile = longueurPile;
-    }
-
-    public Integer getLargeurPile() {
-        return largeurPile;
-    }
-
-    public void setLargeurPile(Integer largeurPile) {
-        this.largeurPile = largeurPile;
-    }
-
     public BoxAchete getIdBoxAchete() {
         return idBoxAchete;
     }
 
     public void setIdBoxAchete(BoxAchete idBoxAchete) {
         this.idBoxAchete = idBoxAchete;
+    }
+
+    public Commande getIdCommande() {
+        return idCommande;
+    }
+
+    public void setIdCommande(Commande idCommande) {
+        this.idCommande = idCommande;
     }
 
     @Override
@@ -105,10 +86,10 @@ public class Pile implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pile)) {
+        if (!(object instanceof CommandeBox)) {
             return false;
         }
-        Pile other = (Pile) object;
+        CommandeBox other = (CommandeBox) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,16 +98,7 @@ public class Pile implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Pile[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Produit> getProduitCollection() {
-        return produitCollection;
-    }
-
-    public void setProduitCollection(Collection<Produit> produitCollection) {
-        this.produitCollection = produitCollection;
+        return "model.CommandeBox[ id=" + id + " ]";
     }
     
 }

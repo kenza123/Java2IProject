@@ -48,8 +48,10 @@ public class CommandeControl implements Serializable {
     }
     
     public List<Produit> getProduitsAchetes(BoxAchete boxAchete) {
-        List<Produit> produits = new ArrayList<>();
-        produits.addAll(boxAchete.getProduitCollection());
+        List<Produit> produits = new ArrayList();
+        boxAchete.getPileCollection().stream().forEach((pile) -> {
+        produits.addAll(pile.getProduitCollection());
+        });
         return produits;
     }
     
@@ -58,7 +60,9 @@ public class CommandeControl implements Serializable {
     public String showPage(Commande commande) {
         this.commande = commande;
         this.boxAchetes = new ArrayList<>();
-        this.boxAchetes.addAll(commande.getBoxAcheteCollection());
+        commande.getCommandeBoxCollection().stream().forEach((commandeBox)->{
+            this.boxAchetes.add(commandeBox.getIdBoxAchete());
+        });
         return "commande";
     }
     

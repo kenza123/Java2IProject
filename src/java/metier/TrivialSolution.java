@@ -6,19 +6,22 @@
 package metier;
 
 import dao.BoxAcheteDao;
+import dao.CommandeBoxDao;
 import dao.CommandeDao;
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
 import dao.LigneProductionDao;
+import dao.PileDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
 import static java.lang.Math.abs;
-import java.util.ArrayList;
 import java.util.Collection;
 import model.BoxAchete;
 import model.Commande;
+import model.CommandeBox;
 import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 import model.ProduitCommande;
 import model.TypeBox;
@@ -39,6 +42,8 @@ public class TrivialSolution {
     private final ProduitCommandeDao produitCommandeDao;
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
+    private final PileDao pileDao;
+    private final CommandeBoxDao commandeBoxDao;
     private double eval;
 
     public TrivialSolution() {
@@ -52,6 +57,8 @@ public class TrivialSolution {
         produitDao = jpaDaoFactory.getProduitDao();
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
+        pileDao = jpaDaoFactory.getPileDao();
+        commandeBoxDao = jpaDaoFactory.getCommandeBoxDao();
     }
 
     public void execute() {
@@ -64,7 +71,7 @@ public class TrivialSolution {
             if (dateActuelleBox < commande.getDenvoiprevue()) {
                 dateActuelleBox = commande.getDenvoiprevue();
             }
-            //libererBoxes(commande);
+            libererBoxes(commande);
             commande.setDenvoireel(dateActuelleBox);
             commandeDao.update(commande);
         });
@@ -75,6 +82,7 @@ public class TrivialSolution {
         LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
         if (typeProduit != null) {
+            //verif if necesite setup time
             dateActuelleProduction += typeProduit.getTSetup();
             for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);
@@ -88,7 +96,7 @@ public class TrivialSolution {
                 dateActuelleProduction += typeProduit.getTProduction();
 
                 dateActuelleBox = dateActuelleProduction;
-                StockerProduit(produit);
+                stockerProduit(produit);
             }
         }
     }
@@ -106,40 +114,25 @@ public class TrivialSolution {
         return ligneProductionDao.findAll().iterator().next();
     }
 
-    private void StockerProduit(Produit produit) {
+    private void stockerProduit(Produit produit) {
+        Commande commande= produit.getIdProduitCommande().getIdCommande();
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
-
-        boxAchete.getProduitCollection().add(produit);
-        boxAchete.setIdCommande(produit.getIdProduitCommande().getIdCommande());
+        Pile pile = empiler(produit, boxAchete);
+        CommandeBox commandeBox = relierBoxCommande(commande, boxAchete);
+        
+        boxAchete.getPileCollection().add(pile);
+        boxAchete.getCommandeBoxCollection().add(commandeBox);
         boxAcheteDao.update(boxAchete);
 
         typeBox.getBoxAcheteCollection().add(boxAchete);
         typeBoxDao.update(typeBox);
-
-        produit.setIdBox(boxAchete);
-        produit.getIdProduitCommande().getIdCommande().getBoxAcheteCollection().add(boxAchete);
+            
+        produit.setIdPile(pile);
         produitDao.update(produit);
-    }
-
-    private void stockerProduitCommande(ProduitCommande produitCommande) {
-        produitCommande.getProduitCollection().stream().forEach((produit) -> {
-            TypeBox typeBox = trouverTypeBox(produit);
-            BoxAchete boxAchete = acheterBox(typeBox);
-
-            boxAchete.getProduitCollection().add(produit);
-            boxAchete.setIdCommande(produitCommande.getIdCommande());
-            boxAcheteDao.update(boxAchete);
-
-            typeBox.getBoxAcheteCollection().add(boxAchete);
-            typeBoxDao.update(typeBox);
-
-            produit.setIdBox(boxAchete);
-            produitDao.update(produit);
-
-            produitCommande.getIdCommande().getBoxAcheteCollection().add(boxAchete);
-            produitCommandeDao.update(produitCommande);
-        });
+        
+        commande.getCommandeBoxCollection().add(commandeBox);
+        commandeDao.update(commande);
     }
 
     private TypeBox trouverTypeBox(Produit produit) {
@@ -154,22 +147,35 @@ public class TrivialSolution {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setIdTypeBox(typeBox);
         boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox) + 1);
+        boxAchete.setLibre(1);
         boxAcheteDao.create(boxAchete);
         return boxAchete;
     }
 
+    private Pile empiler(Produit produit, BoxAchete boxAchete) {
+        TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
+        Pile pile = new Pile();
+        pile.getProduitCollection().add(produit);
+        pile.setLargeurPile(typeProduit.getHauteur());
+        pile.setLongueurPile(typeProduit.getLongueur());
+        pile.setIdBoxAchete(boxAchete);
+        pileDao.create(pile);
+        return pile;
+    }
+
+    private CommandeBox relierBoxCommande(Commande commande, BoxAchete boxAchete){
+        CommandeBox commandeBox = new CommandeBox();
+        commandeBox.setIdBoxAchete(boxAchete);
+        commandeBox.setIdCommande(commande);
+        return commandeBox;
+    }
+            
     private void libererBoxes(Commande commande) {
-        commande.getBoxAcheteCollection().stream().forEach((boxAchete) -> {
-            boxAchete.setIdCommande(null);
-            boxAchete.getProduitCollection().stream().forEach((produit) -> {
-                produit.setIdBox(null);
-                produitDao.update(produit);
-            });
-            boxAchete.setProduitCollection(new ArrayList());
+        commande.getCommandeBoxCollection().stream().forEach((commandeBox) -> {
+            BoxAchete boxAchete = commandeBox.getIdBoxAchete();
+            boxAchete.setLibre(0);
             boxAcheteDao.update(boxAchete);
         });
-        commande.setBoxAcheteCollection(new ArrayList());
-        commandeDao.update(commande);
     }
     
     public void eval(){

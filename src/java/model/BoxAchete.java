@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,29 +50,35 @@ public class BoxAchete implements Serializable {
     @NotNull
     @Column(name = "NUM_BOX")
     private int numBox;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBox")
-    private Collection<Produit> produitCollection;
     @JoinColumn(name = "ID_TYPE_BOX", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private TypeBox idTypeBox;
     @OneToMany(mappedBy = "idBoxAchete")
     private Collection<Pile> pileCollection;
-    @JoinColumn(name = "ID_COMMANDE", referencedColumnName = "ID")
-    @ManyToOne
-    private Commande idCommande;
+    @Column(name = "LIBRE")
+    private Integer libre;
+    @OneToMany(mappedBy = "idBoxAchete")
+    private Collection<CommandeBox> commandeBoxCollection;
 
     public BoxAchete() {
         pileCollection = new ArrayList();
-        produitCollection = new ArrayList();
+        commandeBoxCollection = new ArrayList();
+        libre = 0;
     }
 
     public BoxAchete(Integer id) {
         this.id = id;
+        pileCollection = new ArrayList();
+        commandeBoxCollection = new ArrayList();
+        libre = 0;
     }
 
     public BoxAchete(Integer id, int numBox) {
         this.id = id;
         this.numBox = numBox;
+        pileCollection = new ArrayList();
+        commandeBoxCollection = new ArrayList();
+        libre = 0;
     }
 
     public Integer getId() {
@@ -90,15 +95,6 @@ public class BoxAchete implements Serializable {
 
     public void setNumBox(int numBox) {
         this.numBox = numBox;
-    }
-
-    @XmlTransient
-    public Collection<Produit> getProduitCollection() {
-        return produitCollection;
-    }
-
-    public void setProduitCollection(Collection<Produit> produitCollection) {
-        this.produitCollection = produitCollection;
     }
 
     public TypeBox getIdTypeBox() {
@@ -143,12 +139,21 @@ public class BoxAchete implements Serializable {
         return "BoxAchete{" + "id=" + id + ", numBox=" + numBox + '}';
     }
 
-    public Commande getIdCommande() {
-        return idCommande;
+    public Integer getLibre() {
+        return libre;
     }
 
-    public void setIdCommande(Commande idCommande) {
-        this.idCommande = idCommande;
+    public void setLibre(Integer libre) {
+        this.libre = libre;
+    }
+
+    @XmlTransient
+    public Collection<CommandeBox> getCommandeBoxCollection() {
+        return commandeBoxCollection;
+    }
+
+    public void setCommandeBoxCollection(Collection<CommandeBox> commandeBoxCollection) {
+        this.commandeBoxCollection = commandeBoxCollection;
     }
     
 }
