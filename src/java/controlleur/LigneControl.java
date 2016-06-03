@@ -50,13 +50,8 @@ public class LigneControl implements Serializable{
     public int getTaille(LigneProduction ligne) {
         JpaDaoFactory jdf = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         JpaDaoProduit jdp = jdf.getProduitDao();
-        List<Produit> produits = jdp.findByIdLineProduct(ligne);
-        Produit p = produits.get(produits.size()-1);
-        //if(p != null){
-            taille = p.getDateDebutProd() + p.getIdProduitCommande().getIdTypeProduit().getTProduction();        
-        /*} else {
-            taille = 0;
-        }*/
+        Produit p = jdp.findLastProductInLine(ligne);
+        taille = p.getDateDebutProd() + p.getIdProduitCommande().getIdTypeProduit().getTProduction();
         return taille;
     }
     
