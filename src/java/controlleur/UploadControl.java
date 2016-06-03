@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
 import metier.InstanceUploader;
 import metier.SolutionGenerator;
 import metier.OptimisedSolution;
+import metier.TrivialSolution;
 
 /**
  *

@@ -123,8 +123,8 @@ public class InstanceUploader {
         String [] typeBoxTab = line.split(" ");
         TypeBox typeBox = new TypeBox();
         typeBox.setId(typeBoxTab[0]);
-        typeBox.setLbox(Integer.decode(typeBoxTab[1]));
-        typeBox.setHbox(Integer.decode(typeBoxTab[2]));
+        typeBox.setHbox(Integer.decode(typeBoxTab[1]));
+        typeBox.setLbox(Integer.decode(typeBoxTab[2]));
         typeBox.setPrixbox(Double.valueOf(typeBoxTab[3]));
         
         typeBoxDao.create(typeBox);
