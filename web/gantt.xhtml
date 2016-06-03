@@ -21,23 +21,23 @@
                           text-align: center;">
                           <h2>Timeline Produits</h2></td>
                     </tr>
-                    <ui:repeat value="#{ligneControl.ligneList}" var="item">  
+                    <ui:repeat value="#{ligneControl.ligneList}" var="ligne">  
                         <tr>
                             <td>
                                 <h:form>
                                     <h:commandLink 
-                                        value="Ligne #{item.id}"/>
+                                        value="Ligne #{ligne.nblignes}"/>
                                 </h:form>
                             </td>
                             <td>
-                                <svg width="#{ligneControl.getTaille(item)}" height="25">
+                                <svg width="#{ligneControl.getTaille(ligne)}" height="25">
                                     <rect style="fill:black;stroke:black;stroke-width:1;"
-                                          width="#{ligneControl.getTaille(item)}"
+                                          width="#{ligneControl.getTaille(ligne)}"
                                           height="25"/>
-                                    <ui:repeat value="#{produitControl.getProduits(item)}" var="item">
-                                        <rect style="fill:#{item.idProduitCommande.idTypeProduit.color};"
-                                              x="#{item.dateDebutProd}"
-                                              width="#{item.idProduitCommande.idTypeProduit.TProduction}"
+                                    <ui:repeat value="#{produitControl.getProduits(ligne)}" var="produit">
+                                        <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;"
+                                              x="#{produit.dateDebutProd}"
+                                              width="#{produit.idProduitCommande.idTypeProduit.TProduction}"
                                               height="25"/>
                                     </ui:repeat>
                                 </svg>
