@@ -69,11 +69,11 @@ public class OptimisedSolution {
             produireCommande(commande);
             commandes.remove(commande);
         }
-        produitDao.findAll().stream().forEach((produit) -> {
+        /*produitDao.findAll().stream().forEach((produit) -> {
             System.out.println("produit " + produit .toString());
             System.out.println("ligne de prod" + produit.getNblignes().toString());
         });
-        eval();
+        eval();*/
     }
 
     public Commande findUrgentCommande(Collection<Commande> commandes) {
@@ -106,7 +106,7 @@ public class OptimisedSolution {
                     = Collections.min(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
             TypeProduit typeProduit = produitCommande.getIdTypeProduit();
             Integer time = typeProduit.getTSetup()
-                    + produitCommande.getNbUnites() * typeProduit.getTProduction();
+                    + (produitCommande.getNbUnites() * typeProduit.getTProduction());
             ligneProductions.put(ligneProductionId, ligneProductions.get(ligneProductionId) + time);
         });
         return Collections.max(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
@@ -145,8 +145,11 @@ public class OptimisedSolution {
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
         
         if (typeProduit != null) {
+            //System.out.println(typeProduit.toString());
+            //System.out.println("befor set up time " + ligneProductions.get(ligneProduction.getId()));
             dateActuelleProduction = ligneProductions.get(ligneProduction.getId()) 
                     + typeProduit.getTSetup();
+            //System.out.println("after set up time " + dateActuelleProduction);
             for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);
                 

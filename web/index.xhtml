@@ -12,32 +12,41 @@
     </h:head>
     <h:body>
         <ui:composition template="./template.xhtml">
- 
             <ui:define name="center">
-                <h:form class="form-horizontal" enctype="multipart/form-data">
+                <center>
+                    <h:form class="form-horizontal" enctype="multipart/form-data">
 
-                    <!-- File Button -->
-                    <div class="form-group">
-                        <h:outputLabel class="col-md-4 control-label" value="File : " />
-                        <div class="col-md-4">
-                            <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
+                        <!-- File Button -->
+                        <div class="form-group">
+                            <h:outputLabel class="col-md-4 control-label" value="File : " />
+                            <div class="col-md-4">
+                                <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Button -->
-                    <div class="form-group">
-                        <h:outputLabel class="col-md-4 control-label" value="" />
-                        <div class="col-md-4">
-                            <h:commandButton id="singlebutton" class="btn btn-primary" value="Upload" action="#{uploadControl.uploadFile}">
-                                <f:ajax execute="file" render="@all"/>
-                            </h:commandButton>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <h:outputLabel class="col-md-4 control-label" value="" />
+                            <div class="col-md-4">
+                                <h:commandButton id="singlebutton" class="btn btn-primary" 
+                                                 value="Upload" 
+                                                 action="#{uploadControl.uploadFile}" 
+                                                 onclick="document.getElementById('loadingImage').style.display='inline';">
+                                    <f:ajax execute="file" render="@all"/>
+                                </h:commandButton>
+                                <img id="loadingImage" src="resources/imgs/loader.gif" height="30px" width="30px" style="display: none"/>
+                            </div>
                         </div>
-                    </div>
 
-                </h:form>
+                    </h:form>
+                
+                    
+                </center>
                 
             </ui:define>
         </ui:composition>
+        
+        
            
     </h:body>
 </html>
