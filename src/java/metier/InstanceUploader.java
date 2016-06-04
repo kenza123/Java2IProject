@@ -195,11 +195,18 @@ public class InstanceUploader {
     public String getColor(int position) {
         String[] colors = 
         {   
-            "#ED5565"  ,  "#DA4453"  ,  "#FC6E51"  ,  "#E9573F"  ,  
-            "#FFCE54"  ,  "#F6BB42"  ,  "#4FC1E9"  ,  "#3BAFDA"  ,  
-            "#5D9CEC"  ,  "#4A89DC"  ,  "#AC92EC"  ,  "#967ADC"  ,  
-            "#EC87C0"  ,  "#D770AD"  ,  "#F5F7FA"  ,  "#E6E9ED"  ,  
-            "#CCD1D9"  ,  "#AAB2BD"  ,  "#656D78"  ,  "#434A54"  
+            "#E57373" , "#F06292" , "#BA68C8" , "#9575CD" , "#7986CB" , 
+            "#64B5F6" , "#4FC3F7" , "#4DD0E1" , "#4DB6AC" , "#81C784" , 
+            "#AED581" , "#DCE775" , "#FFF176" , "#FFD54F" , "#FFB74D" , 
+            "#FF8A65" , "#A1887F" , "#E0E0E0" , "#90A4AE" , "#F44336" , 
+            "#E91E63" , "#9C27B0" , "#673AB7" , "#3F51B5" , "#2196F3" , 
+            "#03A9F4" , "#00BCD4" , "#009688" , "#4CAF50" , "#8BC34A" , 
+            "#CDDC39" , "#FFEB3B" , "#FFC107" , "#FF9800" , "#FF5722" , 
+            "#795548" , "#9E9E9E" , "#607D8B" , "#D32F2F" , "#C2185B" , 
+            "#7B1FA2" , "#512DA8" , "#303F9F" , "#1976D2" , "#0288D1" , 
+            "#0097A7" , "#00796B" , "#388E3C" , "#689F38" , "#AFB42B" , 
+            "#FBC02D" , "#FFA000" , "#F57C00" , "#E64A19" , "#5D4037" , 
+            "#616161" , "#455A64"
         };
         boolean inBounds = (position >= 0) && (position < colors.length);
         return (inBounds) ? colors[position] : colors[0];

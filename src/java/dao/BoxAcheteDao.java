@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.Collection;
 import model.BoxAchete;
 import model.TypeBox;
 
@@ -15,5 +16,7 @@ import model.TypeBox;
 public interface BoxAcheteDao extends Dao<BoxAchete> {
     public int countBoxesByTypeBox(TypeBox typeBox);
     public int countBoxesById(TypeBox typeBox);
+    public Collection<BoxAchete> findAllOrdered();
+    public Collection<BoxAchete> findBoxesByTypeBox(TypeBox typeBox);
     
 }
