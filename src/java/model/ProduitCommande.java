@@ -62,6 +62,7 @@ public class ProduitCommande implements Serializable {
 
     public ProduitCommande(Integer id) {
         this.id = id;
+        produitCollection = new ArrayList();
     }
 
     public Integer getId() {

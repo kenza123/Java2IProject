@@ -69,6 +69,8 @@ public class Commande implements Serializable, Cloneable {
 
     public Commande(String id) {
         this.id = id;
+        produitCommandeCollection = new ArrayList();
+        commandeBoxCollection = new ArrayList();
     }
 
     public String getId() {

@@ -55,11 +55,13 @@ public class LigneProduction implements Serializable {
 
     public LigneProduction(Integer id) {
         this.id = id;
+        produitCollection = new ArrayList();
     }
 
     public LigneProduction(Integer id, int nblignes) {
         this.id = id;
         this.nblignes = nblignes;
+        produitCollection = new ArrayList();
     }
 
     public Integer getId() {

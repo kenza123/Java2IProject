@@ -33,6 +33,16 @@ public class ProduitControl implements Serializable {
         JpaDaoFactory jdf = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         JpaDaoProduit jdp = jdf.getProduitDao();
         produits = jdp.findByIdLineProduct(ligne);
+        for(Produit produit : produits) {
+            if(produit.getIdProduitCommande().getIdTypeProduit().getHauteur() 
+                    > produit.getIdPile().getIdBoxAchete().getIdTypeBox().getHbox()) {
+                System.out.println(produit + "WAYLI hauteur kbira");
+            }
+            if(produit.getIdProduitCommande().getIdTypeProduit().getLongueur()
+                    > produit.getIdPile().getIdBoxAchete().getIdTypeBox().getLbox()) {
+                System.out.println(produit + "WAYLI Longueur kbira");
+            }
+        }
         return produits;
     }
     

@@ -15,7 +15,6 @@ import dao.PileDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
-import static java.lang.Math.abs;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -50,8 +49,6 @@ public class OptimisedSolution {
     private final PileDao pileDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
     private final CommandeBoxDao commandeBoxDao;
-    private double eval;
-    int ite = 0;
     
     public OptimisedSolution() {
         dateActuelleProduction = 0;
@@ -72,16 +69,10 @@ public class OptimisedSolution {
         Collection<Commande> commandes = commandeDao.findAll();
         
         while (!commandes.isEmpty()) {
-            ite++;
             Commande commande = findUrgentCommande(commandes);
-            produireCommande(commande);
+            produireEtStockerCommande(commande);
             commandes.remove(commande);
         }
-        /*produitDao.findAll().stream().forEach((produit) -> {
-            System.out.println("produit " + produit .toString());
-            System.out.println("ligne de prod" + produit.getNblignes().toString());
-        });
-        eval();*/
     }
 
     public Commande findUrgentCommande(Collection<Commande> commandes) {
@@ -90,7 +81,7 @@ public class OptimisedSolution {
         for (Commande commande : commandes) {
             Double evalProduction = commande.getPenalite()
                     * (dEnvoieEstimee(commande) - commande.getDenvoiprevue());
-            if (evalProduction >= evalProductionMax) {
+            if (evalProduction > evalProductionMax) {
                 try {
                     commandeMax = (Commande) commande.clone();
                     evalProductionMax = evalProduction;
@@ -113,9 +104,10 @@ public class OptimisedSolution {
             Integer ligneProductionId
                     = Collections.min(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
             TypeProduit typeProduit = produitCommande.getIdTypeProduit();
-            Integer time = typeProduit.getTSetup()
+            Integer timeEndProduitCommande = typeProduit.getTSetup()
                     + (produitCommande.getNbUnites() * typeProduit.getTProduction());
-            ligneProductions.put(ligneProductionId, ligneProductions.get(ligneProductionId) + time);
+            Integer timeFree = ligneProductions.get(ligneProductionId);
+            ligneProductions.put(ligneProductionId, timeFree + timeEndProduitCommande);
         });
         return Collections.max(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
@@ -133,7 +125,7 @@ public class OptimisedSolution {
         });
     }
 
-    private void produireCommande(Commande commande) {
+    private void produireEtStockerCommande(Commande commande) {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
             produireEtStockerProduitCommande(produitCommande);
         });
@@ -242,30 +234,18 @@ public class OptimisedSolution {
         CommandeBox commandeBox = new CommandeBox();
         commandeBox.setIdBoxAchete(boxAchete);
         commandeBox.setIdCommande(commande);
+        commandeBoxDao.create(commandeBox);
         return commandeBox;
     }
             
     private void libererBoxes(Commande commande) {
-        commande.getCommandeBoxCollection().stream().forEach((commandeBox) -> {
-            BoxAchete boxAchete = commandeBox.getIdBoxAchete();
-            boxAchete.setLibre(0);
-            boxAcheteDao.update(boxAchete);
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
+            produitCommande.getProduitCollection().stream().forEach((produit)->{
+                BoxAchete boxAchete = produit.getIdPile().getIdBoxAchete();
+                boxAchete.setLibre(0);
+                boxAcheteDao.update(boxAchete);
+            });
         });
-    }
-    
-    public void eval(){
-        eval = 0;
-        typeBoxDao.findAll().stream().forEach((typeBox) -> {
-            eval = eval
-                    + typeBox.getPrixbox()
-                    * boxAcheteDao.countBoxes(typeBox);
-        });
-        commandeDao.findAll().stream().forEach((commande) -> {
-            eval = eval +
-                    commande.getPenalite()
-                    * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
-        });
-        System.out.println("magic eval " + eval);
     }
 
     private boolean ligneProductionNeedsSetUp(LigneProduction ligneProduction, TypeProduit typeProduit) {

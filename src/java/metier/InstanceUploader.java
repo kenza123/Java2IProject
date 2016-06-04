@@ -48,7 +48,7 @@ public class InstanceUploader {
     private final PileDao pileDao;
     private final CommandeBoxDao commandeBoxDao;
     
-      public String getFileName() {
+    public String getFileName() {
         return fileName;
     }
 
@@ -163,8 +163,12 @@ public class InstanceUploader {
                 produitCommande.setIdTypeProduit(typeProduit);
                 produitCommande.setNbUnites(Integer.decode(commandeTab[i]));
                 produitCommandeDao.create(produitCommande);
+                
                 commande.getProduitCommandeCollection().add(produitCommande);
                 commandeDao.update(commande);
+                
+                typeProduit.getProduitCommandeCollection().add(produitCommande);
+                typeProduitDao.update(typeProduit);
             }
         }
     }

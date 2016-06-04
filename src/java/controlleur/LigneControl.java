@@ -13,7 +13,6 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import model.LigneProduction;
 import model.Produit;
 /**
