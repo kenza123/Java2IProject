@@ -87,7 +87,7 @@ public class SolutionGenerator {
                   Math.abs(commande.getDenvoireel() - commande.getDenvoiprevue());
         });
     }
-   
+
     public File generateSolutionFile() {
         
         List<String> lines = new ArrayList();
