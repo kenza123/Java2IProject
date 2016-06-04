@@ -58,19 +58,15 @@ public class BoxAchete implements Serializable {
     private Collection<Pile> pileCollection;
     @Column(name = "LIBRE")
     private Integer libre;
-    @OneToMany(mappedBy = "idBoxAchete")
-    private Collection<CommandeBox> commandeBoxCollection;
 
     public BoxAchete() {
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
     public BoxAchete(Integer id) {
         this.id = id;
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
@@ -78,7 +74,6 @@ public class BoxAchete implements Serializable {
         this.id = id;
         this.numBox = numBox;
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
@@ -148,13 +143,4 @@ public class BoxAchete implements Serializable {
         this.libre = libre;
     }
 
-    @XmlTransient
-    public Collection<CommandeBox> getCommandeBoxCollection() {
-        return commandeBoxCollection;
-    }
-
-    public void setCommandeBoxCollection(Collection<CommandeBox> commandeBoxCollection) {
-        this.commandeBoxCollection = commandeBoxCollection;
-    }
-    
 }

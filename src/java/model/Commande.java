@@ -59,18 +59,14 @@ public class Commande implements Serializable, Cloneable {
     private Double penalite;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCommande")
     private Collection<ProduitCommande> produitCommandeCollection;
-    @OneToMany(mappedBy = "idCommande")
-    private Collection<CommandeBox> commandeBoxCollection;
 
     public Commande() {
         produitCommandeCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
     }
 
     public Commande(String id) {
         this.id = id;
         produitCommandeCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
     }
 
     public String getId() {
@@ -167,15 +163,5 @@ public class Commande implements Serializable, Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
-    @XmlTransient
-    public Collection<CommandeBox> getCommandeBoxCollection() {
-        return commandeBoxCollection;
-    }
-
-    public void setCommandeBoxCollection(Collection<CommandeBox> commandeBoxCollection) {
-        this.commandeBoxCollection = commandeBoxCollection;
-    }
-    
     
 }

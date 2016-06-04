@@ -6,7 +6,6 @@
 package metier;
 
 import dao.BoxAcheteDao;
-import dao.CommandeBoxDao;
 import dao.CommandeDao;
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
@@ -23,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.BoxAchete;
 import model.Commande;
-import model.CommandeBox;
 import model.LigneProduction;
 import model.Pile;
 import model.Produit;
@@ -48,7 +46,6 @@ public class OptimisedSolution {
     private final BoxAcheteDao boxAcheteDao;
     private final PileDao pileDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
-    private final CommandeBoxDao commandeBoxDao;
     
     public OptimisedSolution() {
         dateActuelleProduction = 0;
@@ -62,7 +59,6 @@ public class OptimisedSolution {
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
         pileDao = jpaDaoFactory.getPileDao();
-        commandeBoxDao = jpaDaoFactory.getCommandeBoxDao();
     }
 
     public void execute() {
@@ -182,14 +178,11 @@ public class OptimisedSolution {
     }
 
     private void stockerProduit(Produit produit) {
-        Commande commande= produit.getIdProduitCommande().getIdCommande();
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
         Pile pile = empiler(produit, boxAchete);
-        CommandeBox commandeBox = relierBoxCommande(commande, boxAchete);
         
         boxAchete.getPileCollection().add(pile);
-        boxAchete.getCommandeBoxCollection().add(commandeBox);
         boxAcheteDao.update(boxAchete);
 
         typeBox.getBoxAcheteCollection().add(boxAchete);
@@ -197,9 +190,6 @@ public class OptimisedSolution {
 
         produit.setIdPile(pile);
         produitDao.update(produit);
-        
-        commande.getCommandeBoxCollection().add(commandeBox);
-        commandeDao.update(commande);
     }
     
     private TypeBox trouverTypeBox(Produit produit) {
@@ -228,14 +218,6 @@ public class OptimisedSolution {
         pile.setIdBoxAchete(boxAchete);
         pileDao.create(pile);
         return pile;
-    }
-
-    private CommandeBox relierBoxCommande(Commande commande, BoxAchete boxAchete){
-        CommandeBox commandeBox = new CommandeBox();
-        commandeBox.setIdBoxAchete(boxAchete);
-        commandeBox.setIdCommande(commande);
-        commandeBoxDao.create(commandeBox);
-        return commandeBox;
     }
             
     private void libererBoxes(Commande commande) {

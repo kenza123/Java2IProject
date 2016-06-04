@@ -135,12 +135,7 @@ public class SolutionGenerator {
                     + "\t"
                     + produit.getIdPile().getIdBoxAchete().getIdTypeBox().getId()
                     + "\t"
-                    + produit.getIdPile().getIdBoxAchete().getNumBox()
-                    //a supprimer
-                    + "\t"
-                    + (produit.getDateDebutProd() +  produit.getIdProduitCommande().getIdTypeProduit().getTProduction())
-                    + "\t"
-                    + (produit.getIdProduitCommande().getIdTypeProduit().getTSetup());
+                    + produit.getIdPile().getIdBoxAchete().getNumBox();
                     
             lines.add(line);
             });
