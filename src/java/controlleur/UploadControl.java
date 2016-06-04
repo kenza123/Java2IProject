@@ -71,7 +71,12 @@ public class UploadControl implements Serializable {
     
     public void downloadFile () {
         System.out.println("ok");
-        File file = solutionGenerator.getFile();
+        if (this.solutionGenerator == null) {
+            this.solutionGenerator = new SolutionGenerator();
+            this.solutionGenerator.setFileName("Solution.sol");
+            this.solutionGenerator.generateSolutionFile();
+        }
+        File file = this.solutionGenerator.generateSolutionFile();
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();  
 
         response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());  
