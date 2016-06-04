@@ -90,7 +90,7 @@ public class SolutionGenerator {
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
             eval = eval 
                     + typeBox.getPrixbox() 
-                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+                    * boxAcheteDao.countBoxes(typeBox);
             });
         commandeDao.findAll().stream().forEach((commande) -> {
           eval = eval +
@@ -110,7 +110,7 @@ public class SolutionGenerator {
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
             String line = typeBox.getId()
                     + "\t"
-                    + boxAcheteDao.countBoxesByTypeBox(typeBox);
+                    + boxAcheteDao.countBoxes(typeBox);
             lines.add(line);
             });
         

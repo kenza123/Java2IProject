@@ -98,8 +98,8 @@ public class StatsControl implements Serializable {
         for (TypeBox box : typeBoxs) {
             TypeBoxDto b = new TypeBoxDto();
             b.setTypeBox(box);
-            b.setAchat(jdba.countBoxesById(box));
-            b.setUtilise(jdba.countBoxesById(box));
+            b.setAchat(jdba.countBoxes(box));
+            b.setUtilise(jdba.countBoxes(box));
             b.calculerCout();
             boxes.add(b);
         }

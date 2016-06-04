@@ -76,7 +76,7 @@ public class CommandeControl implements Serializable {
             }
         });
         this.boxAchetes.addAll(boxes);
-        return "commande";
+        return "commande?faces-redirect=true";
     }
     
     public String getDebutProd(BoxAchete boxAchete) {
