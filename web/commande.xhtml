@@ -14,14 +14,62 @@
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
-                Hello from commande <h:outputText value="#{commandeControl.commande.id}"/>
+                <h1>Commande <h:outputText value="#{commandeControl.commande.id}"/> prévue à 
+                <h:outputText value="#{commandeControl.commande.denvoiprevue}"/> envoyée à 
+                <h:outputText value="#{commandeControl.commande.denvoireel}"/></h1>
+                <br/>
+                
+                
+                <table style="width: 500px;">
+                    <tr>
+                        <td><h2>Production</h2></td>
+                        <td></td>
+                    </tr>
+                    <c:forEach items="#{ligneControl.ligneList}" var="ligne">  
+                        <tr>
+                            <td>
+                                <h:outputLabel value="Ligne #{ligne.nblignes}"/>
+                            </td>
+                            <td>
+                                <svg width="#{ligneControl.getTaille(ligne)}" height="25">
+                                    <rect style="fill:black;"
+                                          width="#{ligneControl.getTaille(ligne)}"
+                                          height="25"/>
+                                    <c:forEach items="#{produitControl.getProduits(ligne)}" var="produit">
+                                        <c:choose>
+                                            <c:when test="#{commandeControl.productExist(produit)}">
+                                                <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;fill-opacity:1"
+                                                  x="#{produit.dateDebutProd}"
+                                                  width="#{produit.idProduitCommande.idTypeProduit.TProduction}"
+                                                  height="25"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;fill-opacity:0.2"
+                                                      x="#{produit.dateDebutProd}"
+                                                      width="#{produit.idProduitCommande.idTypeProduit.TProduction}"
+                                                      height="25"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </svg>
+                            </td>
+                      </tr>
+                    </c:forEach>
+                </table>
+                
+                <br/>
+                
+                <h2>Utilisation des boxs</h2>
+                
+                <br/>
+                
                 <c:forEach var="box" items="#{commandeControl.boxAchetes}">
                 <table>
                     <tr>
                         <td>
-                            <h:outputText value="#{box.idTypeBox.id}"/>_<h:outputText value="#{box.numBox}"/>
+                            <h:outputText value="#{box.id} ou #{box.idTypeBox.id}_#{box.numBox}"/>
                             <br/>
-                            d=<h:outputText value="#{box.pileCollection.produitCollection[0].dateDebutProd}"/>
+                            d=<h:outputText value="#{commandeControl.getDebutProd(box)}"/>
                         </td>
                         <td>
                             <svg width="#{box.idTypeBox.lbox}"
@@ -29,12 +77,12 @@
                                 <rect style="fill:#A0D468;stroke:black;stroke-width:1;" 
                                       width="#{box.idTypeBox.lbox}" 
                                       height="#{box.idTypeBox.hbox}"/>                  
-                                <ui:repeat var="produit" value="#{commandeControl.getProduitsAchetes(box)}">
+                                <c:forEach var="produit" items="#{commandeControl.getProduitsAchetes(box)}">
                                     <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;" 
                                           y="#{box.idTypeBox.hbox - produit.idProduitCommande.idTypeProduit.hauteur}"
                                           width="#{produit.idProduitCommande.idTypeProduit.longueur}" 
                                           height="#{produit.idProduitCommande.idTypeProduit.hauteur}"/>
-                                </ui:repeat>
+                                </c:forEach>
                             </svg>
                         </td>
                     </tr>
