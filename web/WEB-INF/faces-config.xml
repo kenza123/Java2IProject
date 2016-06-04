@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+        <navigation-rule>
+            <from-view-id>faces/view/commande.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>commande</from-outcome>
+                <to-view-id>faces/view/commande.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>gantt</from-outcome>
+                <to-view-id>faces/view/gantt.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>index</from-outcome>
+                <to-view-id>faces/view/index.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>stats</from-outcome>
+                <to-view-id>faces/view/stats.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>test</from-outcome>
+                <to-view-id>faces/view/test.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        
+            
+        <navigation-rule>
+            <from-view-id>faces/view/gantt.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>commande</from-outcome>
+                <to-view-id>faces/view/commande.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>gantt</from-outcome>
+                <to-view-id>faces/view/gantt.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>index</from-outcome>
+                <to-view-id>faces/view/index.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>stats</from-outcome>
+                <to-view-id>faces/view/stats.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>test</from-outcome>
+                <to-view-id>faces/view/test.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        
+            
+        <navigation-rule>
+            <from-view-id>faces/view/index.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>commande</from-outcome>
+                <to-view-id>faces/view/commande.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>gantt</from-outcome>
+                <to-view-id>faces/view/gantt.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>index</from-outcome>
+                <to-view-id>faces/view/index.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>stats</from-outcome>
+                <to-view-id>faces/view/stats.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>test</from-outcome>
+                <to-view-id>faces/view/test.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        
+            
+        <navigation-rule>
+            <from-view-id>faces/view/stats.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>commande</from-outcome>
+                <to-view-id>faces/view/commande.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>gantt</from-outcome>
+                <to-view-id>faces/view/gantt.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>index</from-outcome>
+                <to-view-id>faces/view/index.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>stats</from-outcome>
+                <to-view-id>faces/view/stats.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>test</from-outcome>
+                <to-view-id>faces/view/test.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        
+            
+        <navigation-rule>
+            <from-view-id>faces/view/test.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>commande</from-outcome>
+                <to-view-id>faces/view/commande.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>gantt</from-outcome>
+                <to-view-id>faces/view/gantt.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>index</from-outcome>
+                <to-view-id>faces/view/index.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>stats</from-outcome>
+                <to-view-id>faces/view/stats.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>test</from-outcome>
+                <to-view-id>faces/view/test.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+    
+    
+
+</faces-config>
