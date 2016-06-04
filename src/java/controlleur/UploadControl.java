@@ -8,11 +8,9 @@ package controlleur;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.nio.file.Files;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,6 @@ import javax.servlet.http.Part;
 import metier.InstanceUploader;
 import metier.SolutionGenerator;
 import metier.OptimisedSolution;
-import metier.TrivialSolution;
 
 /**
  *
@@ -89,7 +86,7 @@ public class UploadControl implements Serializable {
                 out.write(buffer);  
                 out.flush();  
             }  
-            FacesContext.getCurrentInstance().getResponseComplete();  
+            FacesContext.getCurrentInstance().responseComplete();  
             System.out.println("ok2");
         } catch (IOException err) {  
             err.printStackTrace();  

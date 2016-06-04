@@ -90,17 +90,16 @@ public class SolutionGenerator {
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
             eval = eval 
                     + typeBox.getPrixbox() 
-                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+                    * boxAcheteDao.countBoxes(typeBox);
             });
         commandeDao.findAll().stream().forEach((commande) -> {
           eval = eval +
                   commande.getPenalite() *
-                  Math.abs(commande.getDenvoireel()-commande.getDenvoiprevue());
-          });
+                  Math.abs(commande.getDenvoireel() - commande.getDenvoiprevue());
+        });
     }
     
     public void generateSolutionFile() {
-        
         List<String> lines = new ArrayList();
         
         lines.add(Double.toString(eval));
@@ -110,7 +109,7 @@ public class SolutionGenerator {
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
             String line = typeBox.getId()
                     + "\t"
-                    + boxAcheteDao.countBoxesByTypeBox(typeBox);
+                    + boxAcheteDao.countBoxes(typeBox);
             lines.add(line);
             });
         
@@ -137,7 +136,7 @@ public class SolutionGenerator {
                     + produit.getIdPile().getIdBoxAchete().getIdTypeBox().getId()
                     + "\t"
                     + produit.getIdPile().getIdBoxAchete().getNumBox();
-            
+                    
             lines.add(line);
             });
         

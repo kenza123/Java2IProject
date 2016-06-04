@@ -40,10 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TypeProduit.findByNbempilemax", query = "SELECT t FROM TypeProduit t WHERE t.nbempilemax = :nbempilemax")})
 public class TypeProduit implements Serializable {
 
-    @Size(max = 45)
-    @Column(name = "COLOR")
-    private String color;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -63,6 +59,9 @@ public class TypeProduit implements Serializable {
     private Integer nbempilemax;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTypeProduit")
     private Collection<ProduitCommande> produitCommandeCollection;
+    @Size(max = 45)
+    @Column(name = "COLOR")
+    private String color;
 
     public TypeProduit() {
         produitCommandeCollection = new ArrayList();
@@ -70,6 +69,7 @@ public class TypeProduit implements Serializable {
 
     public TypeProduit(String id) {
         this.id = id;
+        produitCommandeCollection = new ArrayList();
     }
 
     public String getId() {

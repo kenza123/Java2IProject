@@ -38,19 +38,19 @@ public class TemplateControl implements Serializable {
     }
     
     public String goToUpload(){
-        return "index";
+        return "index?faces-redirect=true";
     }
     
     public String goToStats(){
-        return "stats";
+        return "stats?faces-redirect=true";
     }
     
     public String goToTests(){
-        return "test";
+        return "test?faces-redirect=true";
     }
     
     public String goToGantt(){
-        return "gantt";
+        return "gantt?faces-redirect=true";
     }
     
     

@@ -55,9 +55,4 @@ public class JpaDaoFactory extends DaoFactory {
         return JpaDaoTypeProduit.getInstance();
     }
     
-    @Override
-    public JpaDaoCommandeBox getCommandeBoxDao() {
-        return JpaDaoCommandeBox.getInstance();
-    }
-    
 }

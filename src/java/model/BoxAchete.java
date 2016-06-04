@@ -33,9 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "BoxAchete.deleteAll", query = "DELETE FROM BoxAchete b"),
-    @NamedQuery(name = "BoxAchete.countBoxesById", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox= :typeBox"),
     @NamedQuery(name = "BoxAchete.findAll", query = "SELECT b FROM BoxAchete b"),
+    @NamedQuery(name = "BoxAchete.findAllOrdered", query = "SELECT b FROM BoxAchete b ORDER BY b.idTypeBox"),
     @NamedQuery(name = "BoxAchete.countBoxes", query = "SELECT COUNT(b) FROM BoxAchete b WHERE b.idTypeBox=:typeBox"),
+    @NamedQuery(name = "BoxAchete.findBoxes", query = "SELECT b FROM BoxAchete b WHERE b.idTypeBox=:typeBox ORDER BY b.numBox ASC"),
     @NamedQuery(name = "BoxAchete.findById", query = "SELECT b FROM BoxAchete b WHERE b.id = :id"),
     @NamedQuery(name = "BoxAchete.findByNumBox", query = "SELECT b FROM BoxAchete b WHERE b.numBox = :numBox")})
 public class BoxAchete implements Serializable {
@@ -57,19 +58,15 @@ public class BoxAchete implements Serializable {
     private Collection<Pile> pileCollection;
     @Column(name = "LIBRE")
     private Integer libre;
-    @OneToMany(mappedBy = "idBoxAchete")
-    private Collection<CommandeBox> commandeBoxCollection;
 
     public BoxAchete() {
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
     public BoxAchete(Integer id) {
         this.id = id;
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
@@ -77,7 +74,6 @@ public class BoxAchete implements Serializable {
         this.id = id;
         this.numBox = numBox;
         pileCollection = new ArrayList();
-        commandeBoxCollection = new ArrayList();
         libre = 0;
     }
 
@@ -147,13 +143,4 @@ public class BoxAchete implements Serializable {
         this.libre = libre;
     }
 
-    @XmlTransient
-    public Collection<CommandeBox> getCommandeBoxCollection() {
-        return commandeBoxCollection;
-    }
-
-    public void setCommandeBoxCollection(Collection<CommandeBox> commandeBoxCollection) {
-        this.commandeBoxCollection = commandeBoxCollection;
-    }
-    
 }

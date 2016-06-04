@@ -5,14 +5,19 @@
  */
 package controlleur;
 
+import dao.DaoFactory;
+import dao.JpaDaoFactory;
+import dao.JpaDaoProduitCommande;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import model.BoxAchete;
 import model.Commande;
 import model.Produit;
+import model.ProduitCommande;
 
 /**
  *
@@ -50,20 +55,52 @@ public class CommandeControl implements Serializable {
     public List<Produit> getProduitsAchetes(BoxAchete boxAchete) {
         List<Produit> produits = new ArrayList();
         boxAchete.getPileCollection().stream().forEach((pile) -> {
-        produits.addAll(pile.getProduitCollection());
+            pile.getProduitCollection().stream().forEach((produit) -> {
+                if(!produits.contains(produit)) {
+                    produits.add(produit);
+                }
+            });
         });
         return produits;
     }
     
-    
-    
     public String showPage(Commande commande) {
         this.commande = commande;
         this.boxAchetes = new ArrayList<>();
-        commande.getCommandeBoxCollection().stream().forEach((commandeBox)->{
-            this.boxAchetes.add(commandeBox.getIdBoxAchete());
+        Collection<BoxAchete> boxes = new ArrayList<>();
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
+            produitCommande.getProduitCollection().stream().forEach((produit)->{
+                if(!boxes.contains(produit.getIdPile().getIdBoxAchete())) {
+                    boxes.add(produit.getIdPile().getIdBoxAchete()); 
+                }
+             });
         });
-        return "commande";
+
+        this.boxAchetes.addAll(boxes);
+        return "commande?faces-redirect=true";
+    }
+    
+    public String getDebutProd(BoxAchete boxAchete) {
+        return "check commandeControl.getDebutProd()";
+    }
+    
+    public List<Produit> getProducts() {
+        List<Produit> produits = new ArrayList<>();
+        JpaDaoFactory jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+        JpaDaoProduitCommande jpaDaoProduitCommande  = jpaDaoFactory.getProduitCommandeDao();
+        for(ProduitCommande produitCommande :jpaDaoProduitCommande.findProductsOfCommande(commande)) {
+            for(Produit produit : produitCommande.getProduitCollection()) {
+                if(!produits.contains(produit)) {
+                    produits.add(produit);
+                }
+            }
+        }
+        return produits;
+    }
+    
+    
+    public Boolean productExist(Produit produit) {
+        return getProducts().contains(produit);
     }
     
 }

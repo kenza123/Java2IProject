@@ -38,6 +38,11 @@ public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
     public Collection<BoxAchete> findAll() {        
         return em.createNamedQuery("BoxAchete.findAll").getResultList();
     }
+    
+    @Override
+    public Collection<BoxAchete> findAllOrdered() {        
+        return em.createNamedQuery("BoxAchete.findAllOrdered").getResultList();
+    }
 
     @Override
     public void deleteAll() {
@@ -49,21 +54,20 @@ public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
     }
     
     @Override
-    public int countBoxesById(TypeBox typeBox){
-        return toIntExact((long)em.createNamedQuery("BoxAchete.countBoxesById")
-                .setParameter("typeBox", typeBox)
-                .getResultList().get(0));
-    }
-
-    @Override
     public void close() {
         em.close();
     }
     
     @Override
-    public int countBoxesByTypeBox(TypeBox typeBox) {
+    public int countBoxes(TypeBox typeBox) {
         return toIntExact((long)em.createNamedQuery("BoxAchete.countBoxes")
                 .setParameter("typeBox", typeBox).getSingleResult());
+    }
+    
+    @Override
+    public Collection<BoxAchete> findBoxesByTypeBox(TypeBox typeBox) {
+        return em.createNamedQuery("BoxAchete.findBoxes")
+                .setParameter("typeBox", typeBox).getResultList();
     }
     
 }
