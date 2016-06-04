@@ -222,7 +222,7 @@ public class OptimisedSolution {
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setIdTypeBox(typeBox);
-        boxAchete.setNumBox(boxAcheteDao.countBoxesByTypeBox(typeBox)+1);
+        boxAchete.setNumBox(boxAcheteDao.countBoxes(typeBox)+1);
         boxAcheteDao.create(boxAchete);
         return boxAchete;
     }
@@ -258,7 +258,7 @@ public class OptimisedSolution {
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
             eval = eval
                     + typeBox.getPrixbox()
-                    * boxAcheteDao.countBoxesByTypeBox(typeBox);
+                    * boxAcheteDao.countBoxes(typeBox);
         });
         commandeDao.findAll().stream().forEach((commande) -> {
             eval = eval +
