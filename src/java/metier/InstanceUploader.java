@@ -6,7 +6,6 @@
 package metier;
 
 import dao.BoxAcheteDao;
-import dao.CommandeBoxDao;
 import dao.CommandeDao;
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
@@ -46,9 +45,8 @@ public class InstanceUploader {
     private final ProduitDao produitDao;
     private final BoxAcheteDao boxAcheteDao;
     private final PileDao pileDao;
-    private final CommandeBoxDao commandeBoxDao;
     
-      public String getFileName() {
+    public String getFileName() {
         return fileName;
     }
 
@@ -66,7 +64,6 @@ public class InstanceUploader {
         produitDao = jpaDaoFactory.getProduitDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
         pileDao = jpaDaoFactory.getPileDao();
-        commandeBoxDao = jpaDaoFactory.getCommandeBoxDao();
         typesProduitValues = new ArrayList();
     }
         
@@ -100,7 +97,6 @@ public class InstanceUploader {
         produitCommandeDao.deleteAll();
         typeProduitDao.deleteAll();
         pileDao.deleteAll();
-        commandeBoxDao.deleteAll();
         boxAcheteDao.deleteAll();
         commandeDao.deleteAll();
         typeBoxDao.deleteAll();
@@ -163,8 +159,12 @@ public class InstanceUploader {
                 produitCommande.setIdTypeProduit(typeProduit);
                 produitCommande.setNbUnites(Integer.decode(commandeTab[i]));
                 produitCommandeDao.create(produitCommande);
+                
                 commande.getProduitCommandeCollection().add(produitCommande);
                 commandeDao.update(commande);
+                
+                typeProduit.getProduitCommandeCollection().add(produitCommande);
+                typeProduitDao.update(typeProduit);
             }
         }
     }

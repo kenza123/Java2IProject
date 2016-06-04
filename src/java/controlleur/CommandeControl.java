@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import model.BoxAchete;
 import model.Commande;
-import model.CommandeBox;
 import model.Produit;
 import model.ProduitCommande;
 
@@ -69,12 +68,14 @@ public class CommandeControl implements Serializable {
         this.commande = commande;
         this.boxAchetes = new ArrayList<>();
         Collection<BoxAchete> boxes = new ArrayList<>();
-        commande.getCommandeBoxCollection().stream().forEach((commandeBox)->{
-            System.out.println(commandeBox.getIdBoxAchete().getIdTypeBox().getId() + "_" + commandeBox.getIdBoxAchete().getNumBox());
-            if(!boxes.contains(commandeBox.getIdBoxAchete())) {
-                boxes.add(commandeBox.getIdBoxAchete()); 
-            }
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
+            produitCommande.getProduitCollection().stream().forEach((produit)->{
+                if(!boxes.contains(produit.getIdPile().getIdBoxAchete())) {
+                    boxes.add(produit.getIdPile().getIdBoxAchete()); 
+                }
+             });
         });
+
         this.boxAchetes.addAll(boxes);
         return "commande?faces-redirect=true";
     }

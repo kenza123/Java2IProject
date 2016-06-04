@@ -68,6 +68,7 @@ public class TypeBox implements Serializable {
 
     public TypeBox(String id) {
         this.id = id;
+        boxAcheteCollection = new ArrayList();
     }
 
     public TypeBox(String id, int lbox, int hbox, double prixbox) {
@@ -75,6 +76,7 @@ public class TypeBox implements Serializable {
         this.lbox = lbox;
         this.hbox = hbox;
         this.prixbox = prixbox;
+        boxAcheteCollection = new ArrayList();
     }
 
     public String getId() {

@@ -95,12 +95,11 @@ public class SolutionGenerator {
         commandeDao.findAll().stream().forEach((commande) -> {
           eval = eval +
                   commande.getPenalite() *
-                  Math.abs(commande.getDenvoireel()-commande.getDenvoiprevue());
-          });
+                  Math.abs(commande.getDenvoireel() - commande.getDenvoiprevue());
+        });
     }
     
     public void generateSolutionFile() {
-        
         List<String> lines = new ArrayList();
         
         lines.add(Double.toString(eval));
@@ -137,7 +136,7 @@ public class SolutionGenerator {
                     + produit.getIdPile().getIdBoxAchete().getIdTypeBox().getId()
                     + "\t"
                     + produit.getIdPile().getIdBoxAchete().getNumBox();
-            
+                    
             lines.add(line);
             });
         

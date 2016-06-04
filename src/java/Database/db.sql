@@ -34,9 +34,6 @@ ALTER TABLE pile DROP CONSTRAINT P_LongPile;
 ALTER TABLE pile DROP CONSTRAINT P_LargPile;
 ALTER TABLE pile DROP CONSTRAINT P_FK_BoxA;
 
-ALTER TABLE commande_box DROP CONSTRAINT CB_FK_commande;
-ALTER TABLE commande_box DROP CONSTRAINT CB_FK_box_achete;
-
 DROP TABLE type_produit;
 DROP TABLE commande;
 DROP TABLE produit_commande;
@@ -45,7 +42,6 @@ DROP TABLE box_achete;
 DROP TABLE ligne_production;
 DROP TABLE produit;
 DROP TABLE pile;
-DROP TABLE commande_box;
 
 
 
@@ -86,12 +82,6 @@ CREATE TABLE box_achete (
     id_type_box VARCHAR(55) NOT NULL,
     num_box INTEGER NOT NULL,
     libre INTEGER
-);
-
-CREATE TABLE commande_box (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_commande VARCHAR(55),
-    id_box_achete INTEGER
 );
 
 CREATE TABLE pile (
@@ -144,6 +134,3 @@ ALTER TABLE pile ADD CONSTRAINT P_LongPile CHECK (longueur_pile >= 0);
 ALTER TABLE produit ADD CONSTRAINT P_FK_P_C FOREIGN KEY(id_produit_commande) REFERENCES produit_commande(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_pile FOREIGN KEY(id_pile) REFERENCES pile(id);
 ALTER TABLE produit ADD CONSTRAINT P_FK_LP FOREIGN KEY(nbLignes) REFERENCES ligne_production(id);
-
-ALTER TABLE commande_box ADD CONSTRAINT CB_FK_commande FOREIGN KEY(id_commande) REFERENCES commande(id);
-ALTER TABLE commande_box ADD CONSTRAINT CB_FK_box_achete FOREIGN KEY(id_box_achete) REFERENCES box_achete(id);

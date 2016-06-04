@@ -7,21 +7,17 @@ package controlleur;
 
 import dao.DaoFactory;
 import dao.JpaDaoBoxAchete;
-import dao.JpaDaoCommandeBox;
 import dao.JpaDaoFactory;
 import dao.JpaDaoTypeBox;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import model.BoxAchete;
-import model.CommandeBox;
 import model.Pile;
 import model.Produit;
-import model.ProduitCommande;
 import model.TypeBox;
 /**
  *

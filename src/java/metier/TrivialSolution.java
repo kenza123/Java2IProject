@@ -6,7 +6,6 @@
 package metier;
 
 import dao.BoxAcheteDao;
-import dao.CommandeBoxDao;
 import dao.CommandeDao;
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
@@ -15,11 +14,9 @@ import dao.PileDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
-import static java.lang.Math.abs;
 import java.util.Collection;
 import model.BoxAchete;
 import model.Commande;
-import model.CommandeBox;
 import model.LigneProduction;
 import model.Pile;
 import model.Produit;
@@ -43,8 +40,6 @@ public class TrivialSolution {
     private final TypeBoxDao typeBoxDao;
     private final BoxAcheteDao boxAcheteDao;
     private final PileDao pileDao;
-    private final CommandeBoxDao commandeBoxDao;
-    private double eval;
 
     public TrivialSolution() {
         dateActuelleProduction = 0;
@@ -58,7 +53,6 @@ public class TrivialSolution {
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
         pileDao = jpaDaoFactory.getPileDao();
-        commandeBoxDao = jpaDaoFactory.getCommandeBoxDao();
     }
 
     public void execute() {
@@ -75,7 +69,6 @@ public class TrivialSolution {
             commande.setDenvoireel(dateActuelleBox);
             commandeDao.update(commande);
         });
-        eval();
     }
    
     public void produireProduitCommande(ProduitCommande produitCommande){
@@ -115,14 +108,11 @@ public class TrivialSolution {
     }
 
     private void stockerProduit(Produit produit) {
-        Commande commande= produit.getIdProduitCommande().getIdCommande();
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
         Pile pile = empiler(produit, boxAchete);
-        CommandeBox commandeBox = relierBoxCommande(commande, boxAchete);
         
         boxAchete.getPileCollection().add(pile);
-        boxAchete.getCommandeBoxCollection().add(commandeBox);
         boxAcheteDao.update(boxAchete);
 
         typeBox.getBoxAcheteCollection().add(boxAchete);
@@ -130,9 +120,6 @@ public class TrivialSolution {
             
         produit.setIdPile(pile);
         produitDao.update(produit);
-        
-        commande.getCommandeBoxCollection().add(commandeBox);
-        commandeDao.update(commande);
     }
 
     private TypeBox trouverTypeBox(Produit produit) {
@@ -162,34 +149,14 @@ public class TrivialSolution {
         pileDao.create(pile);
         return pile;
     }
-
-    private CommandeBox relierBoxCommande(Commande commande, BoxAchete boxAchete){
-        CommandeBox commandeBox = new CommandeBox();
-        commandeBox.setIdBoxAchete(boxAchete);
-        commandeBox.setIdCommande(commande);
-        return commandeBox;
-    }
             
     private void libererBoxes(Commande commande) {
-        commande.getCommandeBoxCollection().stream().forEach((commandeBox) -> {
-            BoxAchete boxAchete = commandeBox.getIdBoxAchete();
-            boxAchete.setLibre(0);
-            boxAcheteDao.update(boxAchete);
+        commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
+            produitCommande.getProduitCollection().stream().forEach((produit)->{
+                BoxAchete boxAchete = produit.getIdPile().getIdBoxAchete();
+                boxAchete.setLibre(0);
+                boxAcheteDao.update(boxAchete);
+            });
         });
-    }
-    
-    public void eval(){
-        eval = 0;
-        typeBoxDao.findAll().stream().forEach((typeBox) -> {
-            eval = eval
-                    + typeBox.getPrixbox()
-                    * boxAcheteDao.countBoxes(typeBox);
-        });
-        commandeDao.findAll().stream().forEach((commande) -> {
-            eval = eval +
-                    commande.getPenalite()
-                    * abs(commande.getDenvoireel()-commande.getDenvoiprevue());
-        });
-        System.out.println("magic eval " + eval);
     }
 }
