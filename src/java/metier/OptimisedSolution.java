@@ -229,7 +229,7 @@ public class OptimisedSolution {
             });
         });
     }
-
+    
     private boolean ligneProductionNeedsSetUp(LigneProduction ligneProduction, TypeProduit typeProduit) {
         Produit produit = produitDao.findLastProductInLine(ligneProduction);
         if(produit != null){

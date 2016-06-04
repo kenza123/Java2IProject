@@ -43,7 +43,6 @@ public class SolutionGenerator {
     private final PileDao pileDao;
     private double eval;
     private String fileName;
-    private File file;
 
     public SolutionGenerator() {
         jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
@@ -74,16 +73,6 @@ public class SolutionGenerator {
     public void setFileName(String fileName) {
         this.fileName = fileName.replace("txt", "sol");
     }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-    
-    
     
     public void calculEval() {
         eval = 0;
@@ -98,8 +87,9 @@ public class SolutionGenerator {
                   Math.abs(commande.getDenvoireel() - commande.getDenvoiprevue());
         });
     }
-    
-    public void generateSolutionFile() {
+
+    public File generateSolutionFile() {
+        
         List<String> lines = new ArrayList();
         
         lines.add(Double.toString(eval));
@@ -144,10 +134,11 @@ public class SolutionGenerator {
         Path file = Paths.get(fileName);
         try {
             Files.write(file, lines, Charset.forName("UTF-8"));
-            this.setFile(file.toFile());
         } catch (IOException ex) {
             Logger.getLogger(SolutionGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return file.toFile();
     }
     
 }
