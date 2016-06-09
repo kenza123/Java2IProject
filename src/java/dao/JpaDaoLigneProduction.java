@@ -21,6 +21,10 @@ public class JpaDaoLigneProduction extends JpaDao<LigneProduction> implements Li
         
     }
     
+    public static void setInstance(JpaDaoLigneProduction instance) {
+        JpaDaoLigneProduction.instance = instance;
+    }
+    
     protected static JpaDaoLigneProduction getInstance() {
         if(instance == null)
             instance = new JpaDaoLigneProduction();

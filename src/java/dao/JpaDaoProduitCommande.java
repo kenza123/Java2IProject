@@ -21,6 +21,10 @@ public class JpaDaoProduitCommande extends JpaDao<ProduitCommande> implements Pr
     private JpaDaoProduitCommande() {
         
     }
+
+    public static void setInstance(JpaDaoProduitCommande instance) {
+        JpaDaoProduitCommande.instance = instance;
+    }
     
     protected static JpaDaoProduitCommande getInstance() {
         if(instance == null)

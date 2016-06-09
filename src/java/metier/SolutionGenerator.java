@@ -74,7 +74,7 @@ public class SolutionGenerator {
     public void setFileName(String fileName) {
         this.fileName = fileName.replace("txt", "sol");
     }
-
+    
     public File getFile() {
         return file;
     }
@@ -98,7 +98,7 @@ public class SolutionGenerator {
                   Math.abs(commande.getDenvoireel() - commande.getDenvoiprevue());
         });
     }
-    
+
     public void generateSolutionFile() {
         List<String> lines = new ArrayList();
         
