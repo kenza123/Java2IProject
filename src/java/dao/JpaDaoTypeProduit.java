@@ -20,6 +20,10 @@ public class JpaDaoTypeProduit extends JpaDao<TypeProduit> implements TypeProdui
     private JpaDaoTypeProduit() {
         
     }
+
+    public static void setInstance(JpaDaoTypeProduit instance) {
+        JpaDaoTypeProduit.instance = instance;
+    }
     
     protected static JpaDaoTypeProduit getInstance() {
         if(instance == null)

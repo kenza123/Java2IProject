@@ -89,7 +89,6 @@ public class SolutionGenerator {
     }
 
     public File generateSolutionFile() {
-        
         List<String> lines = new ArrayList();
         
         lines.add(Double.toString(eval));

@@ -55,4 +55,18 @@ public class JpaDaoFactory extends DaoFactory {
         return JpaDaoTypeProduit.getInstance();
     }
     
+    @Override
+    public void resetInstances(){
+        JpaDaoBoxAchete.setInstance(null);
+        JpaDaoCommande.setInstance(null);
+        JpaDaoLigneProduction.setInstance(null);
+        JpaDaoPile.setInstance(null);
+        JpaDaoProduit.setInstance(null);
+        JpaDaoProduitCommande.setInstance(null);
+        JpaDaoTypeBox.setInstance(null);
+        JpaDaoTypeProduit.setInstance(null);
+    }
+    
+    
+    
 }

@@ -20,6 +20,12 @@ public class JpaDaoPile extends JpaDao<Pile> implements PileDao {
     private JpaDaoPile() {
         
     }
+
+    public static void setInstance(JpaDaoPile instance) {
+        JpaDaoPile.instance = instance;
+    }
+    
+    
     
     protected static JpaDaoPile getInstance() {
         if(instance == null)

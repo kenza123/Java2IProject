@@ -23,6 +23,10 @@ public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
     private JpaDaoProduit() {
         
     }
+
+    public static void setInstance(JpaDaoProduit instance) {
+        JpaDaoProduit.instance = instance;
+    }
     
     protected static JpaDaoProduit getInstance() {
         if(instance == null)
