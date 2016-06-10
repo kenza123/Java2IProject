@@ -37,5 +37,6 @@ public abstract class DaoFactory {
     public abstract ProduitCommandeDao getProduitCommandeDao();
     public abstract TypeBoxDao getTypeBoxDao();
     public abstract TypeProduitDao getTypeProduitDao();
+    public abstract void resetInstances();
     
 }

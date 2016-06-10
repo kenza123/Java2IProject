@@ -21,6 +21,10 @@ public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
         
     }
     
+    public static void setInstance(JpaDaoCommande instance) {
+        JpaDaoCommande.instance = instance;
+    }
+    
     protected static JpaDaoCommande getInstance() {
         if(instance == null)
             instance = new JpaDaoCommande();

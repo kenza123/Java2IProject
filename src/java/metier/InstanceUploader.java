@@ -35,16 +35,16 @@ public class InstanceUploader {
     private List<String> typesProduitValues;
     private int nbLignesProd;
     private String fileName;
-
-    private final JpaDaoFactory jpaDaoFactory;
-    private final TypeProduitDao typeProduitDao;
-    private final TypeBoxDao typeBoxDao;
-    private final LigneProductionDao ligneProductionDao;
-    private final CommandeDao commandeDao;
-    private final ProduitCommandeDao produitCommandeDao;
-    private final ProduitDao produitDao;
-    private final BoxAcheteDao boxAcheteDao;
-    private final PileDao pileDao;
+    
+    private JpaDaoFactory jpaDaoFactory;
+    private TypeProduitDao typeProduitDao;
+    private TypeBoxDao typeBoxDao;
+    private LigneProductionDao ligneProductionDao;
+    private CommandeDao commandeDao;
+    private ProduitCommandeDao produitCommandeDao;
+    private ProduitDao produitDao;
+    private BoxAcheteDao boxAcheteDao;
+    private PileDao pileDao;
     
     public String getFileName() {
         return fileName;
@@ -92,6 +92,7 @@ public class InstanceUploader {
     }
     
     public void resetDB() {
+        
         produitDao.deleteAll();
         ligneProductionDao.deleteAll();
         produitCommandeDao.deleteAll();
@@ -100,6 +101,39 @@ public class InstanceUploader {
         boxAcheteDao.deleteAll();
         commandeDao.deleteAll();
         typeBoxDao.deleteAll();
+        
+        produitDao.close();
+        ligneProductionDao.close();
+        produitCommandeDao.close();
+        typeProduitDao.close();
+        pileDao.close();
+        boxAcheteDao.close();
+        commandeDao.close();
+        typeBoxDao.close();
+        
+        jpaDaoFactory.resetInstances();
+        
+        jpaDaoFactory = null;
+        typeProduitDao = null;
+        typeBoxDao = null;
+        ligneProductionDao = null;
+        commandeDao = null;
+        produitCommandeDao = null;
+        produitDao = null;
+        boxAcheteDao = null;
+        pileDao = null;
+        
+        
+        jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+        typeProduitDao = jpaDaoFactory.getTypeProduitDao();
+        typeBoxDao = jpaDaoFactory.getTypeBoxDao();
+        ligneProductionDao = jpaDaoFactory.getLigneProductionDao();
+        commandeDao = jpaDaoFactory.getCommandeDao();
+        produitCommandeDao = jpaDaoFactory.getProduitCommandeDao();
+        produitDao = jpaDaoFactory.getProduitDao();
+        boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
+        pileDao = jpaDaoFactory.getPileDao();
+     
     }
     
     public void insertToTypeProduit(String line) {
@@ -116,7 +150,7 @@ public class InstanceUploader {
         typesProduitValues.add(typeProduitTab[0]);
         typeProduit.setColor(this.getColor(typesProduitValues.size()));
         typeProduitDao.create(typeProduit);
-        
+       
     }
      
     public void insertToTypeBox(String line) {

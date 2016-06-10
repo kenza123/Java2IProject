@@ -23,6 +23,10 @@ public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
         
     }
     
+    public static void setInstance(JpaDaoBoxAchete instance) {
+        JpaDaoBoxAchete.instance = instance;
+    }
+    
     protected static JpaDaoBoxAchete getInstance() {
         if(instance == null)
             instance = new JpaDaoBoxAchete();

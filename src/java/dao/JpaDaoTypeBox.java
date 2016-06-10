@@ -20,6 +20,10 @@ public class JpaDaoTypeBox extends JpaDao<TypeBox> implements TypeBoxDao {
     private JpaDaoTypeBox() {
         
     }
+
+    public static void setInstance(JpaDaoTypeBox instance) {
+        JpaDaoTypeBox.instance = instance;
+    }
     
     protected static JpaDaoTypeBox getInstance() {
         if(instance == null)
