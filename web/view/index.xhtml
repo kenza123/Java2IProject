@@ -31,15 +31,16 @@
                                 <h:commandButton id="singlebutton" class="btn btn-primary" 
                                                  value="Upload" 
                                                  action="#{uploadControl.uploadFile}" 
-                                                 onclick="document.getElementById('loadingImage').style.display='inline';">
+                                                 onclick="document.getElementsByClassName('loadingImageHidden')[0].className = 'loadingImageInLine'">
                                     <f:ajax execute="file" render="@all"/>
                                 </h:commandButton>
-                                <img id="loadingImage" src="resources/imgs/loader.gif" height="30px" width="30px" style="display: none"/>
+                                <h:graphicImage class="loadingImageHidden" library="imgs" name="loader.gif"  height="30px" width="30px"/>
                             </div>
                         </div>
 
                     </h:form>
                 
+                    <h:messages errorClass="error" />
                     
                 </center>
                 

@@ -54,8 +54,12 @@ public class BoxControl implements Serializable{
     public List<TypeBox> getBoxList(){
         List<TypeBox> typeBoxes = new ArrayList<>();
         JpaDaoFactory jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
-        JpaDaoTypeBox jpaDaoTypeBox  = jpaDaoFactory.getTypeBoxDao();
-        typeBoxes.addAll(jpaDaoTypeBox.findAll());
+        JpaDaoBoxAchete jpaDaoBoxAchete  = jpaDaoFactory.getBoxAcheteDao();
+        for(BoxAchete boxAchete : jpaDaoBoxAchete.findAll()) {
+            if (!typeBoxes.contains(boxAchete.getIdTypeBox())) {
+                typeBoxes.add(boxAchete.getIdTypeBox());
+            }
+        }
         return typeBoxes;
     }
     

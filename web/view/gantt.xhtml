@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet library="css" name="style.css"/>
@@ -15,11 +16,11 @@
                 
                 <table style="width: 400px;">
                     <tr>
-                      <td style="width: 150px; vertical-align: bottom;">
-                          <h2>Lignes</h2></td>
-                      <td style="width: 200px; vertical-align: bottom; 
-                          text-align: center;">
-                          <h2>Timeline Produits</h2></td>
+                        <td style="width: 100px;overflow: hidden;display: inline-block;">
+                            <h2>Lignes</h2>
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                     <ui:repeat value="#{ligneControl.ligneList}" var="ligne">  
                         <tr>
@@ -47,6 +48,13 @@
                 
                 <ui:repeat value="#{boxControl.boxList}" var="box">
                     <table>
+                        <tr>
+                            <td style="width: 100px;overflow: hidden;display: inline-block;">
+                                <h2>#{box.id}</h2>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
                         <ui:repeat value="#{boxControl.getBoxAchetesList(box)}" var="boxAchete"> 
                             <tr>
                                 <td>
