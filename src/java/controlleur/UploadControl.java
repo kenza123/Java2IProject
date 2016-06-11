@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -57,16 +58,21 @@ public class UploadControl implements Serializable {
     }
     
     public String uploadFile() {
-        InstanceUploader instanceUploader = new InstanceUploader();
-        instanceUploader.upload(file);
-        //TrivialSolution trivialSolution = new TrivialSolution();
-        //trivialSolution.execute();
-        OptimisedSolution optimisedSolution = new OptimisedSolution();
-        optimisedSolution.execute();
-        this.solutionGenerator = new SolutionGenerator();
-        this.solutionGenerator.setFileName(file.getSubmittedFileName());
-        this.solutionGenerator.generateSolutionFile();
-        return "stats";
+        if(file.getSubmittedFileName().contains(".txt")) {
+            InstanceUploader instanceUploader = new InstanceUploader();
+            instanceUploader.upload(file);
+            //TrivialSolution trivialSolution = new TrivialSolution();
+            //trivialSolution.execute();
+            OptimisedSolution optimisedSolution = new OptimisedSolution();
+            optimisedSolution.execute();
+            this.solutionGenerator = new SolutionGenerator();
+            this.solutionGenerator.setFileName(file.getSubmittedFileName());
+            this.solutionGenerator.generateSolutionFile();
+            return "stats";
+        } else {
+            error("Le fichier n'est pas un fichier txt");
+            return "";
+        }
     }
     
     public void downloadFile () {
@@ -107,6 +113,11 @@ public class UploadControl implements Serializable {
                 System.out.println("nok2" + err.toString());  
             }  
         }  
+    }
+    
+    public void error(String message) {
+        FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
      
 }
