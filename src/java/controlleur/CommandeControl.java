@@ -13,9 +13,13 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import model.BoxAchete;
 import model.Commande;
+import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 import model.ProduitCommande;
 
@@ -54,13 +58,15 @@ public class CommandeControl implements Serializable {
     
     public List<Produit> getProduitsAchetes(BoxAchete boxAchete) {
         List<Produit> produits = new ArrayList();
-        boxAchete.getPileCollection().stream().forEach((pile) -> {
-            pile.getProduitCollection().stream().forEach((produit) -> {
-                if(!produits.contains(produit)) {
+        LigneControl ligneControl = new LigneControl();
+        for(LigneProduction ligneProduction : ligneControl.getLigneList()) {
+            ProduitControl produitControl = new ProduitControl();
+            for(Produit produit : produitControl.getProduits(ligneProduction)) {
+                if(Objects.equals(produit.getIdPile().getIdBoxAchete().getId(), boxAchete.getId()) && this.productExist(produit)) {
                     produits.add(produit);
                 }
-            });
-        });
+            }
+        }
         return produits;
     }
     
@@ -81,7 +87,12 @@ public class CommandeControl implements Serializable {
     }
     
     public String getDebutProd(BoxAchete boxAchete) {
-        return "check commandeControl.getDebutProd()";
+        List<Integer> debutProds = new ArrayList<>();
+        for(Produit produit : this.getProduitsAchetes(boxAchete)) {
+            debutProds.add(produit.getDateDebutProd());
+        }
+        Collections.sort(debutProds);
+        return debutProds.get(0).toString();
     }
     
     public List<Produit> getProducts() {

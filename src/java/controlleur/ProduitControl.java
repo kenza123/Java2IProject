@@ -36,11 +36,11 @@ public class ProduitControl implements Serializable {
         for(Produit produit : produits) {
             if(produit.getIdProduitCommande().getIdTypeProduit().getHauteur() 
                     > produit.getIdPile().getIdBoxAchete().getIdTypeBox().getHbox()) {
-                System.out.println(produit + "WAYLI hauteur kbira");
+                System.out.println(produit + " Hauteur du produit trop grande pour la box");
             }
             if(produit.getIdProduitCommande().getIdTypeProduit().getLongueur()
                     > produit.getIdPile().getIdBoxAchete().getIdTypeBox().getLbox()) {
-                System.out.println(produit + "WAYLI Longueur kbira");
+                System.out.println(produit + " Longueur du produit trop grande pour la box");
             }
         }
         return produits;

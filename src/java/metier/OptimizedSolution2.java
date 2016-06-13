@@ -33,7 +33,7 @@ import model.TypeProduit;
  *
  * @author ghitakhamaily
  */
-public class OptimisedSolution {
+public class OptimizedSolution2 {
 
     private Integer dateActuelleProduction;
     private Integer dateActuelleBox;
@@ -47,7 +47,7 @@ public class OptimisedSolution {
     private final PileDao pileDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
     
-    public OptimisedSolution() {
+    public OptimizedSolution2() {
         dateActuelleProduction = 0;
         dateActuelleBox = 0;
         jpaDaoFactory
@@ -82,7 +82,7 @@ public class OptimisedSolution {
                     commandeMax = (Commande) commande.clone();
                     evalProductionMax = evalProduction;
                 } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(OptimisedSolution.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(OptimizedSolution.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -131,8 +131,8 @@ public class OptimisedSolution {
         if (dateActuelleBox < commande.getDenvoiprevue()) {
             dateActuelleBox = commande.getDenvoiprevue();
         }
-        libererBoxes(commande);
         commande.setDenvoireel(dateActuelleBox);
+        libererBoxes(commande);
         commandeDao.update(commande);
     }
 
@@ -202,7 +202,14 @@ public class OptimisedSolution {
     }
 
     private BoxAchete acheterBox(TypeBox typeBox) {
+        for(BoxAchete boxAchete : boxAcheteDao.findBoxesByTypeBox(typeBox)) {
+            if(boxAchete.getLibre() == 0 && boxAchete.getDLibre() < dateActuelleProduction) {
+                boxAchete.setLibre(1);
+                return boxAchete;
+            }
+        }
         BoxAchete boxAchete = new BoxAchete();
+        boxAchete.setLibre(1);
         boxAchete.setIdTypeBox(typeBox);
         boxAchete.setNumBox(boxAcheteDao.countBoxes(typeBox)+1);
         boxAcheteDao.create(boxAchete);
@@ -225,6 +232,7 @@ public class OptimisedSolution {
             produitCommande.getProduitCollection().stream().forEach((produit)->{
                 BoxAchete boxAchete = produit.getIdPile().getIdBoxAchete();
                 boxAchete.setLibre(0);
+                boxAchete.setDLibre(dateActuelleBox);
                 boxAcheteDao.update(boxAchete);
             });
         });
