@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import metier.InstanceUploader;
 import metier.SolutionGenerator;
-import metier.OptimisedSolution;
+import metier.OptimizedSolution;
+import metier.OptimizedSolution2;
 
 /**
  *
@@ -61,10 +62,19 @@ public class UploadControl implements Serializable {
         if(file.getSubmittedFileName().contains(".txt")) {
             InstanceUploader instanceUploader = new InstanceUploader();
             instanceUploader.upload(file);
+            
+            // Using only one line
             //TrivialSolution trivialSolution = new TrivialSolution();
             //trivialSolution.execute();
-            OptimisedSolution optimisedSolution = new OptimisedSolution();
-            optimisedSolution.execute();
+            
+            // Using all production lines
+            //OptimizedSolution optimizedSolution = new OptimizedSolution();
+            //optimizedSolution.execute();
+            
+            // Reusing boxes
+            OptimizedSolution2 optimizedSolution2 = new OptimizedSolution2();
+            optimizedSolution2.execute();
+            
             this.solutionGenerator = new SolutionGenerator();
             this.solutionGenerator.setFileName(file.getSubmittedFileName());
             this.solutionGenerator.generateSolutionFile();

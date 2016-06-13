@@ -81,6 +81,7 @@ CREATE TABLE box_achete (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_type_box VARCHAR(55) NOT NULL,
     num_box INTEGER NOT NULL,
+    d_libre INTEGER NOT NULL,
     libre INTEGER
 );
 
