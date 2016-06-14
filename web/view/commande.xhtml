@@ -14,6 +14,7 @@
         <ui:composition template="./template.xhtml">
  
             <ui:define name="center">
+                
                 <h1>Commande <h:outputText value="#{commandeControl.commande.id}"/> prévue à 
                 <h:outputText value="#{commandeControl.commande.denvoiprevue}"/> envoyée à 
                 <h:outputText value="#{commandeControl.commande.denvoireel}"/></h1>
@@ -38,7 +39,26 @@
                                     <c:forEach items="#{produitControl.getProduits(ligne)}" var="produit">
                                         <c:choose>
                                             <c:when test="#{commandeControl.productExist(produit)}">
-                                                <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;fill-opacity:1"
+                                                <script>
+                                                var p#{produit.id} = 
+                                                        strong('Commande : ') + "#{produit.idProduitCommande.idCommande.id} " + newLine() +
+                                                        strong('Box : ') + " #{produit.idPile.idBoxAchete.idTypeBox.id}_#{produit.idPile.idBoxAchete.numBox} " + newLine() +
+                                                        strong(' Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
+                                                        strong(' Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
+                                                        strong('Produit : ') + " #{produit.idProduitCommande.idTypeProduit.id}  " + newLine() +
+                                                        strong(' Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
+                                                        strong(' Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
+                                                        strong(' Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
+                                                        strong(' Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
+                                                    jQuery(document).ready(function($) { 
+                                                        $("#produit#{produit.id}")
+                                                                .tooltip({content: p#{produit.id},track:true});
+                                                    });
+                                                </script>
+                                                <rect 
+                                                  id="produit#{produit.id}"
+                                                  title="#{produit.id}"
+                                                  style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;fill-opacity:1"
                                                   x="#{produit.dateDebutProd}"
                                                   width="#{produit.idProduitCommande.idTypeProduit.TProduction}"
                                                   height="25"/>
@@ -78,7 +98,25 @@
                                       width="#{box.idTypeBox.lbox}" 
                                       height="#{box.idTypeBox.hbox}"/>                  
                                 <c:forEach var="produit" items="#{commandeControl.getProduitsAchetes(box)}">
-                                    <rect style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;" 
+                                    <script>
+                                                var p#{produit.id} = 
+                                                        strong('Commande : ') + "#{produit.idProduitCommande.idCommande.id} " + newLine() +
+                                                        strong('Box : ') + " #{produit.idPile.idBoxAchete.idTypeBox.id}_#{produit.idPile.idBoxAchete.numBox} " + newLine() +
+                                                        strong(' Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
+                                                        strong(' Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
+                                                        strong('Produit : ') + " #{produit.idProduitCommande.idTypeProduit.id}  " + newLine() +
+                                                        strong(' Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
+                                                        strong(' Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
+                                                        strong(' Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
+                                                        strong(' Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
+                                                    jQuery(document).ready(function($) { 
+                                                        $("#pb#{produit.id}")
+                                                                .tooltip({content: p#{produit.id},track:true});
+                                                    });
+                                                </script>
+                                    <rect id="pb#{produit.id}"
+                                          title="#{produit.id}"
+                                          style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;" 
                                           y="#{box.idTypeBox.hbox - produit.idProduitCommande.idTypeProduit.hauteur}"
                                           width="#{produit.idProduitCommande.idTypeProduit.longueur}" 
                                           height="#{produit.idProduitCommande.idTypeProduit.hauteur}"/>
