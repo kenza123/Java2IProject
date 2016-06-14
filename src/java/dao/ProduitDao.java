@@ -5,8 +5,10 @@
  */
 package dao;
 
+import java.util.Collection;
 import java.util.List;
 import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 
 /**
@@ -17,5 +19,6 @@ public interface ProduitDao extends Dao<Produit> {
     public Produit findLastProductInLine(LigneProduction line);
     
     public List<Produit> findByIdLineProduct(LigneProduction line);
+    public Collection<Produit> findByPile(Pile pile);
     
 }

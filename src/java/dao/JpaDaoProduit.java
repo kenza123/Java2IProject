@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Vector;
 import javax.persistence.EntityTransaction;
 import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 
 /**
@@ -70,6 +71,10 @@ public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
    @Override
    public List<Produit> findByIdLineProduct(LigneProduction line){
        return em.createNamedQuery("Produit.findByIdLineProduct").setParameter("line", line).getResultList();
+   }
+   
+   public Collection<Produit> findByPile(Pile pile){
+       return em.createNamedQuery("Produit.findByPile").setParameter("pile", pile).getResultList();
    }
     
 }

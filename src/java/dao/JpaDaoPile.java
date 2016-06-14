@@ -7,6 +7,7 @@ package dao;
 
 import java.util.Collection;
 import javax.persistence.EntityTransaction;
+import model.BoxAchete;
 import model.Pile;
 
 /**
@@ -50,6 +51,11 @@ public class JpaDaoPile extends JpaDao<Pile> implements PileDao {
         et.begin();
         em.createNamedQuery("Pile.deleteAll").executeUpdate();
         et.commit();
+    }
+    
+    public Collection<Pile> findByBoxAchete(BoxAchete boxAchete){
+        return em.createNamedQuery("Pile.findByBoxAchete")
+                .setParameter("box_achete", boxAchete).getResultList();
     }
 
     @Override

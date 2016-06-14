@@ -7,7 +7,11 @@ package controlleur;
 
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
+import dao.JpaDaoPile;
+import dao.JpaDaoProduit;
 import dao.JpaDaoProduitCommande;
+import dto.PileDto;
+import dto.ProduitDto;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -66,6 +70,31 @@ public class CommandeControl implements Serializable {
                     produits.add(produit);
                 }
             }
+        }
+        return produits;
+    }
+    
+    public List<PileDto> getPileBoxAchetes(BoxAchete boxAchete){
+        List<PileDto> piles = new ArrayList();
+        int xValue = 0;
+        for(Pile pile : boxAchete.getPileCollection()) {
+            if(pile.getProduitCollection().iterator().next().getIdProduitCommande().getIdCommande().equals(commande)) {
+                piles.add(new PileDto(xValue, pile));
+                xValue += pile.getLongueurPile();
+                System.out.println(pile);
+            }
+        }
+        return piles;
+    }
+    
+    public List<ProduitDto> getProduitsPile(Pile pile){
+        List<ProduitDto> produits = new ArrayList();
+        int yValue = 0;
+        JpaDaoFactory jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
+        JpaDaoProduit jpaDaoProduit = jpaDaoFactory.getProduitDao();
+        for(Produit produit : jpaDaoProduit.findByPile(pile)){
+            yValue += produit.getIdProduitCommande().getIdTypeProduit().getHauteur();
+            produits.add(new ProduitDto(yValue, produit));
         }
         return produits;
     }

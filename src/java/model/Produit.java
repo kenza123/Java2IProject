@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Produit.findByIdLineProduct", query = "SELECT p FROM Produit p WHERE p.nblignes = :line ORDER BY p.dateDebutProd ASC"),
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p"),
     @NamedQuery(name = "Produit.findById", query = "SELECT p FROM Produit p WHERE p.id = :id"),
+    @NamedQuery(name = "Produit.findByPile", query = "SELECT p FROM Produit p WHERE p.idPile = :pile"),
     @NamedQuery(name = "Produit.findByDateDebutProd", query = "SELECT p FROM Produit p WHERE p.dateDebutProd = :dateDebutProd")})
 public class Produit implements Serializable {
 
