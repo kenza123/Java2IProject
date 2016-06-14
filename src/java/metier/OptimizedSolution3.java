@@ -219,16 +219,15 @@ public class OptimizedSolution3 {
     private BoxAchete findUsedBoughtBox(Produit produit) {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         for(BoxAchete boxAchete : boxAcheteActuelleCommande) {
-            Integer largeurAInserer = typeProduit.getLongueur();
-            Integer largeurUtilisee = 0;
+            Integer longueurAUtilisee = typeProduit.getLongueur();
             for(Pile pile : boxAchete.getPileCollection()) {
                 String commandeId = pile.getProduitCollection().iterator().next().getIdProduitCommande().getIdCommande().getId();
                 if(commandeId.equals(produit.getIdProduitCommande().getIdCommande().getId())) {
-                    largeurUtilisee += pile.getLargeurPile();
+                    longueurAUtilisee += pile.getLongueurPile();
                 }
             }
-            if((largeurUtilisee + largeurAInserer) < boxAchete.getIdTypeBox().getLbox()
-                    && typeProduit.getHauteur() < boxAchete.getIdTypeBox().getHbox()) {
+            if(longueurAUtilisee <= boxAchete.getIdTypeBox().getLbox()
+                    && typeProduit.getHauteur() <= boxAchete.getIdTypeBox().getHbox()) {
                 return boxAchete;
             }
         }
@@ -261,8 +260,8 @@ public class OptimizedSolution3 {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         Pile pile = new Pile();
         pile.getProduitCollection().add(produit);
-        pile.setLargeurPile(typeProduit.getLongueur());
-        pile.setLongueurPile(typeProduit.getHauteur());
+        pile.setLargeurPile(typeProduit.getHauteur());
+        pile.setLongueurPile(typeProduit.getLongueur());
         pile.setIdBoxAchete(boxAchete);
         pileDao.create(pile);
         return pile;

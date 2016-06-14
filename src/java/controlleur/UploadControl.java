@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 import metier.InstanceUploader;
 import metier.SolutionGenerator;
 import metier.OptimizedSolution;
+import metier.OptimizedSolution2;
 import metier.OptimizedSolution3;
 
 /**
@@ -72,8 +73,12 @@ public class UploadControl implements Serializable {
             //optimizedSolution.execute();
             
             // Reusing boxes
-            OptimizedSolution3 optimizedSolution2 = new OptimizedSolution3();
-            optimizedSolution2.execute();
+            //OptimizedSolution2 optimizedSolution2 = new OptimizedSolution2();
+            //optimizedSolution2.execute();
+
+            // Reusing boxes and empiler
+            OptimizedSolution3 optimizedSolution3 = new OptimizedSolution3();
+            optimizedSolution3.execute();
             
             this.solutionGenerator = new SolutionGenerator();
             this.solutionGenerator.setFileName(file.getSubmittedFileName());

@@ -143,8 +143,8 @@ public class TrivialSolution {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         Pile pile = new Pile();
         pile.getProduitCollection().add(produit);
-        pile.setLargeurPile(typeProduit.getLongueur());
-        pile.setLongueurPile(typeProduit.getHauteur());
+        pile.setLargeurPile(typeProduit.getHauteur());
+        pile.setLongueurPile(typeProduit.getLongueur());
         pile.setIdBoxAchete(boxAchete);
         pileDao.create(pile);
         return pile;
