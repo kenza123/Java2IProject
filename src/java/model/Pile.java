@@ -117,9 +117,9 @@ public class Pile implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Pile[ id=" + id + " ]";
+        return "Pile{" + "id=" + id + ", longueurPile=" + longueurPile + ", largeurPile=" + largeurPile + '}';
     }
-
+    
     @XmlTransient
     public Collection<Produit> getProduitCollection() {
         return produitCollection;

@@ -81,7 +81,19 @@ public class CommandeControl implements Serializable {
                 }
              });
         });
-
+        
+        boxes.stream().forEach((box)->{
+            System.out.println("box :" + box.toString());
+            System.out.println(box.getIdTypeBox().toString());
+            box.getPileCollection().stream().forEach((pile) -> {
+                List <Produit> produits = new ArrayList<>();
+                produits.addAll(pile.getProduitCollection());
+                Commande commandePile = produits.get(0).getIdProduitCommande().getIdCommande();
+                if(commandePile.equals(commande)) {
+                    System.out.println(pile.toString());
+                }
+            });
+        });
         this.boxAchetes.addAll(boxes);
         return "commande?faces-redirect=true";
     }
