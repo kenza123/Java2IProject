@@ -78,7 +78,6 @@ public class TrivialSolution {
         LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
         if (typeProduit != null) {
-            //verif if necesite setup time
             dateActuelleProduction += typeProduit.getTSetup();
             for (int i = 0; i < produitCommande.getNbUnites(); i++) {
                 Produit produit = produireProduit(produitCommande, ligneProduction);

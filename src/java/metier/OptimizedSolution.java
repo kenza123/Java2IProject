@@ -221,6 +221,7 @@ public class OptimizedSolution {
             produitCommande.getProduitCollection().stream().forEach((produit)->{
                 BoxAchete boxAchete = produit.getIdPile().getIdBoxAchete();
                 boxAchete.setLibre(0);
+                boxAchete.setDLibre(dateActuelleBox);
                 boxAcheteDao.update(boxAchete);
             });
         });
