@@ -24,25 +24,17 @@
                             </div>
                         </div>
                         
-                        <h:selectOneRadio value="#{uploadControl.solution}" id="radio">
-                            <div class="radio">
-                                <f:selectItem itemValue="0" itemLabel="Solution triviale" />
-                                <br/>
+                        <div class="form-group">
+                            <div>
+                                <h:selectOneRadio value="#{uploadControl.solution}" id="radio" styleClass="radio_table">
+                                    <f:selectItem itemValue="0" itemLabel="&nbsp;Solution triviale" />
+                                    <f:selectItem itemValue="1" itemLabel="&nbsp;Un produit par box et plusieurs lignes de production" />
+                                    <f:selectItem itemValue="2" itemLabel="&nbsp;Boxs reutilisables" />
+                                    <f:selectItem itemValue="3" itemLabel="&nbsp;Plusieurs produits par box" />
+                                    <f:ajax execute="radio"/>
+                                </h:selectOneRadio>
                             </div>
-                            <div class="radio">
-                                <f:selectItem itemValue="1" itemLabel="Un produit par box et plusieurs lignes de production" />
-                                <br/>
-                            </div>
-                            <div class="radio">
-                                <f:selectItem itemValue="2" itemLabel="Boxs reutilisables" />
-                                <br/>
-                            </div>
-                            <div class="radio">
-                                <f:selectItem itemValue="3" itemLabel="Plusieurs produits par box" />
-                                <br/>
-                            </div>
-                            <f:ajax execute="radio"/>
-                        </h:selectOneRadio>
+                        </div>
 
                         <!-- Button -->
                         <div class="form-group">
