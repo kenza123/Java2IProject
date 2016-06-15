@@ -19,10 +19,7 @@ import model.BoxAchete;
 import model.Pile;
 import model.Produit;
 import model.TypeBox;
-/**
- *
- * @author ohilmi
- */
+
 @Named(value = "boxControl")
 @SessionScoped
 public class BoxControl implements Serializable{

@@ -24,10 +24,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author aBennouna
- */
 @Entity
 @Table(name = "PILE")
 @XmlRootElement
@@ -35,7 +31,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pile.deleteAll", query = "DELETE FROM Pile p"),
     @NamedQuery(name = "Pile.findAll", query = "SELECT p FROM Pile p"),
     @NamedQuery(name = "Pile.findById", query = "SELECT p FROM Pile p WHERE p.id = :id"),
-    @NamedQuery(name = "Pile.findByBoxAchete", query = "SELECT p FROM Pile p WHERE p.idBoxAchete = :box_achete"),
     @NamedQuery(name = "Pile.findByLongueurPile", query = "SELECT p FROM Pile p WHERE p.longueurPile = :longueurPile"),
     @NamedQuery(name = "Pile.findByLargeurPile", query = "SELECT p FROM Pile p WHERE p.largeurPile = :largeurPile")})
 public class Pile implements Serializable {

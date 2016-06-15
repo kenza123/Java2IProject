@@ -29,10 +29,6 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-/**
- *
- * @author ghitakhamaily
- */
 public class OptimizedSolution {
 
     private Integer dateActuelleProduction;
@@ -225,6 +221,7 @@ public class OptimizedSolution {
             produitCommande.getProduitCollection().stream().forEach((produit)->{
                 BoxAchete boxAchete = produit.getIdPile().getIdBoxAchete();
                 boxAchete.setLibre(0);
+                boxAchete.setDLibre(dateActuelleBox);
                 boxAcheteDao.update(boxAchete);
             });
         });

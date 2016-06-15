@@ -5,10 +5,6 @@
  */
 package dao;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoFactory extends DaoFactory {
     
     public JpaDaoFactory() {

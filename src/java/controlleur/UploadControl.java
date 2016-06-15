@@ -23,18 +23,10 @@ import metier.OptimizedSolution2;
 import metier.OptimizedSolution3;
 import metier.TrivialSolution;
 
-/**
- *
- * @author aBennouna
- */
 @Named(value = "uploadControl")
 @SessionScoped
 public class UploadControl implements Serializable {
-
-    /**
-     * Creates a new instance of GangsterControl
-     */
-    
+  
     private Part file;
     private SolutionGenerator solutionGenerator;
     private int solution;
@@ -62,8 +54,6 @@ public class UploadControl implements Serializable {
     public void setSolutionGenerator(SolutionGenerator solutionGenerator) {
         this.solutionGenerator = solutionGenerator;
     }
-    
-    
     
     public UploadControl() {
 

@@ -7,10 +7,6 @@ package dao;
 
 import model.LigneProduction;
 
-/**
- *
- * @author aBennouna
- */
 public interface LigneProductionDao extends Dao<LigneProduction> {
     
     

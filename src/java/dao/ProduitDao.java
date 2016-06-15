@@ -11,14 +11,20 @@ import model.LigneProduction;
 import model.Pile;
 import model.Produit;
 
-/**
- *
- * @author aBennouna
- */
 public interface ProduitDao extends Dao<Produit> {
+    
+    /**
+     * Fonction permettant d'afficher le dernier produit de la ligne de production
+     * @param line Ligne de production
+     * @return Produit
+     */
     public Produit findLastProductInLine(LigneProduction line);
     
+    /**
+     * Fonction permettant d'afficher les produits de la ligne de production
+     * @param line Ligne de production
+     * @return Produits
+     */
     public List<Produit> findByIdLineProduct(LigneProduction line);
-    public Collection<Produit> findByPile(Pile pile);
     
 }

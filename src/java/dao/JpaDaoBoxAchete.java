@@ -11,10 +11,6 @@ import javax.persistence.EntityTransaction;
 import model.BoxAchete;
 import model.TypeBox;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoBoxAchete extends JpaDao<BoxAchete> implements BoxAcheteDao {
 
     private static JpaDaoBoxAchete instance;

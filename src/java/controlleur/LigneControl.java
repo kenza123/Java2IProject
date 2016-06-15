@@ -15,10 +15,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import model.LigneProduction;
 import model.Produit;
-/**
- *
- * @author ohilmi
- */
+
 @Named(value = "ligneControl")
 @SessionScoped
 public class LigneControl implements Serializable{

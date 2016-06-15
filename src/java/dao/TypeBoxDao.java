@@ -7,11 +7,14 @@ package dao;
 
 import model.TypeBox;
 
-/**
- *
- * @author aBennouna
- */
 public interface TypeBoxDao extends Dao<TypeBox> {
+    
+    /**
+     * Trouver une box avec ses dimensions
+     * @param lbox Longueur produit
+     * @param hbox Hauteur produit
+     * @return Box adequat
+     */
     public TypeBox findFirstByDimensions(int lbox, int hbox);
     
 }

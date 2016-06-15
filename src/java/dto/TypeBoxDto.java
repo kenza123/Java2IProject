@@ -8,10 +8,6 @@ package dto;
 import java.io.Serializable;
 import model.TypeBox;
 
-/**
- *
- * @author kenzakhamaily
- */
 public class TypeBoxDto implements Serializable {
     private int achat;
     private int utilise;

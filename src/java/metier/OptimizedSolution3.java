@@ -31,10 +31,6 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-/**
- *
- * @author ghitakhamaily
- */
 public class OptimizedSolution3 {
 
     private Integer dateActuelleProduction;
@@ -226,8 +222,10 @@ public class OptimizedSolution3 {
                     longueurAUtilisee += pile.getLongueurPile();
                 }
             }
+            int finProdProduit = produit.getDateDebutProd() + typeProduit.getTProduction();
             if(longueurAUtilisee <= boxAchete.getIdTypeBox().getLbox()
-                    && typeProduit.getHauteur() <= boxAchete.getIdTypeBox().getHbox()) {
+                    && typeProduit.getHauteur() <= boxAchete.getIdTypeBox().getHbox()
+                    && finProdProduit > boxAchete.getDLibre()) {
                 return boxAchete;
             }
         }
@@ -251,6 +249,7 @@ public class OptimizedSolution3 {
         boxAchete.setLibre(1);
         boxAchete.setIdTypeBox(typeBox);
         boxAchete.setNumBox(boxAcheteDao.countBoxes(typeBox)+1);
+        boxAchete.setDLibre(0);
         boxAcheteDao.create(boxAchete);
         boxAcheteActuelleCommande.add(boxAchete);
         return boxAchete;
@@ -276,7 +275,7 @@ public class OptimizedSolution3 {
                 boxAcheteDao.update(boxAchete);
             });
         });
-        boxAcheteActuelleCommande.clear();
+        boxAcheteActuelleCommande = new ArrayList();
     }
     
     private boolean ligneProductionNeedsSetUp(LigneProduction ligneProduction, TypeProduit typeProduit) {

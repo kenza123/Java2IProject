@@ -23,10 +23,6 @@ import model.Pile;
 import model.Produit;
 import model.ProduitCommande;
 
-/**
- *
- * @author aBennouna
- */
 @Named(value = "commandeControl")
 @SessionScoped
 public class CommandeControl implements Serializable {
