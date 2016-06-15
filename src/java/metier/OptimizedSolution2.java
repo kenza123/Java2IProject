@@ -205,6 +205,7 @@ public class OptimizedSolution2 {
         for(BoxAchete boxAchete : boxAcheteDao.findBoxesByTypeBox(typeBox)) {
             if(boxAchete.getLibre() == 0 && boxAchete.getDLibre() < dateActuelleProduction) {
                 boxAchete.setLibre(1);
+                boxAcheteDao.update(boxAchete);
                 return boxAchete;
             }
         }
