@@ -26,10 +26,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author aBennouna
- */
 public class SolutionGenerator {
     
     private final JpaDaoFactory jpaDaoFactory;

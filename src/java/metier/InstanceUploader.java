@@ -27,10 +27,6 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-/**
- *
- * @author ghitakhamaily
- */
 public class InstanceUploader {
     private List<String> typesProduitValues;
     private int nbLignesProd;

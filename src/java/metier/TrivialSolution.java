@@ -52,7 +52,7 @@ public class TrivialSolution {
     }
 
     /**
-     * 
+     * Fonction permettant d'executer le traitement métier
      */
     public void execute() {
         Collection<Commande> commandes = commandeDao.findAllOrderByDenvoiprevue();
@@ -71,8 +71,8 @@ public class TrivialSolution {
     }
    
     /**
-     * 
-     * @param produitCommande 
+     * Fonction permettant de produire et stocker le produit
+     * @param produitCommande Produit de la Commande
      */
     public void produireProduitCommande(ProduitCommande produitCommande){
         LigneProduction ligneProduction = choisirLigneProduction();
@@ -97,10 +97,10 @@ public class TrivialSolution {
     }
 
     /**
-     * 
-     * @param produitCommande
-     * @param ligneProduction
-     * @return 
+     * Fonction permettant de produire le produit
+     * @param produitCommande ProduitCommande
+     * @param ligneProduction Ligne de Production
+     * @return Produit
      */
     public Produit produireProduit(ProduitCommande produitCommande, LigneProduction ligneProduction) {
         Produit produit = new Produit();
@@ -112,16 +112,16 @@ public class TrivialSolution {
     }
 
     /**
-     * 
-     * @return 
+     * Fonction permettant de choisir la ligne de production
+     * @return LigneProduction
      */
     private LigneProduction choisirLigneProduction() {
         return ligneProductionDao.findAll().iterator().next();
     }
 
     /**
-     * 
-     * @param produit 
+     * Fonction permettant de stocker le produit
+     * @param produit Produit
      */
     private void stockerProduit(Produit produit) {
         TypeBox typeBox = trouverTypeBox(produit);
@@ -139,9 +139,9 @@ public class TrivialSolution {
     }
 
     /**
-     * 
-     * @param produit
-     * @return 
+     * Fonction permettant de trouver le type de box approprié au produit
+     * @param produit Produit
+     * @return TypeBox
      */
     private TypeBox trouverTypeBox(Produit produit) {
         if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null) {
@@ -152,9 +152,9 @@ public class TrivialSolution {
     }
 
     /**
-     * 
-     * @param typeBox
-     * @return 
+     * Fonction permettant d'acheter le box
+     * @param typeBox TypeBox
+     * @return BoxAchete
      */
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
@@ -166,10 +166,10 @@ public class TrivialSolution {
     }
 
     /**
-     * 
-     * @param produit
-     * @param boxAchete
-     * @return 
+     * Fonction permettant d'empiler
+     * @param produit Produit
+     * @param boxAchete BoxAchete
+     * @return Pile
      */
     private Pile empiler(Produit produit, BoxAchete boxAchete) {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
@@ -183,8 +183,8 @@ public class TrivialSolution {
     }
       
     /**
-     * 
-     * @param commande 
+     * Liberer les boxs de la commande
+     * @param commande Commande
      */
     private void libererBoxes(Commande commande) {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{

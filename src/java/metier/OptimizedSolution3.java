@@ -61,6 +61,9 @@ public class OptimizedSolution3 {
         pileDao = jpaDaoFactory.getPileDao();
     }
 
+    /**
+     * Fonction permettant d'executer le traitement métier
+     */
     public void execute() {
         Collection<Commande> commandes = commandeDao.findAll();
         
@@ -71,6 +74,11 @@ public class OptimizedSolution3 {
         }
     }
 
+    /**
+     * Trouver la commande la plus prioritaire
+     * @param commandes Commandes
+     * @return Commande la plus prioritaire
+     */
     public Commande findUrgentCommande(Collection<Commande> commandes) {
         Double evalProductionMax = -Double.MAX_VALUE;
         Commande commandeMax = new Commande();
@@ -89,10 +97,20 @@ public class OptimizedSolution3 {
         return commandeMax;
     }
 
+    /**
+     * Trouver la date d'envoi estimée
+     * @param commande Commande
+     * @return  Date envoi estimée
+     */
     private Integer dEnvoieEstimee(Commande commande) {
         return commande.getStockmin() + dateFinProductionEstimee(commande);
     }
 
+    /**
+     * Touver la date de fin de production estimee
+     * @param commande Commande
+     * @return Date de fin de production estimée
+     */
     private Integer dateFinProductionEstimee(Commande commande) {
         initialiserLigneProduction();
 
@@ -108,6 +126,11 @@ public class OptimizedSolution3 {
         return Collections.max(ligneProductions.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
+    /**
+     * Mets a jour la map "ligneProductions" composée de l'id des lignes de production 
+     * et de la date de libération de la ligne selon la derniere production 
+     * effectuée dans cette ligne
+     */
     private void initialiserLigneProduction() {
         ligneProductions = new LinkedHashMap<>();
         ligneProductionDao.findAll().stream().forEach((ligneProduction) -> {
@@ -121,6 +144,10 @@ public class OptimizedSolution3 {
         });
     }
 
+    /**
+     * Fonction permettant de poduire et de stocker la commande
+     * @param commande Commande
+     */
     private void produireEtStockerCommande(Commande commande) {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande) -> {
             produireEtStockerProduitCommande(produitCommande);
@@ -136,6 +163,10 @@ public class OptimizedSolution3 {
         commandeDao.update(commande);
     }
 
+    /**
+     * Fonction permettant de produire et stocker le produit
+     * @param produitCommande Produit de la Commande
+     */
     private void produireEtStockerProduitCommande(ProduitCommande produitCommande) {
         initialiserLigneProduction();
         LigneProduction ligneProduction = choisirLigneProduction();
@@ -162,6 +193,12 @@ public class OptimizedSolution3 {
         }
     }
 
+    /**
+     * Fonction permettant de produire le produit
+     * @param produitCommande ProduitCommande
+     * @param ligneProduction Ligne de Production
+     * @return Produit
+     */
     public Produit produireProduit(ProduitCommande produitCommande, LigneProduction ligneProduction) {
         Produit produit = new Produit();
         produit.setIdProduitCommande(produitCommande);
@@ -171,12 +208,20 @@ public class OptimizedSolution3 {
         return produit;
     }
 
+    /**
+     * Fonction permettant de choisir la ligne de production
+     * @return LigneProduction
+     */
     private LigneProduction choisirLigneProduction() {
         return ligneProductionDao
                 .find(Collections.min(ligneProductions.entrySet(),
                         Map.Entry.comparingByValue()).getKey());
     }
 
+    /**
+     * Fonction permettant de stocker le produit
+     * @param produit Produit
+     */
     private void stockerProduit(Produit produit) {
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = trouverBox(typeBox, produit);
@@ -192,6 +237,11 @@ public class OptimizedSolution3 {
         produitDao.update(produit);
     }
     
+    /**
+     * Fonction permettant de trouver le type de box approprié au produit
+     * @param produit Produit
+     * @return TypeBox
+     */
     private TypeBox trouverTypeBox(Produit produit) {
         if (produit.getIdProduitCommande() != null 
                 && produit.getIdProduitCommande().getIdTypeProduit() != null){
@@ -201,6 +251,12 @@ public class OptimizedSolution3 {
         return null;
     }
 
+    /**
+     * Fonction permettant de trouver la BoxAchete adequate
+     * @param typeBox Typebox
+     * @param produit Produit
+     * @return BoxAchete
+     */
     private BoxAchete trouverBox(TypeBox typeBox, Produit produit) {
         BoxAchete boxAchete = findUsedBoughtBox(produit);
         if (boxAchete == null) {
@@ -212,6 +268,11 @@ public class OptimizedSolution3 {
         return boxAchete;
     }
     
+    /**
+     * Trouver une BoxAchete utilisée
+     * @param produit Produit
+     * @return BoxAchete
+     */
     private BoxAchete findUsedBoughtBox(Produit produit) {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         for(BoxAchete boxAchete : boxAcheteActuelleCommande) {
@@ -232,6 +293,11 @@ public class OptimizedSolution3 {
         return null;
     }
     
+    /**
+     * Trouver une BoxAchete libre
+     * @param typeBox TypeBox
+     * @return BoxAchete
+     */
     private BoxAchete findFreeBoughtBox(TypeBox typeBox) {
         for(BoxAchete boxAchete : boxAcheteDao.findBoxesByTypeBox(typeBox)) {
             if(boxAchete.getLibre() == 0 && boxAchete.getDLibre() < dateActuelleProduction) {
@@ -244,6 +310,11 @@ public class OptimizedSolution3 {
         return null;
     }
     
+    /**
+     * Fonction permettant d'acheter le box
+     * @param typeBox TypeBox
+     * @return BoxAchete
+     */
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setLibre(1);
@@ -255,6 +326,12 @@ public class OptimizedSolution3 {
         return boxAchete;
     }
 
+    /**
+     * Fonction permettant d'empiler
+     * @param produit Produit
+     * @param boxAchete BoxAchete
+     * @return Pile
+     */
     private Pile empiler(Produit produit, BoxAchete boxAchete) {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         Pile pile = new Pile();
@@ -265,7 +342,11 @@ public class OptimizedSolution3 {
         pileDao.create(pile);
         return pile;
     }
-            
+    
+    /**
+     * Liberer les boxs de la commande
+     * @param commande Commande
+     */
     private void libererBoxes(Commande commande) {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
             produitCommande.getProduitCollection().stream().forEach((produit)->{
@@ -278,6 +359,13 @@ public class OptimizedSolution3 {
         boxAcheteActuelleCommande = new ArrayList();
     }
     
+    /**
+     * Fonction permettant de verifier si la ligne de production a besoin
+     * d'un temps de setup
+     * @param ligneProduction LigneProduction
+     * @param typeProduit TypeProduit
+     * @return True si elle a besoin d'un temps de setup, sinon False
+     */
     private boolean ligneProductionNeedsSetUp(LigneProduction ligneProduction, TypeProduit typeProduit) {
         Produit produit = produitDao.findLastProductInLine(ligneProduction);
         if(produit != null){
