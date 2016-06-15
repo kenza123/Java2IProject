@@ -23,6 +23,26 @@
                                 <h:inputFile id="file" class="input-file"  value="#{uploadControl.file}"/>
                             </div>
                         </div>
+                        
+                        <h:selectOneRadio value="#{uploadControl.solution}" id="radio">
+                            <div class="radio">
+                                <f:selectItem itemValue="0" itemLabel="Solution triviale" />
+                                <br/>
+                            </div>
+                            <div class="radio">
+                                <f:selectItem itemValue="1" itemLabel="Un produit par box et plusieurs lignes de production" />
+                                <br/>
+                            </div>
+                            <div class="radio">
+                                <f:selectItem itemValue="2" itemLabel="Boxs reutilisables" />
+                                <br/>
+                            </div>
+                            <div class="radio">
+                                <f:selectItem itemValue="3" itemLabel="Plusieurs produits par box" />
+                                <br/>
+                            </div>
+                            <f:ajax execute="radio"/>
+                        </h:selectOneRadio>
 
                         <!-- Button -->
                         <div class="form-group">

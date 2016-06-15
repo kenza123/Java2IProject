@@ -21,6 +21,7 @@ import metier.SolutionGenerator;
 import metier.OptimizedSolution;
 import metier.OptimizedSolution2;
 import metier.OptimizedSolution3;
+import metier.TrivialSolution;
 
 /**
  *
@@ -36,6 +37,15 @@ public class UploadControl implements Serializable {
     
     private Part file;
     private SolutionGenerator solutionGenerator;
+    private int solution;
+
+    public int getSolution() {
+        return solution;
+    }
+
+    public void setSolution(int solution) {
+        this.solution = solution;
+    }
 
     public Part getFile() {
         return file;
@@ -60,32 +70,43 @@ public class UploadControl implements Serializable {
     }
     
     public String uploadFile() {
-        if(file.getSubmittedFileName().contains(".txt")) {
-            InstanceUploader instanceUploader = new InstanceUploader();
-            instanceUploader.upload(file);
-            
-            // Using only one line
-            //TrivialSolution trivialSolution = new TrivialSolution();
-            //trivialSolution.execute();
-            
-            // Using all production lines
-            //OptimizedSolution optimizedSolution = new OptimizedSolution();
-            //optimizedSolution.execute();
-            
-            // Reusing boxes
-            //OptimizedSolution2 optimizedSolution2 = new OptimizedSolution2();
-            //optimizedSolution2.execute();
+        if(file != null) {
+            if(file.getSubmittedFileName().contains(".txt")) {
+                InstanceUploader instanceUploader = new InstanceUploader();
+                instanceUploader.upload(file);
 
-            // Reusing boxes and empiler
-            OptimizedSolution3 optimizedSolution3 = new OptimizedSolution3();
-            optimizedSolution3.execute();
-            
-            this.solutionGenerator = new SolutionGenerator();
-            this.solutionGenerator.setFileName(file.getSubmittedFileName());
-            this.solutionGenerator.generateSolutionFile();
-            return "stats";
+                switch(solution) {
+                    case 0 : 
+                        TrivialSolution trivialSolution = new TrivialSolution();
+                        trivialSolution.execute();
+                        break;
+                    case 1 : 
+                        OptimizedSolution optimizedSolution = new OptimizedSolution();
+                        optimizedSolution.execute();
+                        break;
+                    case 2 : 
+                        OptimizedSolution2 optimizedSolution2 = new OptimizedSolution2();
+                        optimizedSolution2.execute();
+                        break;
+                    case 3 :
+                        OptimizedSolution3 optimizedSolution3 = new OptimizedSolution3();
+                        optimizedSolution3.execute();
+                        break;
+                    default : 
+                        error("Veuillez choisir une méthode de calcul");
+                        return "";
+                }
+
+                this.solutionGenerator = new SolutionGenerator();
+                this.solutionGenerator.setFileName(file.getSubmittedFileName());
+                this.solutionGenerator.generateSolutionFile();
+                return "stats";
+            } else {
+                error("Le fichier n'est pas un fichier txt");
+                return "";
+            }
         } else {
-            error("Le fichier n'est pas un fichier txt");
+            error("Veuillez uploader un fichier");
             return "";
         }
     }

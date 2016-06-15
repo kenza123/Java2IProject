@@ -7,11 +7,7 @@ package controlleur;
 
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
-import dao.JpaDaoPile;
-import dao.JpaDaoProduit;
 import dao.JpaDaoProduitCommande;
-import dto.PileDto;
-import dto.ProduitDto;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -74,31 +70,6 @@ public class CommandeControl implements Serializable {
         return produits;
     }
     
-    public List<PileDto> getPileBoxAchetes(BoxAchete boxAchete){
-        List<PileDto> piles = new ArrayList();
-        int xValue = 0;
-        for(Pile pile : boxAchete.getPileCollection()) {
-            if(pile.getProduitCollection().iterator().next().getIdProduitCommande().getIdCommande().equals(commande)) {
-                piles.add(new PileDto(xValue, pile));
-                xValue += pile.getLongueurPile();
-                System.out.println(pile);
-            }
-        }
-        return piles;
-    }
-    
-    public List<ProduitDto> getProduitsPile(Pile pile){
-        List<ProduitDto> produits = new ArrayList();
-        int yValue = 0;
-        JpaDaoFactory jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
-        JpaDaoProduit jpaDaoProduit = jpaDaoFactory.getProduitDao();
-        for(Produit produit : jpaDaoProduit.findByPile(pile)){
-            yValue += produit.getIdProduitCommande().getIdTypeProduit().getHauteur();
-            produits.add(new ProduitDto(yValue, produit));
-        }
-        return produits;
-    }
-    
     public String showPage(Commande commande) {
         this.commande = commande;
         this.boxAchetes = new ArrayList<>();
@@ -110,19 +81,7 @@ public class CommandeControl implements Serializable {
                 }
              });
         });
-        
-        boxes.stream().forEach((box)->{
-            System.out.println("box :" + box.toString());
-            System.out.println(box.getIdTypeBox().toString());
-            box.getPileCollection().stream().forEach((pile) -> {
-                List <Produit> produits = new ArrayList<>();
-                produits.addAll(pile.getProduitCollection());
-                Commande commandePile = produits.get(0).getIdProduitCommande().getIdCommande();
-                if(commandePile.equals(commande)) {
-                    System.out.println(pile.toString());
-                }
-            });
-        });
+
         this.boxAchetes.addAll(boxes);
         return "commande?faces-redirect=true";
     }
