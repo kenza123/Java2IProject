@@ -31,10 +31,6 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-/**
- *
- * @author ghitakhamaily
- */
 public class OptimizedSolution3 {
 
     private Integer dateActuelleProduction;

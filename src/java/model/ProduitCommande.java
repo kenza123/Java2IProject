@@ -25,10 +25,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author aBennouna
- */
 @Entity
 @Table(name = "PRODUIT_COMMANDE")
 @XmlRootElement

@@ -15,10 +15,6 @@ import java.util.List;
 import model.LigneProduction;
 import model.Produit;
 
-/**
- *
- * @author kenzakhamaily
- */
 @Named(value = "produitControl")
 @SessionScoped
 public class ProduitControl implements Serializable {

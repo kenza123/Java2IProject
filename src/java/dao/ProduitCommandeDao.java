@@ -9,12 +9,13 @@ import java.util.Collection;
 import model.Commande;
 import model.ProduitCommande;
 
-/**
- *
- * @author aBennouna
- */
 public interface ProduitCommandeDao extends Dao<ProduitCommande> {
     
+    /**
+     * Fonction permettant d'avoir les produits de la commande
+     * @param c Commande
+     * @return Produits de la commande fournie
+     */
     public Collection<ProduitCommande> findProductsOfCommande(Commande c);
     
 }

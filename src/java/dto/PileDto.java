@@ -9,10 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import model.Pile;
 
-/**
- *
- * @author aBennouna
- */
 public class PileDto implements Comparable, Serializable {
     private int xValue;
     private Pile pile;

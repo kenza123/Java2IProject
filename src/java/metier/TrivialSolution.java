@@ -24,10 +24,6 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-/**
- *
- * @author ghitakhamaily
- */
 public class TrivialSolution {
 
     private Integer dateActuelleProduction;
@@ -55,6 +51,9 @@ public class TrivialSolution {
         pileDao = jpaDaoFactory.getPileDao();
     }
 
+    /**
+     * 
+     */
     public void execute() {
         Collection<Commande> commandes = commandeDao.findAllOrderByDenvoiprevue();
         commandes.stream().forEach((commande) -> {
@@ -71,6 +70,10 @@ public class TrivialSolution {
         });
     }
    
+    /**
+     * 
+     * @param produitCommande 
+     */
     public void produireProduitCommande(ProduitCommande produitCommande){
         LigneProduction ligneProduction = choisirLigneProduction();
         TypeProduit typeProduit = produitCommande.getIdTypeProduit();
@@ -94,6 +97,12 @@ public class TrivialSolution {
         }
     }
 
+    /**
+     * 
+     * @param produitCommande
+     * @param ligneProduction
+     * @return 
+     */
     public Produit produireProduit(ProduitCommande produitCommande, LigneProduction ligneProduction) {
         Produit produit = new Produit();
         produit.setIdProduitCommande(produitCommande);
@@ -103,10 +112,18 @@ public class TrivialSolution {
         return produit;
     }
 
+    /**
+     * 
+     * @return 
+     */
     private LigneProduction choisirLigneProduction() {
         return ligneProductionDao.findAll().iterator().next();
     }
 
+    /**
+     * 
+     * @param produit 
+     */
     private void stockerProduit(Produit produit) {
         TypeBox typeBox = trouverTypeBox(produit);
         BoxAchete boxAchete = acheterBox(typeBox);
@@ -122,6 +139,11 @@ public class TrivialSolution {
         produitDao.update(produit);
     }
 
+    /**
+     * 
+     * @param produit
+     * @return 
+     */
     private TypeBox trouverTypeBox(Produit produit) {
         if (produit.getIdProduitCommande() != null && produit.getIdProduitCommande().getIdTypeProduit() != null) {
             TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
@@ -130,6 +152,11 @@ public class TrivialSolution {
         return null;
     }
 
+    /**
+     * 
+     * @param typeBox
+     * @return 
+     */
     private BoxAchete acheterBox(TypeBox typeBox) {
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setIdTypeBox(typeBox);
@@ -139,6 +166,12 @@ public class TrivialSolution {
         return boxAchete;
     }
 
+    /**
+     * 
+     * @param produit
+     * @param boxAchete
+     * @return 
+     */
     private Pile empiler(Produit produit, BoxAchete boxAchete) {
         TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
         Pile pile = new Pile();
@@ -149,7 +182,11 @@ public class TrivialSolution {
         pileDao.create(pile);
         return pile;
     }
-            
+      
+    /**
+     * 
+     * @param commande 
+     */
     private void libererBoxes(Commande commande) {
         commande.getProduitCommandeCollection().stream().forEach((produitCommande)->{
             produitCommande.getProduitCollection().stream().forEach((produit)->{

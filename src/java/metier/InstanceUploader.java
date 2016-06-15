@@ -67,7 +67,10 @@ public class InstanceUploader {
         typesProduitValues = new ArrayList();
     }
         
-    
+    /**
+     * Fonction servant a verifier chaque ligne du fichier et ensuite l'inserer en base
+     * @param file Fichier d'insance
+     */
     public void upload(Part file) {
        try {
             BufferedReader in = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -91,6 +94,9 @@ public class InstanceUploader {
         }
     }
     
+    /**
+     * Fonction permettant de réinitialiser la base de donner et fermer toutes les instances
+     */
     public void resetDB() {
         
         produitDao.deleteAll();
@@ -136,6 +142,10 @@ public class InstanceUploader {
      
     }
     
+    /**
+     * On insere le type de produit en base
+     * @param line Ligne provenant du fichier d'instance correspondant au type de produit
+     */
     public void insertToTypeProduit(String line) {
         String [] typeProduitTab = line.split(" ");
         
@@ -153,6 +163,10 @@ public class InstanceUploader {
        
     }
      
+    /**
+     * On insere le type de box en base
+     * @param line Ligne provenant du fichier d'instance correspondant au type de box
+     */
     public void insertToTypeBox(String line) {
         String [] typeBoxTab = line.split(" ");
         TypeBox typeBox = new TypeBox();
@@ -165,6 +179,10 @@ public class InstanceUploader {
         
     }
     
+    /**
+     * On insere la ligne de production en base
+     * @param line Ligne provenant du fichier d'instance correspondant a la ligne de production
+     */
     public void insertToLigneProduction(String line) {
         nbLignesProd = Integer.decode(line.split(" ")[3]);
      
@@ -176,6 +194,10 @@ public class InstanceUploader {
         
     }
     
+    /**
+     * On insere la commande en base
+     * @param line Ligne provenant du fichier d'instance correspondant a la commande
+     */
     public void insertToCommande(String line) {
         String [] commandeTab = line.split(" ");
         Commande commande = new Commande();
@@ -203,6 +225,11 @@ public class InstanceUploader {
         }
     }
     
+    /**
+     * Fonction permettant de verifier si la variable d'entrée est un nombre
+     * @param val String
+     * @return True si c'est un nombre, sinon False
+     */
     public Boolean isNumber(String val) {
         try  {  
             double d = Double.parseDouble(val);  
@@ -213,6 +240,11 @@ public class InstanceUploader {
         return true;  
     }
     
+    /**
+     * Fonction permettant de réduire le nombr d'espaces dans la ligne du fichier d'instance
+     * @param line Ligne en provenance du fichier d'instance
+     * @return Ligne avec le nombre d'espaces reduits
+     */
     public String eraseSpaces(String line) {
         Boolean verif = true;
         while(verif) {
@@ -226,6 +258,11 @@ public class InstanceUploader {
         return line;
     }
     
+    /**
+     * Fonction permettant d'assigner une couleur a un produit
+     * @param position Position
+     * @return Couleur
+     */
     public String getColor(int position) {
         String[] colors = 
         {   
@@ -245,4 +282,5 @@ public class InstanceUploader {
         boolean inBounds = (position >= 0) && (position < colors.length);
         return (inBounds) ? colors[position] : colors[0];
     }
+
 }

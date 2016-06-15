@@ -7,10 +7,6 @@ package dto;
 
 import model.Produit;
 
-/**
- *
- * @author aBennouna
- */
 public class ProduitDto {
     private int yValue;
     private Produit produit;

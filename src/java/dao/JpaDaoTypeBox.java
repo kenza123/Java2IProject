@@ -9,10 +9,6 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 import model.TypeBox;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoTypeBox extends JpaDao<TypeBox> implements TypeBoxDao {
 
     private static JpaDaoTypeBox instance;

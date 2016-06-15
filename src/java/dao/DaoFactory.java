@@ -5,10 +5,6 @@
  */
 package dao;
 
-/**
- *
- * @author aBennouna
- */
 public abstract class DaoFactory {
     public enum PersistenceType {
         JPA,

@@ -9,10 +9,6 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 import model.Commande;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
 
     private static JpaDaoCommande instance;
@@ -64,23 +60,7 @@ public class JpaDaoCommande extends JpaDao<Commande> implements CommandeDao {
     public Collection<Commande> findAllOrderByDenvoireelle() {
         return em.createNamedQuery("Commande.findAllOrderBYDenvoireelle").getResultList();
     }
-    /*
     
-    @Override
-    public Collection<Commande> findAllOrderBYPenalite() {
-        return em.createNamedQuery("Commande.findAllOrderBYPenalite").getResultList();
-    }
-    
-    @Override
-    public Collection<Commande> findAllOrderBYStock() {
-        return em.createNamedQuery("Commande.findAllOrderBYStock").getResultList();
-    }
-    
-    @Override
-    public Collection<Commande> findAllOrderBYId() {
-        return em.createNamedQuery("Commande.findAllOrderBYId").getResultList();
-    }
-    */
     @Override
     public Commande findCommandeByName(String name) {
         return (Commande)em.createNamedQuery("Commande.findById").setParameter("id", name).getResultList().iterator().next();

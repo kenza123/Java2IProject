@@ -9,10 +9,6 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 import model.LigneProduction;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoLigneProduction extends JpaDao<LigneProduction> implements LigneProductionDao {
 
     private static JpaDaoLigneProduction instance;

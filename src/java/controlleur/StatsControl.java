@@ -22,10 +22,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.enterprise.context.SessionScoped;
 
-/**
- *
- * @author kenzakhamaily
- */
 @Named(value = "statsControl")
 @SessionScoped
 public class StatsControl implements Serializable {

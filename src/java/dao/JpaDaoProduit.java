@@ -13,10 +13,6 @@ import model.LigneProduction;
 import model.Pile;
 import model.Produit;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
 
     private static JpaDaoProduit instance;
@@ -71,10 +67,6 @@ public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
    @Override
    public List<Produit> findByIdLineProduct(LigneProduction line){
        return em.createNamedQuery("Produit.findByIdLineProduct").setParameter("line", line).getResultList();
-   }
-   
-   public Collection<Produit> findByPile(Pile pile){
-       return em.createNamedQuery("Produit.findByPile").setParameter("pile", pile).getResultList();
    }
     
 }
