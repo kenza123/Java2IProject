@@ -11,8 +11,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
- *
- * @author aBennouna
  * @param <T>
  */
 public abstract class JpaDao<T> implements Dao<T> {

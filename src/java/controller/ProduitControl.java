@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlleur;
+package controller;
 
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
@@ -15,10 +15,6 @@ import java.util.List;
 import model.LigneProduction;
 import model.Produit;
 
-/**
- *
- * @author kenzakhamaily
- */
 @Named(value = "produitControl")
 @SessionScoped
 public class ProduitControl implements Serializable {

@@ -9,10 +9,6 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 import model.TypeProduit;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoTypeProduit extends JpaDao<TypeProduit> implements TypeProduitDao {
 
     private static JpaDaoTypeProduit instance;

@@ -96,7 +96,8 @@
                                  height="#{box.idTypeBox.hbox}">
                                 <rect style="fill:#A0D468;stroke:black;stroke-width:1;" 
                                       width="#{box.idTypeBox.lbox}" 
-                                      height="#{box.idTypeBox.hbox}"/>                  
+                                      height="#{box.idTypeBox.hbox}"/> 
+                                <c:set var="xValue" value="0" />
                                 <c:forEach var="produit" items="#{commandeControl.getProduitsAchetes(box)}">
                                     <script>
                                                 var p#{produit.id} = 
@@ -117,9 +118,11 @@
                                     <rect id="pb#{produit.id}"
                                           title="#{produit.id}"
                                           style="fill:#{produit.idProduitCommande.idTypeProduit.color};stroke:black;stroke-width:1;" 
+                                          x="${xValue}"
                                           y="#{box.idTypeBox.hbox - produit.idProduitCommande.idTypeProduit.hauteur}"
                                           width="#{produit.idProduitCommande.idTypeProduit.longueur}" 
                                           height="#{produit.idProduitCommande.idTypeProduit.hauteur}"/>
+                                    <c:set var="xValue" value="${xValue + produit.idPile.longueurPile}"/>
                                 </c:forEach>
                             </svg>
                         </td>
@@ -132,4 +135,3 @@
         </ui:composition>
     </h:body>
 </html>
-

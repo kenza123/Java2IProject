@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlleur;
+package controller;
 
 import dao.DaoFactory;
 import dao.JpaDaoCommande;
@@ -15,10 +15,6 @@ import java.util.Collection;
 import java.util.List;
 import model.Commande;
 
-/**
- *
- * @author kenzakhamaily
- */
 @Named(value = "templateControl")
 @SessionScoped
 public class TemplateControl implements Serializable {
@@ -43,10 +39,6 @@ public class TemplateControl implements Serializable {
     
     public String goToStats(){
         return "stats?faces-redirect=true";
-    }
-    
-    public String goToTests(){
-        return "test?faces-redirect=true";
     }
     
     public String goToGantt(){

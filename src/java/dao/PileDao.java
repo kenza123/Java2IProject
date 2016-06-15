@@ -7,10 +7,6 @@ package dao;
 
 import model.Pile;
 
-/**
- *
- * @author aBennouna
- */
 public interface PileDao extends Dao<Pile> {
     
     

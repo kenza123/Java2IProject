@@ -10,10 +10,6 @@ import javax.persistence.EntityTransaction;
 import model.Commande;
 import model.ProduitCommande;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoProduitCommande extends JpaDao<ProduitCommande> implements ProduitCommandeDao {
 
     private static JpaDaoProduitCommande instance;

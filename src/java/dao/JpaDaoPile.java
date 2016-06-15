@@ -7,12 +7,9 @@ package dao;
 
 import java.util.Collection;
 import javax.persistence.EntityTransaction;
+import model.BoxAchete;
 import model.Pile;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoPile extends JpaDao<Pile> implements PileDao {
 
     private static JpaDaoPile instance;
@@ -51,7 +48,7 @@ public class JpaDaoPile extends JpaDao<Pile> implements PileDao {
         em.createNamedQuery("Pile.deleteAll").executeUpdate();
         et.commit();
     }
-
+    
     @Override
     public void close() {
         em.close();

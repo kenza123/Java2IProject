@@ -14,9 +14,11 @@ import dao.PileDao;
 import dao.ProduitCommandeDao;
 import dao.ProduitDao;
 import dao.TypeBoxDao;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,10 +31,11 @@ import model.ProduitCommande;
 import model.TypeBox;
 import model.TypeProduit;
 
-public class OptimizedSolution2 {
+public class OptimizedSolution3 {
 
     private Integer dateActuelleProduction;
     private Integer dateActuelleBox;
+    private List<BoxAchete> boxAcheteActuelleCommande;
     private final JpaDaoFactory jpaDaoFactory;
     private final CommandeDao commandeDao;
     private final LigneProductionDao ligneProductionDao;
@@ -43,9 +46,10 @@ public class OptimizedSolution2 {
     private final PileDao pileDao;
     private LinkedHashMap<Integer, Integer> ligneProductions;
     
-    public OptimizedSolution2() {
+    public OptimizedSolution3() {
         dateActuelleProduction = 0;
         dateActuelleBox = 0;
+        boxAcheteActuelleCommande = new ArrayList<>();
         jpaDaoFactory
                 = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
         commandeDao = jpaDaoFactory.getCommandeDao();
@@ -220,7 +224,7 @@ public class OptimizedSolution2 {
      */
     private void stockerProduit(Produit produit) {
         TypeBox typeBox = trouverTypeBox(produit);
-        BoxAchete boxAchete = acheterBox(typeBox);
+        BoxAchete boxAchete = trouverBox(typeBox, produit);
         Pile pile = empiler(produit, boxAchete);
         
         boxAchete.getPileCollection().add(pile);
@@ -248,23 +252,77 @@ public class OptimizedSolution2 {
     }
 
     /**
+     * Fonction permettant de trouver la BoxAchete adequate
+     * @param typeBox Typebox
+     * @param produit Produit
+     * @return BoxAchete
+     */
+    private BoxAchete trouverBox(TypeBox typeBox, Produit produit) {
+        BoxAchete boxAchete = findUsedBoughtBox(produit);
+        if (boxAchete == null) {
+            boxAchete = findFreeBoughtBox(typeBox);
+            if (boxAchete == null) {
+                return acheterBox(typeBox);
+            }
+        }
+        return boxAchete;
+    }
+    
+    /**
+     * Trouver une BoxAchete utilisée
+     * @param produit Produit
+     * @return BoxAchete
+     */
+    private BoxAchete findUsedBoughtBox(Produit produit) {
+        TypeProduit typeProduit = produit.getIdProduitCommande().getIdTypeProduit();
+        for(BoxAchete boxAchete : boxAcheteActuelleCommande) {
+            Integer longueurAUtilisee = typeProduit.getLongueur();
+            for(Pile pile : boxAchete.getPileCollection()) {
+                String commandeId = pile.getProduitCollection().iterator().next().getIdProduitCommande().getIdCommande().getId();
+                if(commandeId.equals(produit.getIdProduitCommande().getIdCommande().getId())) {
+                    longueurAUtilisee += pile.getLongueurPile();
+                }
+            }
+            int finProdProduit = produit.getDateDebutProd() + typeProduit.getTProduction();
+            if(longueurAUtilisee <= boxAchete.getIdTypeBox().getLbox()
+                    && typeProduit.getHauteur() <= boxAchete.getIdTypeBox().getHbox()
+                    && finProdProduit > boxAchete.getDLibre()) {
+                return boxAchete;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Trouver une BoxAchete libre
+     * @param typeBox TypeBox
+     * @return BoxAchete
+     */
+    private BoxAchete findFreeBoughtBox(TypeBox typeBox) {
+        for(BoxAchete boxAchete : boxAcheteDao.findBoxesByTypeBox(typeBox)) {
+            if(boxAchete.getLibre() == 0 && boxAchete.getDLibre() < dateActuelleProduction) {
+                boxAchete.setLibre(1);
+                boxAcheteDao.update(boxAchete);
+                boxAcheteActuelleCommande.add(boxAchete);
+                return boxAchete;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * Fonction permettant d'acheter le box
      * @param typeBox TypeBox
      * @return BoxAchete
      */
     private BoxAchete acheterBox(TypeBox typeBox) {
-        for(BoxAchete boxAchete : boxAcheteDao.findBoxesByTypeBox(typeBox)) {
-            if(boxAchete.getLibre() == 0 && boxAchete.getDLibre() < dateActuelleProduction) {
-                boxAchete.setLibre(1);
-                boxAcheteDao.update(boxAchete);
-                return boxAchete;
-            }
-        }
         BoxAchete boxAchete = new BoxAchete();
         boxAchete.setLibre(1);
         boxAchete.setIdTypeBox(typeBox);
         boxAchete.setNumBox(boxAcheteDao.countBoxes(typeBox)+1);
+        boxAchete.setDLibre(0);
         boxAcheteDao.create(boxAchete);
+        boxAcheteActuelleCommande.add(boxAchete);
         return boxAchete;
     }
 
@@ -284,7 +342,7 @@ public class OptimizedSolution2 {
         pileDao.create(pile);
         return pile;
     }
-        
+    
     /**
      * Liberer les boxs de la commande
      * @param commande Commande
@@ -298,6 +356,7 @@ public class OptimizedSolution2 {
                 boxAcheteDao.update(boxAchete);
             });
         });
+        boxAcheteActuelleCommande = new ArrayList();
     }
     
     /**

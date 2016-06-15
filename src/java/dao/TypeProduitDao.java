@@ -7,12 +7,13 @@ package dao;
 
 import model.TypeProduit;
 
-/**
- *
- * @author aBennouna
- */
 public interface TypeProduitDao extends Dao<TypeProduit> {
     
+    /**
+     * Trouver le type produit par son Id
+     * @param id Id type produit
+     * @return TypeProduit
+     */
     public TypeProduit findById(String id);
     
 }

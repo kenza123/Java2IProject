@@ -26,34 +26,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author aBennouna
- */
 public class SolutionGenerator {
     
     private final JpaDaoFactory jpaDaoFactory;
-    private final TypeProduitDao typeProduitDao;
     private final TypeBoxDao typeBoxDao;
-    private final LigneProductionDao ligneProductionDao;
     private final CommandeDao commandeDao;
-    private final ProduitCommandeDao produitCommandeDao;
     private final ProduitDao produitDao;
     private final BoxAcheteDao boxAcheteDao;
-    private final PileDao pileDao;
     private double eval;
     private String fileName;
 
     public SolutionGenerator() {
         jpaDaoFactory = (JpaDaoFactory) DaoFactory.getDaoFactory(DaoFactory.PersistenceType.JPA);
-        typeProduitDao = jpaDaoFactory.getTypeProduitDao();
         typeBoxDao = jpaDaoFactory.getTypeBoxDao();
-        ligneProductionDao = jpaDaoFactory.getLigneProductionDao();
         commandeDao = jpaDaoFactory.getCommandeDao();
-        produitCommandeDao = jpaDaoFactory.getProduitCommandeDao();
         produitDao = jpaDaoFactory.getProduitDao();
         boxAcheteDao = jpaDaoFactory.getBoxAcheteDao();
-        pileDao = jpaDaoFactory.getPileDao();
         eval = 0;
         calculEval();
     }
@@ -74,6 +62,9 @@ public class SolutionGenerator {
         this.fileName = fileName.replace("txt", "sol");
     }
     
+    /**
+     * Fonction permettant a calculer eval
+     */
     public void calculEval() {
         eval = 0;
         typeBoxDao.findAll().stream().forEach((typeBox) -> {
@@ -88,6 +79,10 @@ public class SolutionGenerator {
         });
     }
     
+    /**
+     * Fonction permettant de generer le fichier de solution
+     * @return Fichier de solution
+     */
     public File generateSolutionFile() {
         List<String> lines = new ArrayList();
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlleur;
+package controller;
 
 import dao.DaoFactory;
 import dao.JpaDaoFactory;
@@ -23,10 +23,6 @@ import model.Pile;
 import model.Produit;
 import model.ProduitCommande;
 
-/**
- *
- * @author aBennouna
- */
 @Named(value = "commandeControl")
 @SessionScoped
 public class CommandeControl implements Serializable {

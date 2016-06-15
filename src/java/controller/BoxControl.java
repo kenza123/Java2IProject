@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlleur;
+package controller;
 
 import dao.DaoFactory;
 import dao.JpaDaoBoxAchete;
@@ -19,10 +19,7 @@ import model.BoxAchete;
 import model.Pile;
 import model.Produit;
 import model.TypeBox;
-/**
- *
- * @author ohilmi
- */
+
 @Named(value = "boxControl")
 @SessionScoped
 public class BoxControl implements Serializable{

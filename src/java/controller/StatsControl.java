@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlleur;
+package controller;
 
 import dao.DaoFactory;
 import dao.JpaDaoBoxAchete;
@@ -22,10 +22,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.enterprise.context.SessionScoped;
 
-/**
- *
- * @author kenzakhamaily
- */
 @Named(value = "statsControl")
 @SessionScoped
 public class StatsControl implements Serializable {

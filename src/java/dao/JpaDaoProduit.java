@@ -10,12 +10,9 @@ import java.util.List;
 import java.util.Vector;
 import javax.persistence.EntityTransaction;
 import model.LigneProduction;
+import model.Pile;
 import model.Produit;
 
-/**
- *
- * @author aBennouna
- */
 public class JpaDaoProduit extends JpaDao<Produit> implements ProduitDao {
 
     private static JpaDaoProduit instance;

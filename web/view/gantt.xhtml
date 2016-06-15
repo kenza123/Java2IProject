@@ -37,13 +37,13 @@
                                         var p#{produit.id} = 
                                                 strong('Commande : ') + "#{produit.idProduitCommande.idCommande.id} " + newLine() +
                                                 strong('Box : ') + " #{produit.idPile.idBoxAchete.idTypeBox.id}_#{produit.idPile.idBoxAchete.numBox} " + newLine() +
-                                                strong(' Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
-                                                strong(' Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
+                                                strong('&nbsp;Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
+                                                strong('&nbsp;Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
                                                 strong('Produit : ') + " #{produit.idProduitCommande.idTypeProduit.id}  " + newLine() +
-                                                strong(' Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
-                                                strong(' Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
-                                                strong(' Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
-                                                strong(' Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
+                                                strong('&nbsp;Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
+                                                strong('&nbsp;Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
+                                                strong('&nbsp;Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
+                                                strong('&nbsp;Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
                                             jQuery(document).ready(function($) { 
                                                 $("#produit#{produit.id}")
                                                         .tooltip({content: p#{produit.id},track:true});
@@ -88,13 +88,13 @@
                                         var p#{produit.id} = 
                                                 strong('Commande : ') + "#{produit.idProduitCommande.idCommande.id} " + newLine() +
                                                 strong('Box : ') + " #{produit.idPile.idBoxAchete.idTypeBox.id}_#{produit.idPile.idBoxAchete.numBox} " + newLine() +
-                                                strong(' Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
-                                                strong(' Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
+                                                strong('&nbsp;Longueur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.lbox} " + newLine() +
+                                                strong('&nbsp;Hauteur : ') + " #{produit.idPile.idBoxAchete.idTypeBox.hbox}  " + newLine() + 
                                                 strong('Produit : ') + " #{produit.idProduitCommande.idTypeProduit.id}  " + newLine() +
-                                                strong(' Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
-                                                strong(' Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
-                                                strong(' Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
-                                                strong(' Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
+                                                strong('&nbsp;Longueur : ') + " #{produit.idProduitCommande.idTypeProduit.longueur}  " + newLine() +
+                                                strong('&nbsp;Hauteur : ') + " #{produit.idProduitCommande.idTypeProduit.hauteur}  " + newLine() + 
+                                                strong('&nbsp;Debut de production : ') + "#{produit.dateDebutProd}  " + newLine() +
+                                                strong('&nbsp;Temps de production : ') + "#{produit.idProduitCommande.idTypeProduit.TProduction}";
                                             jQuery(document).ready(function($) { 
                                                 $("#pb#{produit.id}")
                                                         .tooltip({content: p#{produit.id},track:true});

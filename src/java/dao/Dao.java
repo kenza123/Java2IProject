@@ -8,8 +8,6 @@ package dao;
 import java.util.Collection;
 
 /**
- *
- * @author aBennouna
  * @param <T>
  */
 public interface Dao<T> {
